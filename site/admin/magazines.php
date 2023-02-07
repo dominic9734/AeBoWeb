@@ -54,12 +54,13 @@ if (isset($_GET['status'])) {
                 <table id="datatable" class="table">
                     <thead>
                         <tr class="header">
-                            <th scope="col" class="table-align-left" style="width: 45%;">Titel</th>
-                            <th scope="col" class="table-align-right" style="width: 40%">Autor</th>
-                            <th scope="col" style="width: 2.5%">Ausgabe/Jahr</th>
-                            <th scope="col" style="width: 2.5%">Ausgabe Nr.</th>
-                            <th scope="col" style="width: 2.5%">Zirkulationsdatum</th>
-                            <th scope="col" style="width: 2%"></th>
+                            <th scope="col" class="table-align-left" style="width: 40%;">Titel</th>
+                            <th scope="col" class="table-align-right" style="width: 35%">Autor</th>
+                            <th scope="col" class="table-align-center" style="width: 5%">Ausgabe/Jahr</th>
+                            <th scope="col" class="table-align-center" style="width: 5%">Ausgabe Nr.</th>
+                            <th scope="col" class="table-align-center" style="width: 5%">Zirkulationsdatum</th>
+                            <th scope="col" class="table-align-center" style="width: 5%">Kosten</th>
+                            <th scope="col" class="table-align-center" style="width: 5%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,10 +73,11 @@ if (isset($_GET['status'])) {
                         ?>
                                     <tr>
                                         <th scope="row" class="table-align-left"><?php echo $row['magazine_title']; ?></th>
-                                        <td class="table-align-right table-size-65"><?php echo $row['magazine_autor']; ?></td>
+                                        <td class="table-align-right"><?php echo $row['magazine_autor']; ?></td>
                                         <td class="table-align-center"><?php echo $row['magazine_edition_j']; ?></td>
                                         <td class="table-align-center"><?php echo $row['magazine_edition']; ?></td>
                                         <td class="table-align-center"><?php echo $row['magazine_circulation_date']; ?></td>
+                                        <td class="table-align-center"><?php echo $row['magazine_price']; ?></td>
                                         <td class="table-align-center">
                                             <div class="d-flex">
                                                 <button type="button" class="btn border-0 d-inline" data-magazine='[&#34;<?php echo $row['magazine_title']; ?>&#34;, &#34;<?php echo $row['magazine_autor']; ?>&#34;, &#34;<?php echo $row['magazine_edition_j']; ?>&#34;, &#34;<?php echo $row['magazine_edition']; ?>&#34;, &#34;<?php echo $row['magazineID']; ?>&#34;]' onclick="EditModal(this)">
@@ -207,7 +209,7 @@ if (isset($_GET['status'])) {
                 <div class="modal-body">
                     <div class="card-body">
                         <form method="post" id="AddMagazine" action="functions.php" enctype="multipart/form-data">
-                        <input name="magazineIDEdit" id="magazineIDEdit" type="text" class="form-control" value="" hidden>
+                            <input name="magazineIDEdit" id="magazineIDEdit" type="text" class="form-control" value="" hidden>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" style="width: 20%">Titel</span>
                                 <input name="magazine_title" id="magazine_title" type="text" class="form-control" value="" required>

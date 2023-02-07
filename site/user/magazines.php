@@ -195,13 +195,8 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <form action="../admin/functions.php" method="post">
-                        <input type="text" value="" id="MagazineID" name="MagazineID" hidden>
-                        <input type="text" value="" id="RemovedEmployeesArray" name="RemovedEmployeesArray" hidden>
-                        <input type="text" value="" id="AddedEmployeesArray" name="AddedEmployeesArray" hidden>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="ResetInputs()">Abbrechen</button>
-                        <button type="submit" name="MagSubs" class="btn btn-success" data-bs-toggle="modal">Änderungen Bestätigen </button>
-                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="ResetInputs()">Abbrechen</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" onclick="ConfirmSubs()">Änderungen Bestätigen </button>
                 </div>
             </div>
         </div>
@@ -251,24 +246,31 @@
         }
 
         function ResetInputs() {
-            document.getElementById("RemovedEmployeesArray").setAttribute('value', ""); //!!!!! check jquery 
-            document.getElementById("AddedEmployeesArray").setAttribute('value', ""); //!!!!! check jquery 
             RemovedEmployees = []
             AddedEmployees = []
             $("#RemovedSubsList").empty();
         }
 
-        $('#MagazineModal').on('hidden.bs.modal', function() {
-            $('#chip_input_field').val('');
-            $('#subs_wrapper').find('div').not('#modify_chip').remove();
-            document.getElementById("RemovedEmployeesArray").setAttribute('value', JSON.stringify(RemovedEmployees)); //!!!!! check jquery 
-            document.getElementById("AddedEmployeesArray").setAttribute('value', JSON.stringify(AddedEmployees)); //!!!!! check jquery 
-
-        });
+        function ConfirmSubs() {
+            console.log(RemovedEmployees);
+            console.log(AddedEmployees);
+            $.ajax({
+                type: "POST",
+                url: "../services/controller/mag_addsubs.php",
+                data: {
+                    RemovedEmployees: RemovedEmployees,
+                    AddedEmployees: AddedEmployees
+                },
+                async: false,
+                success: function(data) {
+    
+                    console.log(data)
+                }
+            });
+        }
 
         function MagazineModal(entry) {
             var MagazineTitle = entry.dataset.magazinetitle; // get magazine title from entry element's data attribute
-            document.getElementById("MagazineID").setAttribute('value', entry.dataset.id); //!!!!! check jquery 
             var id = entry.dataset.id; // get id from entry element's data attribute
             var subscribers = entry.dataset.subscribers; // get subscribers from entry element's data attribute
             $("#MagazineTitle").html(MagazineTitle); // set the magazine title in the modal

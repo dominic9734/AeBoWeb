@@ -136,12 +136,11 @@
     $showSearch = true;
     $showEmpDatalist = true;
     include "../services/nav_index.php"; ?>
-    <!--  Bootstrap 
-    <div class="loader-wrapper">
+
+    <div class="loader_wrapper">
         <div class="spinner-border" role="status">
         </div>
     </div>
-    -->
 
     <div id="content" class="container text-center">
         <h1 class="text-center pt-3">Platzverteilung</h1>
@@ -248,12 +247,11 @@
     <div class="modal fade" id="EmployeeInfo" tabindex="-1" aria-labelledby="EmployeeInfoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row justify-content-end">
-                        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body p-0">
+                    <div class="d-flex flex-row-reverse" id="work_division_header">
+                        <button type="button" class="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush m-3">
                         <li class="list-group-item">
                             <div class="d-flex align-items-center pb-3">
                                 <span id="wrapper_pfp"></span>
@@ -287,7 +285,6 @@
                     <h1 class="m-3 text-center"><span id="room_name"></span></h1>
                     <div id="wrapper_png"></div>
                     <div id="wrapper_room_content">
-
                     </div>
                 </div>
             </div>
@@ -320,6 +317,12 @@
     <script>
         var lastpressed, request, seat, scope_all, floor;
 
+    
+        $(window).on('load', function() {
+            $('.loader_wrapper').hide();
+        })
+
+
         function btnSVG(element) {
             let location_info = element.id.split("_");
             request = location_info;
@@ -343,13 +346,12 @@
                     zone: request[1],
                     request_scope: request_scope
 
-                },
-                success: function(data) {
-                    let employees = data.employees;
-                    let rooms = data.rooms;
-                    for (i = 0; i < employees.length; i++) {
-
-                        employee = employees[i];
+                    },
+                    success: function(data) {
+                        let employees = data.employees;
+                        let rooms = data.rooms;
+                        for (i = 0; i < employees.length; i++) {
+                            employee = employees[i];
                         var divContainer = $("#wrapper_floor_" + employee.location); // get the container element for the current employee
                         var divChip = $('<div>', {
                             class: 'chip m-2 cursor-pointer',
@@ -406,6 +408,7 @@
                 src: "../../assets/images/employees_200px/" + employeeData.nickname + ".png",
                 alt: " "
             });
+
 
             $("#wrapper_pfp").append(pfpimg);
 
@@ -466,7 +469,6 @@
                     if (members) {
                         for (i = 0; i < members.length; i++) {
                             member = data.members[i];
-
                             var row = $('<div>', { // create a new img element
                                 class: 'row my-2',
                             });

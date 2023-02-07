@@ -1,14 +1,15 @@
 body {
     height: 100%;
-    background-color: #f5f5f5;
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: Arial, sans-serif !important;
     font-size: 20px !important;
+    font-weight: 400 !important;
     line-height: 1.4em !important;
     color: #222 !important;
     letter-spacing: -.01em;
     background-color: #f8f9fa !important;
 }
-.combobox{
+
+.combobox {
     padding: 20px;
     margin: 0px;
     background-color: #f5f5f5;
@@ -16,11 +17,44 @@ body {
     border-radius: .375rem;
 }
 
-.chip-wrapper{
+.IB {
+    background-color: #7a7eaa;
+}
+
+.BB {
+    background-color: #214f7f;
+}
+
+.PB {
+    background-color: #8b3376;
+}
+
+.TB {
+    background-color: #c6bca9;
+}
+
+.BS {
+    background-color: #a80e4a;
+}
+
+.BG {
+    background-color: #7fafd6;
+}
+
+.Vu {
+    background-color: #a8b38b;
+}
+
+.ZD {
+    background-color: #68726a;
+}
+
+.chip-wrapper {
     overflow: scroll;
     max-height: 80px;
 }
-.height-40hv{
+
+.height-40hv {
     height: 40vh !important;
     max-height: 40vh !important;
 }
@@ -36,7 +70,7 @@ body {
     text-align: center;
 }
 
-.combobox .CopyToClipboard_btn{
+.combobox .CopyToClipboard_btn {
     width: 40px;
     height: 40px;
     margin-left: -40px;
@@ -47,11 +81,12 @@ body {
     background-color: transparent;
 }
 
-.combobox:focus, input:focus{
+.combobox:focus,
+input:focus {
     outline: none;
 }
 
-.combobox .CopyToClipboard_btn:hover{
+.combobox .CopyToClipboard_btn:hover {
     fill: #5E5E5E;
 }
 
@@ -61,7 +96,7 @@ body {
     outline: none;
     height: 24px;
     color: #f8f9fa;
-    background-color: #ce0145;
+    background-color: #D00244;
     border-bottom: 1px solid transparent;
     width: 120px;
     -webkit-transition: all 0.4s ease-in-out;
@@ -86,7 +121,7 @@ body {
 
 
 .form-check-input:checked {
-    background-color: #ce0145 !important;
+    background-color: #D00244 !important;
     border: 0;
 }
 
@@ -98,15 +133,15 @@ label.form-check-label:focus,
     color: black;
     outline: 0;
     border: 0;
-    box-shadow: 0 0 0 0.1rem #ce0145 !important;
+    box-shadow: 0 0 0 0.1rem #D00244 !important;
 }
 
 .btn-primary,
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:visited {
-    background-color: #ce0145 !important;
-    border-color: #ce0145 !important;
+    background-color: #D00244 !important;
+    border-color: #D00244 !important;
 }
 
 .content-wrapper {
@@ -125,7 +160,7 @@ label.form-check-label:focus,
 
 /* input hover farbe zu rot */
 .form-control:focus {
-    border-color: #ce0145;
+    border-color: #D00244;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
 }
 
@@ -152,18 +187,19 @@ label.form-check-label:focus,
 
 .sidebar-nav-header {
     min-height: 60px;
-    background-color: #ce0145;
+    background-color: #D00244;
     color: #fff;
 }
 
 
 .dropdown-menu {
-    --bs-dropdown-link-active-bg: #ce0145;
+    --bs-dropdown-link-active-bg: #D00244;
 }
 
 th {
     font-weight: 400 !important;
 }
+
 /* pagination style */
 
 .page-item .page-link {
@@ -172,7 +208,7 @@ th {
 
 .pagination>li>a {
     background-color: white;
-    color: #ce0145;
+    color: #D00244;
 }
 
 .pagination>li>a:focus,
@@ -180,19 +216,19 @@ th {
 .pagination>li>span:focus,
 .pagination>li>span:hover {
     color: #fff;
-    background-color: #ce01451a;
+    background-color: #D002441a;
     border-color: #fff;
 }
 
 .pagination>.active>a {
     color: white;
-    background-color: #ce0145 !Important;
-    border: solid 1px #ce0145 !Important;
+    background-color: #D00244 !Important;
+    border: solid 1px #D00244 !Important;
 }
 
 .pagination>.active>a:hover {
-    background-color: #ce0145 !Important;
-    border: solid 1px #ce0145;
+    background-color: #D00244 !Important;
+    border: solid 1px #D00244;
 }
 
 /* end pagination style */
@@ -232,7 +268,7 @@ th {
 
 
 .spinner-border {
-    color: #ce0145;
+    color: #D00244;
 }
 
 
@@ -242,7 +278,7 @@ th {
     box-shadow: none;
 }
 
-.loader-wrapper {
+.loader_wrapper {
     background-color: #f5f5f5;
     position: fixed;
     width: 100%;
@@ -256,7 +292,7 @@ th {
 }
 
 .navbar-custom {
-    background-color: #ce0145;
+    background-color: #D00244;
     font-size: 18px;
     font-style: normal;
     font-variant: normal;

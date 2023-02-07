@@ -416,42 +416,6 @@ if (isset($_POST['EditBook'])) {
     //header("location:overview.php");
     exit;
 }
-
-if (isset($_POST['MagSubs'])) {
-    $AddedEmployeesArray = array_map('intval', (json_decode($_POST['AddedEmployeesArray'])));
-    $RemovedEmployeesArray = (json_decode($_POST['RemovedEmployeesArray']));
-
-    $statement = $conn->prepare("SELECT magazine_subscribers from lib_magazines WHERE magazineID = ?");
-    $statement->bind_param('i', $_POST['MagazineID']);
-    $statement->execute();
-    $result = $statement->get_result();
-    if ($result->num_rows != 0) {
-        while ($row = $result->fetch_assoc()) {
-            if (!is_null($row['magazine_subscribers'])) {
-                $magazine_subscribers = json_decode($row['magazine_subscribers']);
-                $magazine_subscribers = array_map('intval', $magazine_subscribers);
-            }
-        }
-    }
-    if (count($AddedEmployeesArray) > 0) {
-        if (!empty($magazine_subscribers)) {
-            $TotalSubs = array_merge($magazine_subscribers, $AddedEmployeesArray);
-            $TotalSubs = array_diff($TotalSubs, $RemovedEmployeesArray);
-        } else {
-            $TotalSubs = array_diff($AddedEmployeesArray, $RemovedEmployeesArray);
-        }
-    } else {
-        $TotalSubs = array_diff($magazine_subscribers, $RemovedEmployeesArray);
-    }
-    $TotalSubs = "[" . implode(", ", array_unique($TotalSubs)) . "]";
-    $statement = $conn->prepare("   UPDATE lib_magazines
-                                    SET magazine_subscribers = ?
-                                    WHERE magazineID = ?");
-    $statement->bind_param('si', $TotalSubs, $_POST['MagazineID']);
-    $statement->execute();
-    header("Refresh:0; url=../user/magazines.php");
-    exit;
-}
 if (isset($_POST['AddMagazine'])) {
     //buch werte in DB
     $magazine_title = htmlspecialchars($_POST["magazine_title"]);
