@@ -1,0 +1,19 @@
+PDF Framework
+
+https://mozilla.github.io/pdf.js/
+
+changes:
+
+viewer.php
+
+<script>
+    //https://github.com/mozilla/pdf.js/issues/10382 event listener
+    window.addEventListener('load', function() {
+    PDFViewerApplicationOptions.set('defaultUrl', '<?php echo '../../../assets/PDF/' . $pdfID ?>');
+  });
+</script>
+
+
+added "hidden" to buttons if desired
+
+added value="123456" to id="password"
