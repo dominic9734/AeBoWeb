@@ -19,7 +19,7 @@
             line-height: 50px;
             border-radius: 25px;
             background-color: #f1f1f1;
-            width: 125px;
+            width: 140px;
 
             position: relative;
         }
@@ -136,24 +136,21 @@
             <div class="modal-content">
                 <div class="modal-body ">
                     <div class="d-flex align-items-center ps-3" style="height:40vh;">
-
                         <img style="height:80%;" class="img-fluid rounded" id="magCover" src="" alt="">
-
                         <ul class="list-group list-group-flush ms-3 w-100">
                             <li class="list-group-item">
-                                Titel.<span id="MagazineTitle"></span>
+                                Titel: <span id="MagazineTitle"></span>
                             </li>
                             <li class="list-group-item">Autor: <span id="MagazineAutor"></span></li>
                             <li class="list-group-item">Sprache: <span id="MagazineLanguage"></span></li>
-                            <li class="list-group-item">Ausgabe: <span id="MagazineCurrent"></span></li>
-                            <li class="list-group-item">Von: <span id="MagazineTotal"></span></li>
+                            <li class="list-group-item">Ausgabe: <span id="MagazineCurrent"></span> / <span id="MagazineTotal"></span></li>
                         </ul>
                         <div class="flex-grow-1 h-100 d-flex justify-content-end">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                     </div>
 
-                    <h4>Zirkulation</h4>
+                    <h4 class="ms-3">Zirkulation:</h4>
                     <div class="d-flex flex-wrap align-items-center" id="subs_wrapper">
                         <form method="post" id="AddSubForm">
                             <div class="chip m-2" id="modify_chip">
@@ -180,8 +177,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="ResetInputs()">Abbrechen</button>
-                    <button class="btn btn-primary border-0" type="button" data-bs-target="#MagazineModalConfirm" data-bs-toggle="modal">Steichern</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="ResetInputs()">Zurück</button>
+                    <button class="btn btn-primary border-0" type="button" data-bs-target="#MagazineModalConfirm" data-bs-toggle="modal">Speichern</button>
                     </form>
                 </div>
             </div>
@@ -193,7 +190,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="MagazineModalConfirmLabel">Wollen sie folgende Änderungen speichern?</h1>
+                    <h1 class="modal-title fs-5" id="MagazineModalConfirmLabel">Wollen sie folgende Änderungen Speichern?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -226,167 +223,7 @@
     <script src="../../assets/vendor/datatables/tables.js"></script>
     <!--Loading screen-->
     <script src="../../assets/vendor/js/loading.js"></script>
+    <!--JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-
-        var RemovedEmployees = []; // array for all the from the delivery list removed employees
-        var AddedEmployees = []; // array for all the from the delivery list added employees
-        let IDs, names, path, magazineID, employeeID;
-
-        function ResetInputs() {
-            RemovedEmployees = []
-            AddedEmployees = []
-            $("#RemovedSubsList").empty();
-            location.reload();
-        }
-
-        function ConfirmSubs() {
-            console.log(AddedEmployees)
-            console.log(RemovedEmployees)
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/mag_addsubs.php",
-                data: {
-                    RemovedEmployees: RemovedEmployees,
-                    AddedEmployees: AddedEmployees,
-                    magazineID: magazineID
-                },
-                async: false,
-                success: function(data) {
-                    ResetInputs()
-                }
-            });
-        }
-
-        function MagazineModal(entry) {
-            var MagazineTitle = entry.dataset.magazinetitle; // get magazine title from entry element's data attribute
-            magazineID = entry.dataset.id; // get id from entry element's data attribute
-
-            document.getElementById("magCover").setAttribute('src', "../../assets/images/img/cover_mag_" + magazineID + ".png");
-
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/mag_data.php",
-                data: {
-                    magazineID: magazineID
-                },
-                success: function(data) {
-                    for (let i = 0; i < data.length; i++) {
-                        var employeeID = data[i].employeeID;
-                        var nickname = data[i].nickname;
-                        var path = data[i].path;
-
-                        AddChips(employeeID, nickname, path)
-                    }
-                }
-            });
-
-
-            $("#MagazineAutor").html(entry.dataset.magazineautor); // set the magazine title in the modal
-            $("#MagazineTitle").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
-            $("#MagazineCurrent").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
-            $("#MagazineTotal").html(entry.dataset.magazinetotal); // set the magazine title in the modal
-            $("#MagazineLanguage").html(entry.dataset.magazinelanguage); // set the magazine title in the modal
-            $("#MagazineTitle").html(MagazineTitle); // set the magazine title in the modal
-            $("#MagazineModal").modal("show"); // show the modal
-        }
-
-        function AddChips(employeeID, nickname, path) {
-            var divContainer = $("#subs_wrapper"); // get the container element for the current employee
-            divContainer.removeClass("d-none").addClass(" p-2"); // show the container and set its class to  p-2
-            $("#employee-input-container, #filler_div").addClass("d-none"); // hide input container and filler div
-
-            var divChip = $('<div>', { // create a new chip element
-                class: 'chip m-2',
-                id: "employeeID_" + employeeID
-            });
-            var img = $('<img>', { // create a new img element
-                src: path,
-                alt: "MA"
-            });
-            var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
-                html: nickname
-            });
-            var spanRemove = $('<span>', { // create a new span element for the remove button
-                class: 'RemoveSub',
-                html: '&times;',
-                "data-value": employeeID,
-                "data-name": nickname,
-                onclick: "RemoveEmployee(this)"
-            });
-            var spanDivider = $('<div>', { // create a new span element for the divider
-                class: 'mx-1 text-cente',
-                id: "devider_" + employeeID,
-                html: ' &#62;'
-            });
-
-            var modify_chip = $("#modify_chip").detach()
-
-            divChip.append(img, spanDisplayName, spanRemove); // append the img, display name and remove button to the chip element
-            divContainer.append(divChip, spanDivider, ); // append the divider and chip element to the container
-            divContainer.append(modify_chip);
-
-            ModifyChip();
-        }
-
-
-        //function to remove subscription chips from the dom and add their value to a hidden input
-        function RemoveEmployee(element) {
-            RemovedEmployees.push(element.dataset.value) // push the employeeid value to the RemovedEmployees array
-            $("#employeeID_" + (element.dataset.value)).addClass("d-none")
-            $("#devider_" + (element.dataset.value)).addClass("d-none")
-
-            var RemovedSubsListItem = $('<li>', { // create a new list element
-                class: 'list-group-item',
-                html: "&#45; " + element.dataset.name
-            });
-            $("#RemovedSubsList").append(RemovedSubsListItem);
-            ModifyChip();
-        }
-
-        function ModifyChip() {
-            if ($(".chip").not(".d-none").length > 12) {
-                $("#modify_chip").hide();
-            } else {
-                $("#modify_chip").show();
-            }
-        }
-
-        function AddSubBtn() {
-            var chip_input_field_value = $("#chip_input_field").val();
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/input_validation.php",
-                data: {
-                    magazineID: magazineID,
-                    employeeID: chip_input_field_value,
-                },
-                success: function(data) {
-
-                    var employeeID = data.employeeID;
-                    var nickname = data.nickname;
-                    var path = data.path;
-
-                    if (data.response == "valid") {
-                        $("#chip_input_field").val('');
-                        var AddedSubsListItem = $('<li>', { // create a new list element
-                            class: 'list-group-item',
-                            html: "&#43; " + data.full_name
-                        });
-                        $("#RemovedSubsList").append(AddedSubsListItem);
-                        $("#option_" + nickname).addClass("d-none");
-
-                        AddedEmployees.push(employeeID)
-
-                        AddChips(employeeID, nickname, path)
-                    } else {
-                        alert("Befindet sich bereits in der Zyrkulation")
-                    }
-                }
-            });
-        }
-    </script>
 </body>

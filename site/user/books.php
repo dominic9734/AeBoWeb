@@ -239,43 +239,7 @@
             bookingbtn.href = "booking.php?bookID=" + bookdata[0].trim();
             pdfbtn.href = "../pdf_view/web/viewer.php?pdfID=" + bookdata[6].trim() + ".pdf";
 
-            // define carousel container
-            var carousel = document.getElementById("carousel");
 
-            // create an array of image URLs
-            var imageUrls = [];
-            imageUrls.push(bookdata[6].trim().concat(".jpg"));
-            var manipulator = 1;
-            console.log(bookdata)
-
-            for (let i = 0; i < bookdata[10]; i++) {
-                imageUrls.push(`${bookdata[6].trim()}_${manipulator}.jpg`)
-                manipulator++;
-            }
-
-            console.log(imageUrls)
-
-            for (var i = 0; i < imageUrls.length; i++) {
-                // create a new carousel item element
-                var item = document.createElement("div");
-                item.classList.add("carousel-item");
-
-                // create a new image element
-                var carouselimg = document.createElement("img");
-                carouselimg.setAttribute("src", "../../assets/images/book/".concat(imageUrls[i]));
-                carouselimg.classList.add("d-block", "w-100");
-                carouselimg.setAttribute("alt", "Slide Image " + i);
-
-                // if it is first image
-                if (i == 0) {
-                    item.classList.add("active");
-                }
-
-                // append the image to the carousel item
-                item.appendChild(carouselimg);
-                //append the item to the carousel
-                carousel.appendChild(item);
-            }
 
         }
     </script>

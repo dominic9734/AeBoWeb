@@ -43,10 +43,7 @@
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Zeitschriften</h5>
-                                <p>In Bearbeitung</p>
-                                <!--
                                 <a href="magazines.php" class="card-link">Schnellzugriff</a>
-                                -->
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">

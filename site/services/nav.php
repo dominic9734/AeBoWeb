@@ -9,7 +9,7 @@
     <div class="input-group my-2 flex-grow-1">
         <?php
         if ($showSearch) { ?>
-            <input id="txtSearch" class="nav_search" placeholder="Suchen..." />
+            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." />
         <?php
         }
         ?>

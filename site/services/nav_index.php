@@ -10,7 +10,7 @@
     <div class="input-group my-2 flex-grow-1">
         <?php
         if ($showSearch) { ?>
-            <input id="txtSearch" class="nav_search" placeholder="Suchen..." <?php if ($showEmpDatalist) {
+            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist) {
                                                                                     echo 'list="EmployeeNames"';
         } ?> />
         <?php
@@ -71,13 +71,12 @@
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a class="link-dark rounded" href="../user/index.php">Home</a></li>
                                 <li><a class="link-dark rounded" href="../user/seatingplan.php">Platzverteilung</a></li>
-                                <!--
+
                                 <li><a class="link-dark rounded" href="../user/books.php">Bibliothek</a></li>
                                 <li><a class="link-dark rounded" href="../user/magazines.php">Zeitschriften</a></li>
                                 <li><a class="link-dark rounded" href="../user/getxml.php">Literaturverzeichnis</a></li>
                                 <li><a class="link-dark rounded" href="../user/order_book.php" target="_blank">Buch bestellen</a></li>
                                 <li><a class="link-dark rounded" href="../user/info.php">Info</a></li>
-    -->
 
                             </ul>
                         </div>

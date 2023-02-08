@@ -157,16 +157,16 @@ if (isset($_POST["submit"])) {
                             </svg>
                         </button>
                     </th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Krz.</th>
+                    <th scope="col">Bereich</th>
+                    <th scope="col">N.-Intern</th>
+                    <th scope="col">N.-Extern</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Vollmacht</th>
+                    <th scope="col">Bez. Abteil.</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Zone</th>
                     <th scope="col">
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#EmployeeCSV" style="display:  inline-block;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">

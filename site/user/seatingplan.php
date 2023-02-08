@@ -243,19 +243,25 @@
         </div>
     </div>
 
+
+
+
+
+
+
     <!-- Modal -->
     <div class="modal fade" id="EmployeeInfo" tabindex="-1" aria-labelledby="EmployeeInfoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-0">
-                    <div class="d-flex flex-row-reverse" id="work_division_header">
-                        <button type="button" class="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
                     <ul class="list-group list-group-flush m-3">
                         <li class="list-group-item">
-                            <div class="d-flex align-items-center pb-3">
+                            <div class="d-flex align-items-center pb-3" style="height: 100px;">
                                 <span id="wrapper_pfp"></span>
                                 <h3 class="m-0 ps-3"><span id="full_name"></span></h3>
+                                <div class="flex-grow-1 h-100 d-flex justify-content-end">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
                             </div>
                             <p class="mb-1"><small class="text-muted" id="special_authority"></small></p>
                             <p><small class="text-muted" id="department"></small></p>
@@ -313,287 +319,9 @@
     <script src="../../assets/vendor/datatables/ellipsis.js"></script>
     <!-- Sidebar-->
     <script src="../../assets/vendor/js/sidebars.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
-    <script>
-        var lastpressed, request, seat, scope_all, floor;
-
-    
-        $(window).on('load', function() {
-            $('.loader_wrapper').hide();
-        })
-
-
-        function btnSVG(element) {
-            let location_info = element.id.split("_");
-            request = location_info;
-            request_scope = "query";
-            $(".remove_content").empty();
-            $(".remove_header").addClass("d-none")
-            DataAjaxChip(request, request_scope);
-            $("#" + element.id).addClass("plan_fill_active")
-            if (lastpressed && lastpressed != element.id) {
-                $("#" + lastpressed).removeClass("plan_fill_active")
-            }
-            lastpressed = element.id;
-        }
-
-        function DataAjaxChip(request, request_scope) {
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/seating_data.php",
-                data: {
-                    location: request[0],
-                    zone: request[1],
-                    request_scope: request_scope
-
-                    },
-                    success: function(data) {
-                        let employees = data.employees;
-                        let rooms = data.rooms;
-                        for (i = 0; i < employees.length; i++) {
-                            employee = employees[i];
-                        var divContainer = $("#wrapper_floor_" + employee.location); // get the container element for the current employee
-                        var divChip = $('<div>', {
-                            class: 'chip m-2 cursor-pointer',
-                            id: "employeeID_" + employee.ID,
-                            "data-employee": JSON.stringify(employee)
-                        });
-                        divChip.click(function() {
-                            DisplayEmoloyeeInfo(this)
-                        });
-                        var img = $('<img>', { // create a new img element
-                            id: 'img-' + (i),
-                            src: "../../assets/images/employees_200px/" + employee.nickname + ".png",
-                            alt: " "
-                        });
-                        var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
-                            html: employee.nickname
-                        });
-                        divChip.append(img, spanDisplayName); // append the img, display name and remove button to the chip element
-                        divContainer.append(divChip); // append the divider and chip element to the container
-                        $("#wrapper_label_floor_" + employee.location).removeClass("d-none");
-                    }
-
-                    for (i = 0; i < rooms.length; i++) {
-
-                        room = rooms[i];
-                        var divContainer = $("#wrapper_rooms_floor_" + room.location); // get the container element for the current employee
-                        var divChip = $('<div>', {
-                            class: 'chip m-2 cursor-pointer',
-                            id: "roomID" + room.ID,
-                            "data-room": JSON.stringify(room)
-                        });
-                        divChip.click(function() {
-                            DisplayRoomInfo(this)
-                        });
-                        var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
-                            html: room.room_name
-                        });
-                        divChip.append(spanDisplayName); // append the img, display name and remove button to the chip element
-                        divContainer.append(divChip); // append the divider and chip element to the container
-                        $("#wrapper_room_label_floor_" + room.location).removeClass("d-none");
-                    }
-                }
-            });
-        }
-
-        function DisplayEmoloyeeInfo(chip) {
-            $("#employeePFP").remove()
-            var employeeData = $(chip).data("employee");
-            $("#EmployeeInfo").modal("show"); // show the modal
-
-            var pfpimg = $('<img>', { // create a new img element
-                id: 'employeePFP',
-                class: 'rounded-circle shadow-sm profile_img',
-                src: "../../assets/images/employees_200px/" + employeeData.nickname + ".png",
-                alt: " "
-            });
-
-
-            $("#wrapper_pfp").append(pfpimg);
-
-            $("#full_name").html(employeeData.first_name + " " + employeeData.last_name);
-            $("#location").html(employeeData.location);
-            $("#zone").html(employeeData.zone);
-            $("#work_division").html(employeeData.work_division);
-            $("#internal_phone").html("Intern: +41 61 365 2 " + employeeData.internal_phone);
-            if (employeeData.mobile_phone) {
-                $("#mobile_phone").html("Privat: " + employeeData.mobile_phone);
-            }
-            $("#primary_mail").html(employeeData.primary_mail);
-            $("#special_authority").html(employeeData.special_authority);
-            $("#department").html(employeeData.department);
-
-            $("#mailto_outlook").attr("href", "mailto:" + employeeData.primary_mail);
-            $("#link_teams").attr("href", "https://teams.microsoft.com/l/chat/0/0?users=" + employeeData.primary_mail);
-
-        }
-
-        function DisplayRoomInfo(chip) {
-            var roomData = $(chip).data("room");
-            $("#RoomInfo").modal("show"); // show the modal
-
-            $("#wrapper_png").empty();
-            $("#room_name").html(roomData.room_name);
-
-            var room_name = roomData.room_name.replace(/\s/g, "_");
-
-
-            var roomPNG = $('<img>', { // create a new img element
-                id: 'roomPNG',
-                class: 'img-fluid rounded mb-3 d-block',
-                src: "../../assets/images/img/" + room_name + ".jpg",
-                alt: ""
-            });
-            $("#wrapper_png").append(roomPNG);
-
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/seating_data.php",
-                data: {
-
-                    location: roomData.location,
-                    zone: roomData.zone,
-                    work_division: roomData.work_division,
-                    request_scope: "departmentquery"
-
-                },
-                success: function(data) {
-                    $("#wrapper_room_content").empty();
-                    let members = data.members;
-                    var membersHeader = $('<h4 class="text-center m-2">Verantwortliche</h4>', { // create a new img element
-                    });
-                    if (members.length < 0) {
-                        $("#wrapper_room_content").append(membersHeader);
-                    }
-                    if (members) {
-                        for (i = 0; i < members.length; i++) {
-                            member = data.members[i];
-                            var row = $('<div>', { // create a new img element
-                                class: 'row my-2',
-                            });
-                            var row2 = $('<div> ', { // create a new img element
-                                class: 'col-2 pe-0'
-                            });
-                            var row8 = $('<div> ', { // create a new img element
-                                class: 'col-6 ps-0 d-flex align-items-center'
-                            });
-                            var span = $('<span>', { // create a new img element
-                            });
-                            span.html(member.first_name + " " + member.last_name)
-                            var row4 = $('<div>', { // create a new img element
-                                class: 'col-4 d-flex justify-content-end',
-                            });
-                            var pfpimg = $('<img>', { // create a new img element
-                                id: 'employeePFP',
-                                class: 'rounded-circle shadow-sm',
-                                src: "../../assets/images/employees_200px/" + member.nickname + ".png",
-                                style: "height:40px;",
-                                alt: " "
-                            });
-                            var outlooklink = $('<a>', { // create a new img element
-                                class: 'pe-2',
-                                href: "mailto:" + member.primary_mail
-                            });
-                            var teamslink = $('<a>', { // create a new img element
-                                class: 'pe-2',
-                                href: "https://teams.microsoft.com/l/chat/0/0?users=" + member.primary_mail
-                            });
-
-                            var outlookincon = $('<img>', { // create a new img element
-                                src: '../../assets/SVG/icons8-microsoft-outlook-2019.svg',
-                                style: "height:25px;"
-                            });
-                            var teamsicon = $('<img>', { // create a new img element
-                                src: '../../assets/SVG/icons8-microsoft-teams.svg',
-                                style: "height:25px;"
-                            });
-                            row2.append(pfpimg);
-                            row8.append(span);
-                            row4.append(outlooklink, teamslink);
-                            outlooklink.append(outlookincon);
-                            teamslink.append(teamsicon);
-                            row.append(row2, row8, row4);
-                            $("#wrapper_room_content").append(row);
-                        }
-                    }
-                }
-            });
-
-        }
-        $(document).ready(function() {
-
-            //Check to see if the window is top if not then display button
-            $(window).scroll(function() {
-
-                // Show button after 100px
-                var showAfter = 100;
-                if ($(this).scrollTop() > showAfter) {
-                    $('.back_to_top').fadeIn();
-                } else {
-                    $('.back_to_top').fadeOut();
-                }
-            });
-
-            //Click event to scroll to top
-            $('.back_to_top').click(function() {
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 800);
-                return false;
-            });
-
-        });
-
-
-        $("input").keypress(function(event) {
-            if (event.which == 13) {
-                $(".remove_content").empty();
-                $(".remove_header").addClass("d-none")
-                $.ajax({
-                    type: "POST",
-                    url: "../services/controller/seating_data.php",
-                    data: {
-                        request: $("#txtSearch").val(),
-                        request_scope: "location_zone"
-
-                    },
-                    success: function(data) {
-                        seat = data.location + "_" + data.zone
-                        floor = data.location;
-                        sectorsearch(seat, floor);
-                    }
-                });
-                $("#txtSearch").val('')
-            }
-        });
-
-
-        function sectorsearch(seat, floor) {
-            $("#" + seat).addClass("plan_fill_active")
-            if (lastpressed && lastpressed != seat) {
-                $("#" + lastpressed).removeClass("plan_fill_active")
-            }
-            lastpressed = seat;
-            request = seat.split("_");
-            request_scope = "query";
-
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#" + "floor_" + floor).offset().top
-            }, 1500);
-
-            DataAjaxChip(request, request_scope);
-        }
-        $(document).keydown(function(event) {
-            if (event.key === "Escape" || event.key === "Esc") {
-                $(".plan_fill_none").removeClass("plan_fill_active")
-                $(".remove_content").empty();
-                $(".remove_header").addClass("d-none")
-
-
-            }
-        });
-    </script>
 </body>
 
 </html>
