@@ -21,138 +21,138 @@
         $showSearch = true;
         include "../services/nav_index.php"; ?>
 
-        <div class="container-fluid">
-            <div class="card mt-3">
-                <div class="card-body">
-                    <div class="table-wrapper align-middle">
-                        <table id="datatable" class="table">
-                            <thead>
-                                <tr class="header">
-                                    <th scope="col" style="width: 5%">#
-                                    </th>
-                                    <th scope="col" style="width: 55%; text-align: left !important;">Titel</th>
-                                    <th scope="col" style="width: 20%; text-align: right !important; ">Autor</th>
-                                    <th scope="col" style="width: 5%">Ausgabe</th>
-                                    <th scope="col" style="width: 10%">Art</th>
-                                    <th scope="col" style="width: 5%">Verfügbar</th>
-                                    <th scope="col" style="width: 5%">Info</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                include "../../site/services/db_connect.php";
-                                $statement = $conn->prepare("SELECT * FROM lib_books");
-                                $statement->execute();
-                                $result = $statement->get_result();
-
-                                if ($result->num_rows != 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        $buch_bemerkung = $row['buch_bemerkung'];
-                                        $buch_kurzbeschrieb = $row['buch_kurzbeschrieb'];
+        <div class="container-fluid p-3">
 
 
-                                        $folder = '../../assets/images/book/';
-                                        $word = trim($row['buch_nummer']);
-                                        $count = 0;
+            <div class="table-wrapper align-middle">
+                <table id="datatable" class="table">
+                    <thead>
+                        <tr class="header">
+                            <th scope="col" style="width: 5%">#
+                            </th>
+                            <th scope="col" style="width: 55%; text-align: left !important;">Titel</th>
+                            <th scope="col" style="width: 20%; text-align: right !important; ">Autor</th>
+                            <th scope="col" style="width: 5%">Ausgabe</th>
+                            <th scope="col" style="width: 10%">Art</th>
+                            <th scope="col" style="width: 5%">Verfügbar</th>
+                            <th scope="col" style="width: 5%">Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        include "../../site/services/db_connect.php";
+                        $statement = $conn->prepare("SELECT * FROM lib_books");
+                        $statement->execute();
+                        $result = $statement->get_result();
 
-                                        // Use the glob function to get an array of all files in the folder
-                                        $files = glob("$folder/*");
+                        if ($result->num_rows != 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $buch_bemerkung = $row['buch_bemerkung'];
+                                $buch_kurzbeschrieb = $row['buch_kurzbeschrieb'];
 
-                                        // Iterate through the array of files
-                                        foreach ($files as $file) {
-                                            // Only count files, not directories
-                                            if (is_file($file)) {
-                                                $fileName = basename($file);
-                                                // Check if the string is in the file name
-                                                if (strpos($fileName, $word) !== false) {
-                                                    $count++;
-                                                }
-                                            }
-                                        }
 
-                                        if ($count != 0) {
-                                            $count--;
-                                        }
+                                $folder = '../../assets/images/book/';
+                                $word = trim($row['buch_nummer']);
+                                $count = 0;
 
-                                        if ($row['geloescht'] == 0) {
-                                ?>
-                                            <tr>
-                                                <th scope="row">
-                                                    <?php echo $row['buch_nummer']; ?>
-                                                </th>
-                                                <td class="table-align-left table-size-65 ellipsis"><?php echo $row['buch_titel']; ?></td>
-                                                <td class="table-align-right ellipsis"><?php echo $row['buch_autor']; ?></td>
-                                                <td class="table-align-center"><?php echo $row['buch_ausgabe']; ?></td>
-                                                <td>
-                                                    <?php
-                                                    if ($row['physisch'] == 1 && $row['virtuell'] == 0) {
-                                                    ?>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                                                        </svg>
-                                                    <?php
-                                                    } elseif ($row['virtuell'] == 1 && $row['physisch'] == 0) {
-                                                    ?>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M320 464C328.8 464 336 456.8 336 448V416H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V416H48V448C48 456.8 55.16 464 64 464H320zM256 160C238.3 160 224 145.7 224 128V48H64C55.16 48 48 55.16 48 64V192H0V64C0 28.65 28.65 0 64 0H229.5C246.5 0 262.7 6.743 274.7 18.75L365.3 109.3C377.3 121.3 384 137.5 384 154.5V192H336V160H256zM88 224C118.9 224 144 249.1 144 280C144 310.9 118.9 336 88 336H80V368C80 376.8 72.84 384 64 384C55.16 384 48 376.8 48 368V240C48 231.2 55.16 224 64 224H88zM112 280C112 266.7 101.3 256 88 256H80V304H88C101.3 304 112 293.3 112 280zM160 240C160 231.2 167.2 224 176 224H200C226.5 224 248 245.5 248 272V336C248 362.5 226.5 384 200 384H176C167.2 384 160 376.8 160 368V240zM192 352H200C208.8 352 216 344.8 216 336V272C216 263.2 208.8 256 200 256H192V352zM336 224C344.8 224 352 231.2 352 240C352 248.8 344.8 256 336 256H304V288H336C344.8 288 352 295.2 352 304C352 312.8 344.8 320 336 320H304V368C304 376.8 296.8 384 288 384C279.2 384 272 376.8 272 368V240C272 231.2 279.2 224 288 224H336z" />
-                                                        </svg>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                                                        </svg>
-                                                        /
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M320 464C328.8 464 336 456.8 336 448V416H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V416H48V448C48 456.8 55.16 464 64 464H320zM256 160C238.3 160 224 145.7 224 128V48H64C55.16 48 48 55.16 48 64V192H0V64C0 28.65 28.65 0 64 0H229.5C246.5 0 262.7 6.743 274.7 18.75L365.3 109.3C377.3 121.3 384 137.5 384 154.5V192H336V160H256zM88 224C118.9 224 144 249.1 144 280C144 310.9 118.9 336 88 336H80V368C80 376.8 72.84 384 64 384C55.16 384 48 376.8 48 368V240C48 231.2 55.16 224 64 224H88zM112 280C112 266.7 101.3 256 88 256H80V304H88C101.3 304 112 293.3 112 280zM160 240C160 231.2 167.2 224 176 224H200C226.5 224 248 245.5 248 272V336C248 362.5 226.5 384 200 384H176C167.2 384 160 376.8 160 368V240zM192 352H200C208.8 352 216 344.8 216 336V272C216 263.2 208.8 256 200 256H192V352zM336 224C344.8 224 352 231.2 352 240C352 248.8 344.8 256 336 256H304V288H336C344.8 288 352 295.2 352 304C352 312.8 344.8 320 336 320H304V368C304 376.8 296.8 384 288 384C279.2 384 272 376.8 272 368V240C272 231.2 279.2 224 288 224H336z" />
-                                                        </svg>
+                                // Use the glob function to get an array of all files in the folder
+                                $files = glob("$folder/*");
 
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    if ($row['ausgeliehen'] == 0) {
-                                                    ?>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" style="display: inline-block ;">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
-                                                        </svg>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 320 512" style="display: inline-block ;">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z" />
-                                                        </svg>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['buch_titel']; ?> # <?php echo $row['buch_autor']; ?> # <?php echo $row['buch_ausgabe']; ?> # <?php echo $row['buch_bemerkung']; ?> # <?php echo $row['buch_kurzbeschrieb']; ?> # <?php echo $row['buch_nummer']; ?> # <?php echo $row['physisch'] ?> # <?php echo $row['virtuell'] ?> # <?php echo $row['ausgeliehen'] ?> # <?php echo $count;  ?>' onclick=InfoOffcanvas(this)>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 192 512">
-                                                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                            <path d="M144 80c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z" />
-                                                        </svg>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                <?php
+                                // Iterate through the array of files
+                                foreach ($files as $file) {
+                                    // Only count files, not directories
+                                    if (is_file($file)) {
+                                        $fileName = basename($file);
+                                        // Check if the string is in the file name
+                                        if (strpos($fileName, $word) !== false) {
+                                            $count++;
                                         }
                                     }
                                 }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+
+                                if ($count != 0) {
+                                    $count--;
+                                }
+
+                                if ($row['geloescht'] == 0) {
+                        ?>
+                                    <tr>
+                                        <th scope="row">
+                                            <?php echo $row['buch_nummer']; ?>
+                                        </th>
+                                        <td class="table-align-left table-size-65 ellipsis"><?php echo $row['buch_titel']; ?></td>
+                                        <td class="table-align-right ellipsis"><?php echo $row['buch_autor']; ?></td>
+                                        <td class="table-align-center"><?php echo $row['buch_ausgabe']; ?></td>
+                                        <td>
+                                            <?php
+                                            if ($row['physisch'] == 1 && $row['virtuell'] == 0) {
+                                            ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                                                </svg>
+                                            <?php
+                                            } elseif ($row['virtuell'] == 1 && $row['physisch'] == 0) {
+                                            ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M320 464C328.8 464 336 456.8 336 448V416H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V416H48V448C48 456.8 55.16 464 64 464H320zM256 160C238.3 160 224 145.7 224 128V48H64C55.16 48 48 55.16 48 64V192H0V64C0 28.65 28.65 0 64 0H229.5C246.5 0 262.7 6.743 274.7 18.75L365.3 109.3C377.3 121.3 384 137.5 384 154.5V192H336V160H256zM88 224C118.9 224 144 249.1 144 280C144 310.9 118.9 336 88 336H80V368C80 376.8 72.84 384 64 384C55.16 384 48 376.8 48 368V240C48 231.2 55.16 224 64 224H88zM112 280C112 266.7 101.3 256 88 256H80V304H88C101.3 304 112 293.3 112 280zM160 240C160 231.2 167.2 224 176 224H200C226.5 224 248 245.5 248 272V336C248 362.5 226.5 384 200 384H176C167.2 384 160 376.8 160 368V240zM192 352H200C208.8 352 216 344.8 216 336V272C216 263.2 208.8 256 200 256H192V352zM336 224C344.8 224 352 231.2 352 240C352 248.8 344.8 256 336 256H304V288H336C344.8 288 352 295.2 352 304C352 312.8 344.8 320 336 320H304V368C304 376.8 296.8 384 288 384C279.2 384 272 376.8 272 368V240C272 231.2 279.2 224 288 224H336z" />
+                                                </svg>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                                                </svg>
+                                                /
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M320 464C328.8 464 336 456.8 336 448V416H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V416H48V448C48 456.8 55.16 464 64 464H320zM256 160C238.3 160 224 145.7 224 128V48H64C55.16 48 48 55.16 48 64V192H0V64C0 28.65 28.65 0 64 0H229.5C246.5 0 262.7 6.743 274.7 18.75L365.3 109.3C377.3 121.3 384 137.5 384 154.5V192H336V160H256zM88 224C118.9 224 144 249.1 144 280C144 310.9 118.9 336 88 336H80V368C80 376.8 72.84 384 64 384C55.16 384 48 376.8 48 368V240C48 231.2 55.16 224 64 224H88zM112 280C112 266.7 101.3 256 88 256H80V304H88C101.3 304 112 293.3 112 280zM160 240C160 231.2 167.2 224 176 224H200C226.5 224 248 245.5 248 272V336C248 362.5 226.5 384 200 384H176C167.2 384 160 376.8 160 368V240zM192 352H200C208.8 352 216 344.8 216 336V272C216 263.2 208.8 256 200 256H192V352zM336 224C344.8 224 352 231.2 352 240C352 248.8 344.8 256 336 256H304V288H336C344.8 288 352 295.2 352 304C352 312.8 344.8 320 336 320H304V368C304 376.8 296.8 384 288 384C279.2 384 272 376.8 272 368V240C272 231.2 279.2 224 288 224H336z" />
+                                                </svg>
+
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($row['ausgeliehen'] == 0) {
+                                            ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" style="display: inline-block ;">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                                                </svg>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 320 512" style="display: inline-block ;">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z" />
+                                                </svg>
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['buch_titel']; ?> # <?php echo $row['buch_autor']; ?> # <?php echo $row['buch_ausgabe']; ?> # <?php echo $row['buch_bemerkung']; ?> # <?php echo $row['buch_kurzbeschrieb']; ?> # <?php echo $row['buch_nummer']; ?> # <?php echo $row['physisch'] ?> # <?php echo $row['virtuell'] ?> # <?php echo $row['ausgeliehen'] ?> # <?php echo $count;  ?>' onclick=InfoOffcanvas(this)>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 192 512">
+                                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M144 80c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
+
+
         </div>
         <div class="offcanvas offcanvas-start py-3 pe-3" tabindex="-1" id="InfoOffcanvas" aria-labelledby="InfoOffcanvasLabel">
             <div class="offcanvas-header pt-0">
@@ -162,7 +162,7 @@
             </div>
             <div class="offcanvas-body">
                 <div class="row">
-                <p class="mb-0">Titel:</p>
+                    <p class="mb-0">Titel:</p>
                     <span id="buch_titel"></span>
                     <p class="mb-0 mt-3">Autor:</p>
                     <span id="buch_autor"></span>

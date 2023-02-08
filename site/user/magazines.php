@@ -86,59 +86,74 @@
     $showSearch = true;
     include "../services/nav_index.php"; ?>
 
-    <div class="container-fluid">
-        <div class="card mt-3">
-            <div class="card-body">
-                <div class="table-wrapper align-middle">
-                    <table id="datatable" class="table">
-                        <thead>
-                            <tr class="header">
-                                <th scope="col" style="width: 50%; text-align: left !important;">Titel:</th>
-                                <th scope="col" style="text-align: right !important;">Autor:</th>
-                                <th scope="col" style="width: 10%"></th>
+    <div class="container-fluid p-3">
+
+
+        <div class="table-wrapper align-middle">
+            <table id="datatable" class="table">
+                <thead>
+                    <tr class="header">
+                        <th scope="col" style="width: 50%; text-align: left !important;">Titel:</th>
+                        <th scope="col" style="text-align: right !important;">Autor:</th>
+                        <th scope="col" style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include "../../site/services/db_connect.php";
+                    $statement = $conn->prepare("SELECT * FROM lib_magazines");
+
+                    $statement->execute();
+                    $result = $statement->get_result();
+
+                    if ($result->num_rows != 0) {
+                        while ($row = $result->fetch_assoc()) {
+                    ?>
+                            <tr>
+                                <td class="table-align-left ellipsis"><?php echo $row['magazine_title']; ?></td>
+                                <td class="table-align-right ellipsis"><?php echo $row['magazine_autor']; ?></td>
+                                <td>
+                                    <button type="button" class="btn border-0" onclick="MagazineModal(this)" data-MagazineAutor="<?php echo $row['magazine_autor']; ?>" data-MagazineTitle="<?php echo $row['magazine_title']; ?>" data-MagazineLanguage="<?php echo $row['magazine_language']; ?>" data-MagazineCurrent="<?php echo $row['magazine_edition']; ?>" data-MagazineTotal="<?php echo $row['magazine_edition_j']; ?>" data-id="<?php echo $row['magazineID']; ?>" data-bs-toggle="tooltip" data-bs-title="Zyrkulation">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                            <path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z" />
+                                        </svg>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include "../../site/services/db_connect.php";
-                            $statement = $conn->prepare("SELECT * FROM lib_magazines");
-
-                            $statement->execute();
-                            $result = $statement->get_result();
-
-                            if ($result->num_rows != 0) {
-                                while ($row = $result->fetch_assoc()) {
-                            ?>
-                                    <tr>
-                                        <td class="table-align-left ellipsis"><?php echo $row['magazine_title']; ?></td>
-                                        <td class="table-align-right ellipsis"><?php echo $row['magazine_autor']; ?></td>
-                                        <td>
-                                            <button type="button" class="btn border-0" onclick="MagazineModal(this)" data-MagazineTitle="<?php echo $row['magazine_title']; ?>" data-id="<?php echo $row['magazineID']; ?>" data-bs-toggle="tooltip" data-bs-title="Zyrkulation">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                                    <path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z" />
-                                                </svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
+
+
     </div>
     <!-- Vertically centered modal -->
     <div class="modal fade" id="MagazineModal" tabindex="-1" aria-labelledby="MagazineModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <p> <span id="MagazineTitle"></span>Zirkulation</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+                <div class="modal-body ">
+                    <div class="d-flex align-items-center ps-3" style="height:40vh;">
+
+                        <img style="height:80%;" class="img-fluid rounded" id="magCover" src="" alt="">
+
+                        <ul class="list-group list-group-flush ms-3 w-100">
+                            <li class="list-group-item">
+                                Titel.<span id="MagazineTitle"></span>
+                            </li>
+                            <li class="list-group-item">Autor: <span id="MagazineAutor"></span></li>
+                            <li class="list-group-item">Sprache: <span id="MagazineLanguage"></span></li>
+                            <li class="list-group-item">Ausgabe: <span id="MagazineCurrent"></span></li>
+                            <li class="list-group-item">Von: <span id="MagazineTotal"></span></li>
+                        </ul>
+                        <div class="flex-grow-1 h-100 d-flex justify-content-end">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+                    <h4>Zirkulation</h4>
                     <div class="d-flex flex-wrap align-items-center" id="subs_wrapper">
                         <form method="post" id="AddSubForm">
                             <div class="chip m-2" id="modify_chip">
@@ -250,6 +265,8 @@
             var MagazineTitle = entry.dataset.magazinetitle; // get magazine title from entry element's data attribute
             magazineID = entry.dataset.id; // get id from entry element's data attribute
 
+            document.getElementById("magCover").setAttribute('src', "../../assets/images/img/cover_mag_" + magazineID + ".png");
+
             $.ajax({
                 type: "POST",
                 url: "../services/controller/mag_data.php",
@@ -267,6 +284,12 @@
                 }
             });
 
+
+            $("#MagazineAutor").html(entry.dataset.magazineautor); // set the magazine title in the modal
+            $("#MagazineTitle").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
+            $("#MagazineCurrent").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
+            $("#MagazineTotal").html(entry.dataset.magazinetotal); // set the magazine title in the modal
+            $("#MagazineLanguage").html(entry.dataset.magazinelanguage); // set the magazine title in the modal
             $("#MagazineTitle").html(MagazineTitle); // set the magazine title in the modal
             $("#MagazineModal").modal("show"); // show the modal
         }

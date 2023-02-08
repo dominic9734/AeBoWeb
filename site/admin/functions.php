@@ -475,15 +475,33 @@ if (isset($_POST['delete_restore_mag'])) {
 }
 
 if (isset($_POST['EditMagazine'])) {
-    $magazineID = htmlspecialchars($_POST['magazineIDEdit']);
+
+    $newFile = $_FILES['edit_cover'];
+
+    $oldfile = "/../../assets/images/img/cover_mag_".$_POST['magazineID'];
+
+    $newFileName = getcwd()."/../../assets/images/img/cover_mag_".$_POST['magazineID'].".png";
+
+    if (file_exists($newFileName)) {
+        unlink(realpath($newFileName));
+        echo $newFileName;
+        
+    }
+
+    if (!file_exists($newFileName)) {
+        move_uploaded_file($newFile['tmp_name'], $newFileName);
+    }
+    $magazineID = htmlspecialchars($_POST['magazineID']);
     $magazine_title = htmlspecialchars($_POST['magazine_title']);
     $magazine_autor = htmlspecialchars($_POST['magazine_autor']);
     $magazine_edition_j = htmlspecialchars($_POST['magazine_edition_j']);
     $magazine_edition = htmlspecialchars($_POST['magazine_edition']);
-    $statement = $conn->prepare('UPDATE lib_magazines SET  magazine_title = ?,magazine_autor = ?, magazine_edition_j = ?, magazine_edition = ? where magazineID = ?');
+    
 
+    $statement = $conn->prepare('UPDATE lib_magazines SET  magazine_title = ?,magazine_autor = ?, magazine_edition_j = ?, magazine_edition = ? where magazineID = ?');
     $statement->bind_param('ssssi', $magazine_title, $magazine_autor, $magazine_edition_j, $magazine_edition, $magazineID);
     $statement->execute();
+
 
     header("location:magazines.php");
     exit;
