@@ -186,39 +186,39 @@ if (isset($_POST["submit"])) {
                         $result = $statement->get_result();
                         if ($result->num_rows != 0) {
                             while ($employee = mysqli_fetch_assoc($result)) { ?>
-                                <tr id="row<?php echo $employee['mitarbeiterID']; ?>">
+                                <tr id="row<?php echo $employee['employeeID']; ?>">
                                     <th scope="row"><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['nickname']; ?>.png" style="height: 50px;"></th>
-                                    <td class="editable" id="name<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['first_name'] . " " . $employee['last_name']; ?></td>
-                                    <td class="editable" id="nickname<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['nickname']; ?></td>
+                                    <td class="editable" id="name<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['first_name'] . " " . $employee['last_name']; ?></td>
+                                    <td class="editable" id="nickname<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['nickname']; ?></td>
 
-                                    <td class="editable" id="work_division<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['work_division']; ?></td>
+                                    <td class="editable" id="work_division<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['work_division']; ?></td>
 
-                                    <td class="editable" id="internal_phone<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['internal_phone']; ?></td>
+                                    <td class="editable" id="internal_phone<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['internal_phone']; ?></td>
 
-                                    <td class="editable" id="mobile_phone<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['mobile_phone']; ?></td>
+                                    <td class="editable" id="mobile_phone<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['mobile_phone']; ?></td>
 
-                                    <td class="editable" id="primary_mail<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['primary_mail']; ?></td>
+                                    <td class="editable" id="primary_mail<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['primary_mail']; ?></td>
 
-                                    <td class="editable" id="special_authority<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['special_authority']; ?></td>
+                                    <td class="editable" id="special_authority<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['special_authority']; ?></td>
 
-                                    <td class="editable" id="department<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['department']; ?></td>
+                                    <td class="editable" id="department<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['department']; ?></td>
 
-                                    <td class="editable" id="location<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['location']; ?></td>
-                                    <td class="editable" id="zone<?php echo $employee['mitarbeiterID']; ?>" contenteditable="false"><?php echo $employee['zone']; ?></td>
+                                    <td class="editable" id="location<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['location']; ?></td>
+                                    <td class="editable" id="zone<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['zone']; ?></td>
                                     <td>
-                                        <button type="button" class="btn" id="editbtn<?php echo $employee['mitarbeiterID']; ?>" style="display:  inline-block;" onclick="edit('<?php echo $employee['mitarbeiterID']; ?>')">
+                                        <button type="button" class="btn" id="editbtn<?php echo $employee['employeeID']; ?>" style="display:  inline-block;" onclick="edit('<?php echo $employee['employeeID']; ?>')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 640 512">
                                                 <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                 <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z" />
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn" id="savebtn<?php echo $employee['mitarbeiterID']; ?>" style="display: none;" onclick="save('<?php echo $employee['mitarbeiterID']; ?>')" name="UpdateEmployee">
+                                        <button type="button" class="btn" id="savebtn<?php echo $employee['employeeID']; ?>" style="display: none;" onclick="save('<?php echo $employee['employeeID']; ?>')" name="UpdateEmployee">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 448 512">
                                                 <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 416c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z" />
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn delbtn" style="display: inline-block;" id="<?php echo $employee['mitarbeiterID']; ?>" data-name="<?php echo $employee['mitarbeitername']; ?>">
+                                        <button type="button" class="btn delbtn" style="display: inline-block;" id="<?php echo $employee['employeeID']; ?>" data-name="<?php echo $employee['mitarbeitername']; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 640 512">
                                                 <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                 <path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L353.3 251.6C407.9 237 448 187.2 448 128C448 57.3 390.7 0 320 0C250.2 0 193.5 55.8 192 125.2L38.8 5.1zM264.3 304.3C170.5 309.4 96 387.2 96 482.3c0 16.4 13.3 29.7 29.7 29.7H514.3c3.9 0 7.6-.7 11-2.1l-261-205.6z" />

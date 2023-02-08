@@ -75,10 +75,6 @@
             width: 20px;
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20px' width='20px' viewBox='0 0 640 512' fill-rule='evenodd'%3E%3Cpath d='M352 128c0 70.7-57.3 128-128 128s-128-57.3-128-128S153.3 0 224 0s128 57.3 128 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z'%3E%3C/path%3E%3C/svg%3E") center / contain no-repeat;
         }
-
-        .sorting {
-            display: none;
-        }
     </style>
 
 </head>
@@ -97,9 +93,8 @@
                     <table id="datatable" class="table">
                         <thead>
                             <tr class="header">
-                                <th scope="col" style="width: 10%; text-align: left !important;"></th>
-                                <th scope="col" style="width: 60%; text-align: left !important;"></th>
-                                <th scope="col" style="width: 20%; text-align: right !important; "></th>
+                                <th scope="col" style="width: 50%; text-align: left !important;">Titel:</th>
+                                <th scope="col" style="text-align: right !important;">Autor:</th>
                                 <th scope="col" style="width: 10%"></th>
                             </tr>
                         </thead>
@@ -115,12 +110,10 @@
                                 while ($row = $result->fetch_assoc()) {
                             ?>
                                     <tr>
-                                        <td class="table-align-left ellipsis"></td>
-
                                         <td class="table-align-left ellipsis"><?php echo $row['magazine_title']; ?></td>
                                         <td class="table-align-right ellipsis"><?php echo $row['magazine_autor']; ?></td>
                                         <td>
-                                            <button type="button" class="btn border-0" onclick="MagazineModal(this)" data-MagazineTitle="<?php echo $row['magazine_title']; ?>" data-id="<?php echo $row['magazineID']; ?>" data-subscribers="<?php echo $row['magazine_subscribers']; ?>">
+                                            <button type="button" class="btn border-0" onclick="MagazineModal(this)" data-MagazineTitle="<?php echo $row['magazine_title']; ?>" data-id="<?php echo $row['magazineID']; ?>" data-bs-toggle="tooltip" data-bs-title="Zyrkulation">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                     <path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z" />
                                                 </svg>
@@ -149,26 +142,25 @@
                     <div class="d-flex flex-wrap align-items-center" id="subs_wrapper">
                         <form method="post" id="AddSubForm">
                             <div class="chip m-2" id="modify_chip">
-                                <label>
-                                    <input class="chip_input" id="chip_input_field" name="chip_input_field" list="EmployeeNames" autocomplete="off" value="">
-                                </label>
-                                <span class="RemoveSub" onclick="AddSubBtn()">&#43;</span>
-                                <datalist id="EmployeeNames">
+                                <select class="chip_input" aria-label="Default select example" id="chip_input_field">
+                                    <option selected></option>
                                     <?php
                                     include "../../site/services/db_connect.php";
 
-                                    $statement = $conn->prepare("SELECT nickname from AeBo_employees ORDER BY nickname ASC");
+                                    $statement = $conn->prepare("SELECT nickname,employeeID from AeBo_employees ORDER BY nickname ASC");
                                     $statement->execute();
                                     $result = $statement->get_result();
                                     if ($result->num_rows != 0) {
                                         while ($row = $result->fetch_assoc()) {
-                                            $mitarbeiterkrz = $row['nickname'];
+                                            $nickname = $row['nickname'];
+                                            $employeeID = $row['employeeID'];
                                             echo
-                                            '<option value="' . $mitarbeiterkrz . '">';
+                                            '<option class="" id="option_' . $nickname . '" value="' . $employeeID . '">' . $nickname . '</option>';
                                         }
                                     }
                                     ?>
-                                </datalist>
+                                </select>
+                                <span class="RemoveSub" onclick="AddSubBtn()">&#43;</span>
                             </div>
                     </div>
                 </div>
@@ -196,7 +188,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="ResetInputs()">Abbrechen</button>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" onclick="ConfirmSubs()">Änderungen Bestätigen </button>
+                    <button type="button" class="btn btn-success" data-magazneID data-bs-toggle="modal" onclick="ConfirmSubs()">Änderungen Bestätigen </button>
                 </div>
             </div>
         </div>
@@ -221,109 +213,102 @@
     <script src="../../assets/vendor/js/loading.js"></script>
 
     <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
         var RemovedEmployees = []; // array for all the from the delivery list removed employees
         var AddedEmployees = []; // array for all the from the delivery list added employees
-        let IDs, names, paths;
-
-
-        // Data has to be formated like this to be passed as subs [1,2,3] type = string
-        function DataAjax(subscribers) {
-            let request = JSON.parse(subscribers);
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/mag_images.php",
-                data: {
-                    request: request
-                },
-                async: false,
-                success: function(data) {
-                    var response = JSON.parse(data);
-                    IDs = response.IDs;
-                    names = response.names;
-                    paths = response.paths;
-                }
-            });
-        }
+        let IDs, names, path, magazineID, employeeID;
 
         function ResetInputs() {
             RemovedEmployees = []
             AddedEmployees = []
             $("#RemovedSubsList").empty();
+            location.reload();
         }
 
         function ConfirmSubs() {
-            console.log(RemovedEmployees);
-            console.log(AddedEmployees);
+            console.log(AddedEmployees)
+            console.log(RemovedEmployees)
             $.ajax({
                 type: "POST",
                 url: "../services/controller/mag_addsubs.php",
                 data: {
                     RemovedEmployees: RemovedEmployees,
-                    AddedEmployees: AddedEmployees
+                    AddedEmployees: AddedEmployees,
+                    magazineID: magazineID
                 },
                 async: false,
                 success: function(data) {
-    
-                    console.log(data)
+                    ResetInputs()
                 }
             });
         }
 
         function MagazineModal(entry) {
             var MagazineTitle = entry.dataset.magazinetitle; // get magazine title from entry element's data attribute
-            var id = entry.dataset.id; // get id from entry element's data attribute
-            var subscribers = entry.dataset.subscribers; // get subscribers from entry element's data attribute
+            magazineID = entry.dataset.id; // get id from entry element's data attribute
+
+            $.ajax({
+                type: "POST",
+                url: "../services/controller/mag_data.php",
+                data: {
+                    magazineID: magazineID
+                },
+                success: function(data) {
+                    for (let i = 0; i < data.length; i++) {
+                        var employeeID = data[i].employeeID;
+                        var nickname = data[i].nickname;
+                        var path = data[i].path;
+
+                        AddChips(employeeID, nickname, path)
+                    }
+                }
+            });
+
             $("#MagazineTitle").html(MagazineTitle); // set the magazine title in the modal
-            if (subscribers.length > 0) {
-                DataAjax(subscribers, IDs, paths, names)
-                AddChips()
-            }
             $("#MagazineModal").modal("show"); // show the modal
         }
 
-        function AddChips() {
-            for (var i = 0; i < IDs.length; i++) {
+        function AddChips(employeeID, nickname, path) {
+            var divContainer = $("#subs_wrapper"); // get the container element for the current employee
+            divContainer.removeClass("d-none").addClass(" p-2"); // show the container and set its class to  p-2
+            $("#employee-input-container, #filler_div").addClass("d-none"); // hide input container and filler div
 
-                var divContainer = $("#subs_wrapper"); // get the container element for the current employee
-                divContainer.removeClass("d-none").addClass(" p-2"); // show the container and set its class to  p-2
-                $("#employee-input-container, #filler_div").addClass("d-none"); // hide input container and filler div
+            var divChip = $('<div>', { // create a new chip element
+                class: 'chip m-2',
+                id: "employeeID_" + employeeID
+            });
+            var img = $('<img>', { // create a new img element
+                src: path,
+                alt: "MA"
+            });
+            var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
+                html: nickname
+            });
+            var spanRemove = $('<span>', { // create a new span element for the remove button
+                class: 'RemoveSub',
+                html: '&times;',
+                "data-value": employeeID,
+                "data-name": nickname,
+                onclick: "RemoveEmployee(this)"
+            });
+            var spanDivider = $('<div>', { // create a new span element for the divider
+                class: 'mx-1 text-cente',
+                id: "devider_" + employeeID,
+                html: ' &#62;'
+            });
 
-                var divChip = $('<div>', { // create a new chip element
-                    class: 'chip m-2',
-                    id: "employeeID_" + IDs[i]
-                });
-                var img = $('<img>', { // create a new img element
-                    id: 'img-' + (i),
-                    src: paths[i],
-                    alt: "MA"
-                });
-                var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
-                    id: 'displayname-' + (i + 1),
-                    html: names[i]
-                });
-                var spanRemove = $('<span>', { // create a new span element for the remove button
-                    class: 'RemoveSub',
-                    html: '&times;',
-                    "data-value": IDs[i],
-                    "data-name": names[i],
-                    "data-position": [i],
-                    onclick: "RemoveEmployee(this)"
-                });
-                var spanDivider = $('<div>', { // create a new span element for the divider
-                    class: 'mx-1 text-cente',
-                    id: "devider_" + IDs[i],
-                    html: ' &#62;'
-                });
+            var modify_chip = $("#modify_chip").detach()
 
-                var modify_chip = $("#modify_chip").detach()
+            divChip.append(img, spanDisplayName, spanRemove); // append the img, display name and remove button to the chip element
+            divContainer.append(divChip, spanDivider, ); // append the divider and chip element to the container
+            divContainer.append(modify_chip);
 
-                divChip.append(img, spanDisplayName, spanRemove); // append the img, display name and remove button to the chip element
-                divContainer.append(divChip, spanDivider, ); // append the divider and chip element to the container
-                divContainer.append(modify_chip);
-
-                ModifyChip();
-            }
+            ModifyChip();
         }
+
 
         //function to remove subscription chips from the dom and add their value to a hidden input
         function RemoveEmployee(element) {
@@ -347,34 +332,38 @@
             }
         }
 
-
-
         function AddSubBtn() {
             var chip_input_field_value = $("#chip_input_field").val();
             $.ajax({
                 type: "POST",
                 url: "../services/controller/input_validation.php",
                 data: {
-                    validation_input: chip_input_field_value,
+                    magazineID: magazineID,
+                    employeeID: chip_input_field_value,
                 },
                 success: function(data) {
+
+                    var employeeID = data.employeeID;
+                    var nickname = data.nickname;
+                    var path = data.path;
+
                     if (data.response == "valid") {
                         $("#chip_input_field").val('');
                         var AddedSubsListItem = $('<li>', { // create a new list element
                             class: 'list-group-item',
-                            html: "&#43; " + chip_input_field_value
+                            html: "&#43; " + data.full_name
                         });
                         $("#RemovedSubsList").append(AddedSubsListItem);
-                        var subscribers = JSON.parse(data.ID);
-                        AddedEmployees.push(subscribers.toString());
-                        DataAjax("[" + subscribers.toString() + "]");
-                        AddChips()
+                        $("#option_" + nickname).addClass("d-none");
+
+                        AddedEmployees.push(employeeID)
+
+                        AddChips(employeeID, nickname, path)
                     } else {
-                        alert("Bitte wählen sie ein vorgegebenen Kürzel.")
+                        alert("Befindet sich bereits in der Zyrkulation")
                     }
                 }
             });
-            $("#chip_input_field").val('');
         }
     </script>
 </body>

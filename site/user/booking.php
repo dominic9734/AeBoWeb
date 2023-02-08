@@ -19,10 +19,10 @@ if (isset($_POST['submit'])) {
         $nickname = ($_POST["mitarbeiterkrz"]);
     }
 
-    if (empty(($_POST["mitarbeiterID"]))) {
+    if (empty(($_POST["employeeID"]))) {
         $nachname_err = "";
     } else {
-        $mitarbeiterID = ($_POST["mitarbeiterID"]);
+        $employeeID = ($_POST["employeeID"]);
     }
 
     if (empty(($_POST["date"]))) {

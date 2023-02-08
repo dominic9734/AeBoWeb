@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
 
         while ($row = $result->fetch_assoc()) {
             header('Content-Type: application/json');
-            echo json_encode(array('ID' => $row['mitarbeiterID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone']));
+            echo json_encode(array('ID' => $row['employeeID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone']));
         }
     } elseif ($request_scope == "query") {
         $location = $_POST['location'];
@@ -33,7 +33,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
         while ($row = $result->fetch_assoc()) {
 
             $employees[] = [
-                'ID' => $row['mitarbeiterID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
+                'ID' => $row['employeeID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
             ];
         }
         $statement = $conn->prepare("SELECT * FROM AeBo_rooms WHERE location = ? AND zone = ?");
@@ -61,7 +61,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
         while ($row = $result->fetch_assoc()) {
 
             $members[] = [
-                'ID' => $row['mitarbeiterID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
+                'ID' => $row['employeeID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
             ];
         }
         header('Content-Type: application/json');

@@ -43,7 +43,7 @@ if (isset($_POST['delete_restore'])) {
 //löscht mitarbeiter aus der db
 if (isset($_POST['EmployeeDelete'])) {
     $EmployeeID = htmlspecialchars($_POST['DelEmployeeID']);
-    $statement = $conn->prepare('DELETE FROM AeBo_employees WHERE mitarbeiterID = ?');
+    $statement = $conn->prepare('DELETE FROM AeBo_employees WHERE employeeID = ?');
     $statement->bind_param('i', $EmployeeID);
     $statement->execute();
     header("location: employees.php");
@@ -169,7 +169,7 @@ if (isset($_POST['UpdateEmployee'])) {
     $UpdateEmployeeName = htmlspecialchars($_POST['UpdateEmployeeName']);
     $UpdateEmployeeKuerzel = htmlspecialchars($_POST['UpdateEmployeeKuerzel']);
 
-    $statement = $conn->prepare("SELECT nickname FROM AeBo_employees WHERE mitarbeiterID = ?");
+    $statement = $conn->prepare("SELECT nickname FROM AeBo_employees WHERE employeeID = ?");
     $statement->bind_param('i', $UpdateEmployeeID);
     $statement->execute();
     $result = $statement->get_result();
@@ -179,7 +179,7 @@ if (isset($_POST['UpdateEmployee'])) {
         $EmployeeKuerzel = $row['nickname'];
     }
 
-    $statement = $conn->prepare('UPDATE AeBo_employees SET  mitarbeitername = ?, nickname = ? where mitarbeiterID = ?');
+    $statement = $conn->prepare('UPDATE AeBo_employees SET  mitarbeitername = ?, nickname = ? where employeeID = ?');
     $statement->bind_param('ssi', $UpdateEmployeeName, $UpdateEmployeeKuerzel, $UpdateEmployeeID);
     $statement->execute();
 
@@ -237,19 +237,19 @@ if (isset($_POST['CreateEmployee'])) {
 }
 //Mmitarbeiter CSV export
 if (isset($_GET['ExportCSV'])) {
-    $query = $conn->query("SELECT * FROM AeBo_employees ORDER BY mitarbeiterID ASC");
+    $query = $conn->query("SELECT * FROM AeBo_employees ORDER BY employeeID ASC");
     if ($query->num_rows > 0) {
         $delimiter = ",";
         $filename = "Export_MA_AEBOLIB_" . date('Y-m-d') . ".csv";
 
         $f = fopen('php://memory', 'w');
 
-        $fields = array('mitarbeiterID', 'mitarbeitername', 'nickname');
+        $fields = array('employeeID', 'mitarbeitername', 'nickname');
         fputcsv($f, $fields, $delimiter);
 
 
         while ($row = $query->fetch_assoc()) {
-            $lineData = array($row['mitarbeiterID'], $row['mitarbeitername'], $row['nickname']);
+            $lineData = array($row['employeeID'], $row['mitarbeitername'], $row['nickname']);
             $lineData = array_map("utf8_decode", $lineData);
             fputcsv($f, $lineData, $delimiter);
         }
