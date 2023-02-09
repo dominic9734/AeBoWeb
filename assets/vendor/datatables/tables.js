@@ -8,7 +8,6 @@ $(document).ready(function () {
         "info": false,
         "scrollY": "100vh",
         "scrollCollapse": true,
-        "paging": true,
         "language": {
             zeroRecords: "Es wurden keine Einträge gefunden...",
             "paginate": {

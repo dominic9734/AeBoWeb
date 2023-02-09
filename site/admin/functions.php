@@ -162,7 +162,9 @@ if (isset($_POST['DataImport'])) {
 if (isset($_POST['XMLExport'])) {
     exit;
 }
-//bearbeitet Mitarbeiter in excel
+// -------------- IPA--------------
+// update employees into the database
+
 if (isset($_POST['UpdateEmployee'])) {
 
     $UpdateEmployeeID = htmlspecialchars($_POST['UpdateEmployeeID']);
@@ -196,69 +198,46 @@ if (isset($_POST['UpdateEmployee'])) {
 
     exit;
 }
-//Mitarbeiter Erstellen
+// create employees into the database
+
 if (isset($_POST['CreateEmployee'])) {
     //start sql upload
 
-    $Vorname = htmlspecialchars($_POST["Vorname"]);
-    $Nachname = htmlspecialchars($_POST["Nachname"]);
-    $nickname = htmlspecialchars($_POST["Kuerzel"]);
+    $employeeimage = $_FILES['employeeimage'];
 
-    $mitarbeitername = $Nachname . " " . mb_substr($Vorname, 0, 1) . ".";
-
-    $statement = $conn->prepare("INSERT INTO AeBo_employees (mitarbeitername, nickname) VALUES(?,?)");
-    $statement->bind_param("ss", $mitarbeitername, $nickname);
+    $statement = $conn->prepare("INSERT INTO AeBo_employees (first_name, last_name, nickname, location, zone, work_division, internal_phone, mobile_phone, primary_mail, special_authority, department) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+    $statement->bind_param("sssssssssss", $_POST["first_name_input"], $_POST["last_name_input"], $_POST["nickname_input"], $_POST["location_input"], $_POST["zone_input"], $_POST["work_division_input"], $_POST["internal_phone_input"], $_POST["mobile_phone_input"], $_POST["primary_mail_input"], $_POST["special_authority_input"], $_POST["department_input"]);
     $statement->execute();
+    $employeeimagepath = "../../assets/images/employees200px/" . $_POST['nickname_input'] . ".png";
 
-    $target_file = $target_dir . basename($_FILES["File"]["name"]);
-
-    $currentDirectory = getcwd();
-    $uploadDirectory = htmlspecialchars($_POST['Directory']);
-
-    $fileExtensionsAllowed = 'png';
-
-    $fileName = $_FILES['File']['name'];
-    $fileSize = $_FILES['File']['size'];
-    $fileTmpName  = $_FILES['File']['tmp_name'];
-    $fileType = $_FILES['File']['type'];
-    $fileExtension = strtolower(end(explode('.', $fileName)));
-
-    if ($fileExtensionsAllowed == $fileExtension) {
-        $NewFileName = $nickname . "." . $fileExtension;
-
-        $uploadPath = $currentDirectory . $uploadDirectory . basename($NewFileName);
-        $uploaded = move_uploaded_file($fileTmpName, $uploadPath);
-        header("location: employees.php");
-    } else {
-        $UploadError = 1;
-        header("location: employees.php");
-    }
+    move_uploaded_file($employeeimage['tmp_name'], $employeeimagepath);
+    header("Location: employees.php");
     exit;
 }
-//Mmitarbeiter CSV export
+// export employees to csv
 if (isset($_GET['ExportCSV'])) {
     $query = $conn->query("SELECT * FROM AeBo_employees ORDER BY employeeID ASC");
     if ($query->num_rows > 0) {
         $delimiter = ",";
-        $filename = "Export_MA_AEBOLIB_" . date('Y-m-d') . ".csv";
+        $csvuploadfilename = "Export_MA_AEBOLIB_" . date('Y-m-d') . ".csv";
 
-        $f = fopen('php://memory', 'w');
+        $csvupload = fopen('php://memory', 'w');
 
         $fields = array('employeeID', 'first_name', 'last_name', 'nickname', 'location', 'zone', 'work_division', 'internal_phone', 'mobile_phone', 'primary_mail', 'special_authority', 'department');
-        fputcsv($f, $fields, $delimiter);
+        fputcsv($csvupload, $fields, $delimiter);
 
 
         while ($row = $query->fetch_assoc()) {
             $lineData = array($row['employeeID'], $row['first_name'], $row['last_name'], $row['nickname'], $row['location'], $row['zone'], $row['work_division'], $row['internal_phone'], $row['mobile_phone'], $row['primary_mail'], $row['special_authority'], $row['department']);
             $lineData = array_map("utf8_decode", $lineData);
-            fputcsv($f, $lineData, $delimiter);
+            fputcsv($csvupload, $lineData, $delimiter);
         }
-        fseek($f, 0);
+        fseek($csvupload, 0);
 
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '";');
+        header('Content-Disposition: attachment; filename="' . $csvuploadfilename . '";');
 
-        fpassthru($f);
+        fpassthru($csvupload);
     }
     exit;
 }
@@ -428,26 +407,7 @@ if (isset($_POST['AddMagazine'])) {
     $statement->execute();
     $statement->close();
     $conn->close();
-    /*
-    $currentDirectory = getcwd();
-    $CoverDirectory = htmlspecialchars($_POST['CoverDirectory']);
 
-    //PDF in ordner
-    $fileExtensionsAllowedPDF = 'pdf';
-    $fileNamePDF = $_FILES['pdf_file']['name'];
-    $fileTmpNamePDF  = $_FILES['pdf_file']['tmp_name'];
-    $fileExtensionPDF = strtolower(end(explode('.', $fileNamePDF)));
-
-    $statusstr = "?status=succ";
-
-    if ($fileExtensionsAllowedPDF == $fileExtensionPDF) {
-        $NewFileNamePDF = $buch_nummer . "." . $fileExtensionPDF;
-        $uploadPathPDF = $currentDirectory . $uploadDirectoryPDF . basename($NewFileNamePDF);
-        $uploaded = move_uploaded_file($fileTmpNamePDF, $uploadPathPDF);
-    } else {
-        $statzsstr = "?status=err";
-    }
-    */
     header("Location: magazines.php" . $statusstr);
     exit;
 }

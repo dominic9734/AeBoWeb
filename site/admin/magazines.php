@@ -67,7 +67,6 @@ if (isset($_GET['status'])) {
                     while ($row = $result->fetch_assoc()) {
                         $id = $row['magazineID'];
                         if ($row['deleted'] == 0) {
-
                 ?>
                             <tr>
                                 <th scope="row" class="table-align-left"><?php echo $row['magazine_title']; ?></th>

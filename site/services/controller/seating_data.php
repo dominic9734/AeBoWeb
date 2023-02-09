@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
 
         while ($row = $result->fetch_assoc()) {
             header('Content-Type: application/json');
-            echo json_encode(array('ID' => $row['employeeID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone']));
+            echo json_encode(array('location' => $row['location'], 'zone' => $row['zone'], 'room_name' => $row['room_name']));
         }
     } elseif ($request_scope == "query") {
         $location = $_POST['location'];

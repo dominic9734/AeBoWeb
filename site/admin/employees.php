@@ -57,20 +57,19 @@ if (isset($_POST["submit"])) {
             <div class="modal-content">
                 <form method="post" action="functions.php" enctype="multipart/form-data">
                     <div class="modal-body">
-
                         <h3 class="my-3">Personalangaben</h3>
                         <div class="row ms-1 ">
                             <div class="col-1">
                                 <h4 class="text-start">Name</h4>
                             </div>
                             <div class="col col-4">
-                                <input type="text" class="form-control" id="first_name_input" placeholder="Hans" required>
+                                <input type="text" class="form-control" name="first_name_input" id="first_name_input" placeholder="Hans" required>
                             </div>
                             <div class="col col-4">
-                                <input type="text" class="form-control" id="last_name_input" placeholder="Peter" required>
+                                <input type="text" class="form-control" name="last_name_input" id="last_name_input" placeholder="Peter" required>
                             </div>
                             <div class="col col-3">
-                                <input type="text" class="form-control" id="nickname_input" placeholder="HPe" required>
+                                <input type="text" class="form-control" name="nickname_input" id="nickname_input" placeholder="HPe" required>
                             </div>
                         </div>
                         <div class="row ms-1  mt-2">
@@ -78,7 +77,7 @@ if (isset($_POST["submit"])) {
                                 <h4 class="text-start">Mail</h4>
                             </div>
                             <div class="col">
-                                <input type="email" class="form-control" id="mail_input" placeholder="h.peter@aebo.ch" required>
+                                <input type="email" class="form-control" name="primary_mail_input" id="mail_input" placeholder="h.peter@aebo.ch" required>
                             </div>
                         </div>
                         <div class="row ms-1  my-2">
@@ -86,10 +85,10 @@ if (isset($_POST["submit"])) {
                                 <h4 class="text-start">Phone</h4>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="internal_phone_input" placeholder="Interne Nummer (xxx)">
+                                <input type="text" class="form-control" name="internal_phone_input" id="internal_phone_input" placeholder="Interne Nummer (xxx)">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="mobile_phone_input" placeholder="Private Nummer (xxx-xxx-xx-xx)">
+                                <input type="text" class="form-control" name="mobile_phone_input" id="mobile_phone_input" placeholder="Private Nummer (xxx-xxx-xx-xx)">
                             </div>
                         </div>
                         <h3 class="my-3 text-start">Arbeitsangaben</h3>
@@ -98,7 +97,7 @@ if (isset($_POST["submit"])) {
                                 <h4 class="text-start">Arbeit</h4>
                             </div>
                             <div class="col-3">
-                                <select class="form-select" aria-label="work_division_input" id="work_division_input" required>
+                                <select class="form-select" aria-label="work_division_input" name="work_division_input" id="work_division_input" required>
                                     <option value="ZD">ZD</option>
                                     <option value="IB">IB</option>
                                     <option value="BB">BB</option>
@@ -110,10 +109,10 @@ if (isset($_POST["submit"])) {
                                 </select>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control" id="department_input" placeholder="Administration Zentrale Dienste">
+                                <input type="text" class="form-control" name="department_input" id="department_input" placeholder="Administration Zentrale Dienste">
                             </div>
                             <div class="col col-4">
-                                <input type="text" class="form-control" id="special_authority_input" placeholder="Handlungsbevollmächtigter">
+                                <input type="text" class="form-control" name="special_authority_input" id="special_authority_input" placeholder="Handlungsbevollmächtigter">
                             </div>
                         </div>
                         <div class="row ms-1  mt-2">
@@ -121,14 +120,14 @@ if (isset($_POST["submit"])) {
                                 <h4 class="text-start">Platz</h4>
                             </div>
                             <div class="col">
-                                <select class="form-select" aria-label="location_input" id="location_input" required>
+                                <select class="form-select" aria-label="location_input" name="location_input" id="location_input" required>
                                     <option value="3">3. OG</option>
                                     <option value="4">4. OG</option>
                                     <option value="5">5 .OG</option>
                                 </select>
                             </div>
                             <div class="col">
-                                <select class="form-select" aria-label="zone_input" id="zone_input" required>
+                                <select class="form-select" aria-label="zone_input" name="zone_input" id="zone_input" required>
                                     <option value="A">Zone A</option>
                                     <option value="B">Zone B</option>
                                     <option value="C">Zone C</option>
@@ -143,7 +142,7 @@ if (isset($_POST["submit"])) {
                                 <h4 class="text-start">Bild</h4>
                             </div>
                             <div class="col">
-                                <input class="form-control" type="file" id="emplyeeimage">
+                                <input class="form-control" type="file" name="employeeimage" accept=".png" id="employeeimage">
                             </div>
                         </div>
                     </div>
@@ -209,9 +208,32 @@ if (isset($_POST["submit"])) {
             </div>
         </div>
     </div>
+    <!-- Image Edit Modal -->
+    <div class="modal fade" id="UpdateImage" tabindex="-1" aria-labelledby="DUpdateImageLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="UpdateImage">Bild ändern</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="updatepfp" src="" alt="Kein Profilbild">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Neues Profilbild</label>
+                        <input class="form-control" type="file" accept=".png" id="formFile">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="functions.php">
+                        <input type="text" hidden id="DelEmployeeID" name="DelEmployeeID" value="">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                        <button class="btn btn-outline-danger" type="submit" data-toggle="modal" name="EmployeeDelete">Löschen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid p-3">
-
-
         <table id="datatable" class="table">
             <thead>
                 <tr class="header">
@@ -253,7 +275,7 @@ if (isset($_POST["submit"])) {
                 if ($result->num_rows != 0) {
                     while ($employee = mysqli_fetch_assoc($result)) { ?>
                         <tr id="row<?php echo $employee['employeeID']; ?>">
-                            <th scope="row"><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['nickname']; ?>.png" style="height: 50px;"></th>
+                            <th scope="row"><img id="employeeimg_<?php echo $employee['employeeID']; ?>" class="rounded-circle shadow-sm updateimage" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['employee_image']; ?>" style="height: 50px;" data-id="<?php echo $employee['employeeID']; ?>"></th>
                             <td class="editable" id="name<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['first_name'] . " " . $employee['last_name']; ?></td>
                             <td class="editable" id="nickname<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['nickname']; ?></td>
 
@@ -298,8 +320,6 @@ if (isset($_POST["submit"])) {
                 ?>
             </tbody>
         </table>
-
-
     </div>
 
 
@@ -340,6 +360,35 @@ if (isset($_POST["submit"])) {
             });
         });
 
+        $(".updateimage").on("click", function() {
+            $("#UpdateImage").modal("show");
+            var id = $(this).data("id")
+            $("#updatepfp").attr("src", path);
+
+            /*
+            $.ajax({
+                type: "POST",
+                url: "../services/controller/employee_image_update.php",
+                data: {
+                    path: path,
+                    employeeID: id
+                },
+                success: function(data) {
+                    if (data.status = "success") {
+                        //alert("Daten erfolgreich aktualisiert!");
+                        //location.reload();
+                    } else {
+                        //alert("Es gab einen fehler beim aktualisieren.");
+                    }
+                }
+            });
+            */
+        });
+
+
+
+
+
         function edit(row) {
             $("#row" + row).children().attr("contenteditable", "true");
             var x = document.getElementById("editbtn" + row);
@@ -379,6 +428,7 @@ if (isset($_POST["submit"])) {
             for (var i = 0; i < children.length; i++) {
                 vars[i] = $(children[i]).html();
             }
+            
             $.ajax({
                 type: "POST",
                 url: "../services/controller/employee_update.php",
@@ -395,6 +445,7 @@ if (isset($_POST["submit"])) {
                     }
                 }
             });
+            
         }
     </script>
 
