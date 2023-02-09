@@ -53,41 +53,107 @@ if (isset($_POST["submit"])) {
     ?>
     <!-- Erstellen Modal -->
     <div class="modal fade" id="AddEmployeeModal" tabindex="-1" aria-labelledby="AddEmployeeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal modal-dialog-centered">
+        <div class="modal-dialog modal modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deliverModalLabel">
-                        Mitarbeiter Hinzufügen
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-toggle="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="functions.php" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="Vorname" class="form-label">Vorname</label>
-                            <input type="text" class="form-control" id="Vorname" name="Vorname" required>
+                <form method="post" action="functions.php" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <h3 class="my-3">Personalangaben</h3>
+                        <div class="row ms-1 ">
+                            <div class="col-1">
+                                <h4 class="text-start">Name</h4>
+                            </div>
+                            <div class="col col-4">
+                                <input type="text" class="form-control" id="first_name_input" placeholder="Hans" required>
+                            </div>
+                            <div class="col col-4">
+                                <input type="text" class="form-control" id="last_name_input" placeholder="Peter" required>
+                            </div>
+                            <div class="col col-3">
+                                <input type="text" class="form-control" id="nickname_input" placeholder="HPe" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="Nachname" class="form-label">Nachname</label>
-                            <input type="text" class="form-control" id="Nachname" name="Nachname" required>
+                        <div class="row ms-1  mt-2">
+                            <div class="col-1">
+                                <h4 class="text-start">Mail</h4>
+                            </div>
+                            <div class="col">
+                                <input type="email" class="form-control" id="mail_input" placeholder="h.peter@aebo.ch" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="Kuerzel" class="form-label">Kürzel</label>
-                            <input type="text" class="form-control" id="Kuerzel" name="Kuerzel" required>
+                        <div class="row ms-1  my-2">
+                            <div class="col-1">
+                                <h4 class="text-start">Phone</h4>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="internal_phone_input" placeholder="Interne Nummer (xxx)">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="mobile_phone_input" placeholder="Private Nummer (xxx-xxx-xx-xx)">
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="Profilbild" class="form-label">Profilbild (PNG 200x200px)</label>
-                            <input class="form-control form-control-sm" id="Profilbild" type="file" name="File" accept=".png">
-                            <input hidden type="text" name="Directory" value="/../../assets/images/employees_200px/">
+                        <h3 class="my-3 text-start">Arbeitsangaben</h3>
+                        <div class="row ms-1  mb-2">
+                            <div class="col-1">
+                                <h4 class="text-start">Arbeit</h4>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" aria-label="work_division_input" id="work_division_input" required>
+                                    <option value="ZD">ZD</option>
+                                    <option value="IB">IB</option>
+                                    <option value="BB">BB</option>
+                                    <option value="PB">PB</option>
+                                    <option value="TB">TB</option>
+                                    <option value="BS">BS</option>
+                                    <option value="BG">BG</option>
+                                    <option value="VU">VU</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" id="department_input" placeholder="Administration Zentrale Dienste">
+                            </div>
+                            <div class="col col-4">
+                                <input type="text" class="form-control" id="special_authority_input" placeholder="Handlungsbevollmächtigter">
+                            </div>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger border-0" id="decline" data-bs-toggle="modal">Abbrechen</button>
-                    <button type="submit" class="btn btn-outline-success border-0" id="accept" name="CreateEmployee">Hinzufügen</button>
-                    </form>
-                </div>
+                        <div class="row ms-1  mt-2">
+                            <div class="col-1">
+                                <h4 class="text-start">Platz</h4>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="location_input" id="location_input" required>
+                                    <option value="3">3. OG</option>
+                                    <option value="4">4. OG</option>
+                                    <option value="5">5 .OG</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="zone_input" id="zone_input" required>
+                                    <option value="A">Zone A</option>
+                                    <option value="B">Zone B</option>
+                                    <option value="C">Zone C</option>
+                                    <option value="D">Zone D</option>
+                                    <option value="E">Zone E</option>
+                                    <option value="F">Zone F</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row ms-1  mt-2">
+                            <div class="col-1">
+                                <h4 class="text-start">Bild</h4>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="file" id="emplyeeimage">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger border-0" id="decline" data-bs-toggle="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-outline-success border-0" id="accept" name="CreateEmployee">Hinzufügen</button>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <!-- CSV optionen Modal -->
     <div class="modal fade" id="EmployeeCSV" tabindex="-1" aria-labelledby="EmployeeCSVLabel" aria-hidden="true">
@@ -160,11 +226,11 @@ if (isset($_POST["submit"])) {
                     <th scope="col">Name</th>
                     <th scope="col">Krz.</th>
                     <th scope="col">Bereich</th>
-                    <th scope="col">N.-Intern</th>
-                    <th scope="col">N.-Extern</th>
+                    <th scope="col">T.-Intern</th>
+                    <th scope="col">T.-Extern</th>
                     <th scope="col">Mail</th>
                     <th scope="col">Vollmacht</th>
-                    <th scope="col">Bez. Abteil.</th>
+                    <th scope="col">Abteilung</th>
                     <th scope="col">Stock</th>
                     <th scope="col">Zone</th>
                     <th scope="col">
@@ -218,7 +284,7 @@ if (isset($_POST["submit"])) {
                                         <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 416c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z" />
                                     </svg>
                                 </button>
-                                <button type="button" class="btn delbtn d-inline-block"  id="<?php echo $employee['employeeID']; ?>" data-name="<?php echo $employee['nickname']; ?>">
+                                <button type="button" class="btn delbtn d-inline-block" id="<?php echo $employee['employeeID']; ?>" data-name="<?php echo $employee['nickname']; ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 640 512">
                                         <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                         <path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L353.3 251.6C407.9 237 448 187.2 448 128C448 57.3 390.7 0 320 0C250.2 0 193.5 55.8 192 125.2L38.8 5.1zM264.3 304.3C170.5 309.4 96 387.2 96 482.3c0 16.4 13.3 29.7 29.7 29.7H514.3c3.9 0 7.6-.7 11-2.1l-261-205.6z" />
