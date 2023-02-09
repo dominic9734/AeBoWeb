@@ -220,14 +220,14 @@ if (isset($_POST["submit"])) {
                     <img id="updatepfp" src="" alt="Kein Profilbild">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Neues Profilbild</label>
-                        <input class="form-control" type="file" accept=".png" id="formFile">
+                        <input class="form-control" type="file" accept=".png" id="employeeimage" name="employeeimage">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <form method="post" action="functions.php">
                         <input type="text" hidden id="DelEmployeeID" name="DelEmployeeID" value="">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                        <button class="btn btn-outline-danger" type="submit" data-toggle="modal" name="EmployeeDelete">Löschen</button>
+                        <button class="btn btn-outline-success" type="button" data-toggle="modal" id="submitupdateimage">Speichern</button>
                     </form>
                 </div>
             </div>
@@ -275,7 +275,7 @@ if (isset($_POST["submit"])) {
                 if ($result->num_rows != 0) {
                     while ($employee = mysqli_fetch_assoc($result)) { ?>
                         <tr id="row<?php echo $employee['employeeID']; ?>">
-                            <th scope="row"><img id="employeeimg_<?php echo $employee['employeeID']; ?>" class="rounded-circle shadow-sm updateimage" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['employee_image']; ?>" style="height: 50px;" data-id="<?php echo $employee['employeeID']; ?>"></th>
+                            <th scope="row"><img onclick="EditImage(this)" class="rounded-circle shadow-sm updateimage" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['employee_image']; ?>" style="height: 50px;" data-id="<?php echo $employee['employeeID']; ?>"></th>
                             <td class="editable" id="name<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['first_name'] . " " . $employee['last_name']; ?></td>
                             <td class="editable" id="nickname<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['nickname']; ?></td>
 
@@ -343,10 +343,11 @@ if (isset($_POST["submit"])) {
 
 
     <script>
+        let editing = false;
         //gibt id zu modal, wird zum löschen gebraucht
         $('#datatable').on('draw.dt', function() {
             $(document).ready(function() {
-                $(".delbtn").on("click", function() {
+                $("employeeimg_").on("click", function() {
                     var id = $(this).attr("id");
                     var EmployeeName = $(this).attr("data-name");
                     //zeigt modal
@@ -360,30 +361,39 @@ if (isset($_POST["submit"])) {
             });
         });
 
-        $(".updateimage").on("click", function() {
-            $("#UpdateImage").modal("show");
-            var id = $(this).data("id")
-            $("#updatepfp").attr("src", path);
 
-            /*
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/employee_image_update.php",
-                data: {
-                    path: path,
-                    employeeID: id
-                },
-                success: function(data) {
-                    if (data.status = "success") {
-                        //alert("Daten erfolgreich aktualisiert!");
-                        //location.reload();
-                    } else {
-                        //alert("Es gab einen fehler beim aktualisieren.");
-                    }
-                }
-            });
-            */
-        });
+        function EditImage(row) {
+            if (editing == true) {
+                $("#UpdateImage").modal("show");
+                var employeeID = $(row).data("id")
+                $("#updatepfp").attr("src", $(row).attr("src"));
+
+                var formData = new FormData();
+                formData.append('file', $('#employeeimage')[0].files[0]);
+
+                $("#submitupdateimage").click(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "../services/controller/employee_image_update.php",
+                        data: {
+                            path: $(row).attr("src"),
+                            employeeID: employeeID,
+                            employeeimage: formData
+                        },
+                        success: function(data) {
+                            if (data.status = "success") {
+                                //alert("Daten erfolgreich aktualisiert!");
+                                //location.reload();
+                            } else {
+                                //alert("Es gab einen fehler beim aktualisieren.");
+                            }
+                        }
+                    });
+                });
+
+
+            }
+        }
 
 
 
@@ -394,14 +404,17 @@ if (isset($_POST["submit"])) {
             var x = document.getElementById("editbtn" + row);
             if (x.style.display === "inline-block") {
                 x.style.display = "none";
+                editing = true;
             } else {
                 x.style.display = "inline-block";
+                diting = false;
             }
             var x = document.getElementById("savebtn" + row);
             if (x.style.display === "none") {
                 x.style.display = "inline-block";
             } else {
                 x.style.display = "none";
+
             }
         }
 
@@ -428,7 +441,7 @@ if (isset($_POST["submit"])) {
             for (var i = 0; i < children.length; i++) {
                 vars[i] = $(children[i]).html();
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: "../services/controller/employee_update.php",
@@ -445,7 +458,7 @@ if (isset($_POST["submit"])) {
                     }
                 }
             });
-            
+
         }
     </script>
 
