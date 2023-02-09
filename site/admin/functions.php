@@ -244,12 +244,12 @@ if (isset($_GET['ExportCSV'])) {
 
         $f = fopen('php://memory', 'w');
 
-        $fields = array('employeeID', 'mitarbeitername', 'nickname');
+        $fields = array('employeeID', 'first_name', 'last_name', 'nickname', 'location', 'zone', 'work_division', 'internal_phone', 'mobile_phone', 'primary_mail', 'special_authority', 'department');
         fputcsv($f, $fields, $delimiter);
 
 
         while ($row = $query->fetch_assoc()) {
-            $lineData = array($row['employeeID'], $row['mitarbeitername'], $row['nickname']);
+            $lineData = array($row['employeeID'], $row['first_name'], $row['last_name'], $row['nickname'], $row['location'], $row['zone'], $row['work_division'], $row['internal_phone'], $row['mobile_phone'], $row['primary_mail'], $row['special_authority'], $row['department']);
             $lineData = array_map("utf8_decode", $lineData);
             fputcsv($f, $lineData, $delimiter);
         }
@@ -488,13 +488,13 @@ if (isset($_POST['EditMagazine'])) {
         unlink(realpath($delete_file));
     }
 
-    $magazine_db_filename ="../../assets/images/img/cover_mag_" . $_POST['magazineID']."_" . time() . ".png";
+    $magazine_db_filename = "../../assets/images/img/cover_mag_" . $_POST['magazineID'] . "_" . time() . ".png";
 
     $statement = $conn->prepare('UPDATE lib_magazines SET magazine_image = ? WHERE magazineID = ?');
     $statement->bind_param('si', $magazine_db_filename, $_POST['magazineID']);
     $statement->execute();
 
-    $magazine_newfilename = getcwd() . "/../../assets/images/img/cover_mag_" . $_POST['magazineID']."_" . time() . ".png";
+    $magazine_newfilename = getcwd() . "/../../assets/images/img/cover_mag_" . $_POST['magazineID'] . "_" . time() . ".png";
 
     move_uploaded_file($newFile['tmp_name'], $magazine_newfilename);
 
