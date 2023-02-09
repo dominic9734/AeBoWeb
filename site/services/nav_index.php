@@ -9,10 +9,12 @@
 
     <div class="input-group my-2 flex-grow-1">
         <?php
-        if ($showSearch) { ?>
-            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist) {
-                                                                                    echo 'list="EmployeeNames"';
-        } ?> />
+        $showEmpDatalist;
+        $showSearch;
+        if ($showSearch == true) { ?>
+            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
+                                                                                        echo 'list="EmployeeNames"';
+                                                                                    } ?> />
         <?php
         }
         ?>
@@ -36,7 +38,11 @@
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo
-                        '<option value="' . $row['room_name'] . '" data-room="[&#34;' . $row['room_name'] . '&#34]">' . $row['room_name'] . " "; if($row['room_name'] != $row['room_displayname']){echo $row['room_displayname'];} ' </option>';
+                        '<option value="' . $row['room_name'] . '" data-room="[&#34;' . $row['room_name'] . '&#34]">' . $row['room_name'] . " ";
+                        if ($row['room_name'] != $row['room_displayname']) {
+                            echo $row['room_displayname'];
+                        }
+                        ' </option>';
                     }
                 }
                 ?>
@@ -70,13 +76,16 @@
                         <div class="collapse show" id="administration-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a class="link-dark rounded" href="../user/index.php">Home</a></li>
-                                <li><a class="link-dark rounded" href="../user/seatingplan.php">Platzverteilung</a></li>
-
+                                <li><a class="link-dark rounded" href="../user/seatingplan.php">Arbeitsplatzverteilung</a></li>
+                                <!--
                                 <li><a class="link-dark rounded" href="../user/books.php">Bibliothek</a></li>
+                                 -->
                                 <li><a class="link-dark rounded" href="../user/magazines.php">Zeitschriften</a></li>
                                 <li><a class="link-dark rounded" href="../user/getxml.php">Literaturverzeichnis</a></li>
+                                <!--
                                 <li><a class="link-dark rounded" href="../user/order_book.php" target="_blank">Buch bestellen</a></li>
                                 <li><a class="link-dark rounded" href="../user/info.php">Info</a></li>
+                                  -->
 
                             </ul>
                         </div>

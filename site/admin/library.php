@@ -22,25 +22,10 @@ $result = $statement->get_result();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AEBO-Library</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
-
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
 
     <style>
-        td:nth-child(3) {
-            text-align: left !important;
-        }
-
-        th:nth-child(3) {
-
-            text-align: left !important;
-        }
-
-
-        table.dataTable td:nth-child(3) {
-            max-width: 50px !important;
-        }
-
         table.dataTable td {
             white-space: nowrap !important;
             text-overflow: ellipsis !important;

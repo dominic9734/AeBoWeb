@@ -48,7 +48,7 @@ function DataAjaxChip(request, request_scope) {
                 var img = $('<img>', { // create a new img element
                     id: 'img-' + (i),
                     src: "../../assets/images/employees_200px/" + employee.nickname + ".png",
-                    alt: " "
+                    alt: "MA"
                 });
                 var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
                     html: employee.nickname
@@ -276,7 +276,7 @@ $(document).keydown(function (event) {
 
 
 //---------------------------------------------------------------------------------------------------------
-//js magazines
+//js user magazines
 //---------------------------------------------------------------------------------------------------------
 
 
@@ -287,6 +287,47 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 var RemovedEmployees = []; // array for all the from the delivery list removed employees
 var AddedEmployees = []; // array for all the from the delivery list added employees
 let IDs, names, path, magazineID, employeeID;
+
+
+
+function MagazineModal(entry) {
+    ResetInputs();
+
+    var magazineArray = $(entry).data("magazine");
+    magazineID = magazineArray[4]; // get id from entry element's data attribute
+
+    console.log(magazineArray)
+
+
+    document.getElementById("magCover").setAttribute('src', magazineArray[5]);
+
+
+    $.ajax({
+        type: "POST",
+        url: "../services/controller/mag_data.php",
+        data: {
+            magazineID: magazineID
+        },
+        success: function (data) {
+            for (let i = 0; i < data.length; i++) {
+                var employeeID = data[i].employeeID;
+                var nickname = data[i].nickname;
+                var path = data[i].path;
+                var full_name = data[i].first_name + " " + data[i].last_name
+
+                AddChips(employeeID, nickname, path, full_name)
+            }
+        }
+    });
+
+
+    $("#MagazineAutor").html(magazineArray[1]); // set the magazine title in the modal
+    $("#MagazineTitle").html(magazineArray[0]); // set the magazine title in the modal
+    $("#MagazineCurrent").html(magazineArray[3]); // set the magazine title in the modal
+    $("#MagazineTotal").html(magazineArray[2]); // set the magazine title in the modal
+    $("#MagazineLanguage").html(magazineArray[6]); // set the magazine title in the modal
+    $("#MagazineModal").modal("show"); // show the modal
+}
 
 function ResetInputs() {
     RemovedEmployees = []
@@ -305,45 +346,10 @@ function ConfirmSubs() {
             magazineID: magazineID
         },
         async: false,
-        success: function(data) {
+        success: function (data) {
             ResetInputs()
         }
     });
-}
-
-function MagazineModal(entry) {
-    ResetInputs();
-    var MagazineTitle = entry.dataset.magazinetitle; // get magazine title from entry element's data attribute
-    magazineID = entry.dataset.id; // get id from entry element's data attribute
-
-    document.getElementById("magCover").setAttribute('src', "../../assets/images/img/cover_mag_" + magazineID + ".png");
-
-    $.ajax({
-        type: "POST",
-        url: "../services/controller/mag_data.php",
-        data: {
-            magazineID: magazineID
-        },
-        success: function(data) {
-            for (let i = 0; i < data.length; i++) {
-                var employeeID = data[i].employeeID;
-                var nickname = data[i].nickname;
-                var path = data[i].path;
-                var full_name = data[i].first_name + " " + data[i].last_name
-
-                AddChips(employeeID, nickname, path, full_name)
-            }
-        }
-    });
-
-
-    $("#MagazineAutor").html(entry.dataset.magazineautor); // set the magazine title in the modal
-    $("#MagazineTitle").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
-    $("#MagazineCurrent").html(entry.dataset.magazinecurrent); // set the magazine title in the modal
-    $("#MagazineTotal").html(entry.dataset.magazinetotal); // set the magazine title in the modal
-    $("#MagazineLanguage").html(entry.dataset.magazinelanguage); // set the magazine title in the modal
-    $("#MagazineTitle").html(MagazineTitle); // set the magazine title in the modal
-    $("#MagazineModal").modal("show"); // show the modal
 }
 
 function AddChips(employeeID, nickname, path, full_name) {
@@ -378,7 +384,7 @@ function AddChips(employeeID, nickname, path, full_name) {
     var modify_chip = $("#modify_chip").detach()
 
     divChip.append(img, spanDisplayName, spanRemove); // append the img, display name and remove button to the chip element
-    divContainer.append(divChip, spanDivider, ); // append the divider and chip element to the container
+    divContainer.append(divChip, spanDivider,); // append the divider and chip element to the container
     divContainer.append(modify_chip);
 
     ModifyChip();
@@ -416,7 +422,7 @@ function AddSubBtn() {
             magazineID: magazineID,
             employeeID: chip_input_field_value,
         },
-        success: function(data) {
+        success: function (data) {
 
             var employeeID = data.employeeID;
             var nickname = data.nickname;
@@ -441,7 +447,7 @@ function AddSubBtn() {
     });
 }
 
-$('#MagazineModalConfirm').on('hidden.bs.modal', function() {
+$('#MagazineModalConfirm').on('hidden.bs.modal', function () {
     ResetInputs()
 });
 

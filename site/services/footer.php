@@ -7,9 +7,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                 <div class="col-6 col-lg-2 offset-lg-1 mb-3">
                     <h5>Administration</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="../admin/admin.php" class="link-secondary text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="../admin/overview.php" class="link-secondary text-decoration-none">Info</a></li>
-                        <li class="mb-2"><a href="../admin/history.php" class="link-secondary text-decoration-none">Ausgeliehene Bücher</a></li>
+                        <li class="mb-2"><a href="../admin/library.php" class="link-secondary text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="../admin/books.php" class="link-secondary text-decoration-none">Info</a></li>
+                        <li class="mb-2"><a href="../admin/bookshistory.php.php" class="link-secondary text-decoration-none">Ausgeliehene Bücher</a></li>
                         <li class="mb-2"><a href="../admin/archive.php" class="link-secondary text-decoration-none">Admin</a></li>
                     </ul>
                 </div>
@@ -17,7 +17,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                     <h5>Buchverwaltung</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="../admin/add_book.php" class="link-secondary text-decoration-none">Buch Hinzufügen</a></li>
-                        <li class="mb-2"><a href="../admin/order_book_admin.php" class="link-secondary text-decoration-none">Buch Bestellen</a></li>
+                        <li class="mb-2"><a href="../admin/order_book_library.php" class="link-secondary text-decoration-none">Buch Bestellen</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-2 offset-lg-1 mb-3">
@@ -60,7 +60,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                         <li class="mb-2"><a href="../user/books.php" class="link-secondary text-decoration-none">Home</a></li>
                         <li class="mb-2"><a href="../user/info.php" class="link-secondary text-decoration-none">Info</a></li>
                         <li class="mb-2"><a href="../user/unavailable.php" class="link-secondary text-decoration-none">Ausgeliehene Bücher</a></li>
-                        <li class="mb-2"><a href="../admin/admin.php" class="link-secondary text-decoration-none">Admin</a></li>
+                        <li class="mb-2"><a href="../admin/library.php" class="link-secondary text-decoration-none">Admin</a></li>
                     </ul>
                 </div>
             </div>

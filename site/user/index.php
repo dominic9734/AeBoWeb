@@ -36,7 +36,7 @@
                     <div class="d-flex align-content-stretch flex-wrap">
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body ">
-                                <h5 class="card-title">Platzverteilung</h5>
+                                <h5 class="card-title">Arbeitsplatzverteilung</h5>
                                 <a href="seatingplan.php" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
@@ -49,10 +49,7 @@
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Literaturverzeichnis</h5>
-                                <p>In Bearbeitung</p>
-                                <!--
                                 <a href="getxml.php" class="card-link">Schnellzugriff</a>
-                                -->
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">

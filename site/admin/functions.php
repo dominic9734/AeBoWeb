@@ -31,7 +31,7 @@ if (isset($_POST['delete_restore'])) {
         $statement = $conn->prepare('UPDATE lib_books SET geloescht = 1 WHERE buchID = ?');
         $statement->bind_param('i', $buchID);
         $statement->execute();
-        header("location: overview.php");
+        header("location: books.php");
     } else {
         $statement = $conn->prepare('UPDATE lib_books SET geloescht = 0 WHERE buchID = ?');
         $statement->bind_param('i', $buchID);
@@ -56,7 +56,7 @@ if (isset($_POST['deliver'])) {
     $statement = $conn->prepare('UPDATE lib_borrowing SET zugestellt = 1 WHERE ausleihID = ?');
     $statement->bind_param('i', $ausleihID);
     $statement->execute();
-    header("location: admin.php");
+    header("location: library.php");
     exit;
 
     //setzt zurückgegeben in lib_borrowing auf 1
@@ -68,7 +68,7 @@ if (isset($_POST['ordered'])) {
     $statement = $conn->prepare('UPDATE lib_book_orders SET bestellung_status = 1 WHERE bestellungID = ?');
     $statement->bind_param('i', $bestellID);
     $statement->execute();
-    header("location: order_book_admin.php");
+    header("location: order_book_library.php");
     exit;
 }
 //setzt zurükgegeben in lib_borrowing auf 1
@@ -93,7 +93,7 @@ if (isset($_POST['return'])) {
     $statement->bind_param("si", $return_date, $ausleihID);
     $statement->execute();
 
-    header("location: admin.php");
+    header("location: library.php");
     exit;
 }
 //importiert bücher in DB
@@ -156,7 +156,7 @@ if (isset($_POST['DataImport'])) {
     } else {
         $qstring = '?status=invalid_file';
     }
-    header("Location: admin.php" . $qstring);
+    header("Location: library.php" . $qstring);
     exit;
 }
 if (isset($_POST['XMLExport'])) {
@@ -386,7 +386,7 @@ if (isset($_POST['AddBook'])) {
     } else {
         $statzsstr = "?status=err";
     }
-    header("Location: overview.php" . $statusstr);
+    header("Location: books.php" . $statusstr);
     exit;
 }
 // Buch uopdate daten in DB neues bild zu ordner
@@ -413,7 +413,7 @@ if (isset($_POST['EditBook'])) {
     $fileExtensionPDF = strtolower(end(explode('.', $fileNamePDF)));
 
     $statusstr = "?status=succ";
-    //header("location:overview.php");
+    //header("location:books.php");
     exit;
 }
 if (isset($_POST['AddMagazine'])) {
@@ -475,28 +475,36 @@ if (isset($_POST['delete_restore_mag'])) {
 }
 
 if (isset($_POST['EditMagazine'])) {
-
     $newFile = $_FILES['edit_cover'];
 
-    $oldfile = "/../../assets/images/img/cover_mag_".$_POST['magazineID'];
+    $statement = $conn->prepare('SELECT magazine_image FROM lib_magazines WHERE magazineID = ?');
+    $statement->bind_param('i', $_POST['magazineID']);
+    $statement->execute();
+    $result = $statement->get_result();
+    $row = $result->fetch_assoc();
 
-    $newFileName = getcwd()."/../../assets/images/img/cover_mag_".$_POST['magazineID'].".png";
-
-    if (file_exists($newFileName)) {
-        unlink(realpath($newFileName));
-        echo $newFileName;
-        
+    if (!is_null($row['magazine_image'])) {
+        $delete_file = getcwd() . "/" . $row['magazine_image'];
+        unlink(realpath($delete_file));
     }
 
-    if (!file_exists($newFileName)) {
-        move_uploaded_file($newFile['tmp_name'], $newFileName);
-    }
+    $magazine_db_filename ="../../assets/images/img/cover_mag_" . $_POST['magazineID']."_" . time() . ".png";
+
+    $statement = $conn->prepare('UPDATE lib_magazines SET magazine_image = ? WHERE magazineID = ?');
+    $statement->bind_param('si', $magazine_db_filename, $_POST['magazineID']);
+    $statement->execute();
+
+    $magazine_newfilename = getcwd() . "/../../assets/images/img/cover_mag_" . $_POST['magazineID']."_" . time() . ".png";
+
+    move_uploaded_file($newFile['tmp_name'], $magazine_newfilename);
+
+
     $magazineID = htmlspecialchars($_POST['magazineID']);
     $magazine_title = htmlspecialchars($_POST['magazine_title']);
     $magazine_autor = htmlspecialchars($_POST['magazine_autor']);
     $magazine_edition_j = htmlspecialchars($_POST['magazine_edition_j']);
     $magazine_edition = htmlspecialchars($_POST['magazine_edition']);
-    
+
 
     $statement = $conn->prepare('UPDATE lib_magazines SET  magazine_title = ?,magazine_autor = ?, magazine_edition_j = ?, magazine_edition = ? where magazineID = ?');
     $statement->bind_param('ssssi', $magazine_title, $magazine_autor, $magazine_edition_j, $magazine_edition, $magazineID);

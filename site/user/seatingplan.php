@@ -143,7 +143,7 @@
     </div>
 
     <div id="content" class="container text-center">
-        <h1 class="text-center pt-3">Platzverteilung</h1>
+        <h1 class="text-center pt-3">Arbeitsplatzverteilung</h1>
         <div class="row">
             <div class="col">
                 <h1 id="wrapper_room_label_floor_3" class="my-4 d-none remove_header">Räume</h1>

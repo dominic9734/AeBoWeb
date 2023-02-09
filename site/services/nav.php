@@ -48,10 +48,10 @@
                         </button>
                         <div class="collapse" id="Buchverwaltung-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a class="link-dark rounded" href="../admin/admin.php">Bibliothek</a></li>
-                                <li><a class="link-dark rounded" href="../admin/overview.php">Übersicht</a></li>
+                                <li><a class="link-dark rounded" href="../admin/library.php">Bibliothek</a></li>
+                                <li><a class="link-dark rounded" href="../admin/books.php">Übersicht</a></li>
                                 <li><a class="link-dark rounded" href="../admin/order_book_admin.php">Buch Bestellen</a></li>
-                                <li><a class="link-dark rounded" href="../admin/history.php">Historie</a></li>
+                                <li><a class="link-dark rounded" href="../admin/bookshistory.php.php">Historie</a></li>
                                 <li><a class="link-dark rounded" href="../admin/archive.php">Archiv</a></li>
                             </ul>
                         </div>
