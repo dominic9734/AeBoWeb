@@ -35,7 +35,11 @@ $result = $statement->get_result();
 </head>
 
 <body>
-    <?php include "../services/nav.php"; ?>
+         <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
 
     
 
@@ -92,31 +96,31 @@ $result = $statement->get_result();
     <div class="offcanvas offcanvas-start" tabindex="-1" id="InfoOffcanvas" aria-labelledby="InfoOffcanvasLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="InfoOffcanvasLabel">
-                <span id="buch_titel"></span>
+                <span id="book_title"></span>
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="row">
                 <p>Autor:</p>
-                <span id="buch_autor"></span>
+                <span id="book_autor"></span>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <p>Nr:</p>
-                    <span id="buch_nummer"></span>
+                    <span id="book_number"></span>
                 </div>
                 <div class="col-md-4">
                     <p>Ausgabe:</p>
-                    <span id="buch_ausgabe"></span>
+                    <span id="book_edition"></span>
                 </div>
                 <div class="col-md-4">
                     <p>Bemerkung:</p>
-                    <span id="buch_bemerkung"></span>
+                    <span id="book_comment"></span>
                 </div>
             </div>
             <?php
-            if ($row['ausgeliehen'] == 1) {
+            if ($row['borrowed'] == 1) {
             ?>
                 <div class="row">
 
@@ -155,21 +159,20 @@ $result = $statement->get_result();
                                 <?php
                                 if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
-                                        if ($row['zurueckgegeben'] == 0 & $row['geloescht'] == 0 & $row['zugestellt'] == 0) {
+                                        if ($row['zurueckgegeben'] == 0 & $row['deleted'] == 0 & $row['zugestellt'] == 0) {
                                 ?>
                                             <!-- id ist für den index im table js-->
                                             <tr id="<?php echo $row['buchID'] ?>">
                                                 <th scope="row">
-                                                    <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['buch_titel']; ?> # <?php echo $row['buch_autor']; ?> # <?php echo $row['buch_ausgabe']; ?> # <?php echo $row['buch_bemerkung']; ?> # <?php echo $row['buch_kurzbeschrieb']; ?> # <?php echo $row['buch_nummer']; ?>' onclick=InfoOffcanvas(this)>
-
+                                                    <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['book_title']; ?> # <?php echo $row['book_autor']; ?> # <?php echo $row['book_edition']; ?> # <?php echo $row['book_comment']; ?> # <?php echo $row['book_aditionalinfo']; ?> # <?php echo $row['book_number']; ?>' onclick=InfoOffcanvas(this)>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 192 512">
                                                             <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                             <path d="M144 80c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z" />
                                                         </svg>
                                                     </button>
                                                 </th>
-                                                <td><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $row['nickname']; ?>.png" style="height: 50px;" data-bs-toggle="tooltip" data-bs-title="<?php echo $row['mitarbeitername']; ?>"></td>
-                                                <td><?php echo $row['buch_titel'] ?></td>
+                                                <td><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $row['nickname']; ?>" style="height: 50px;" data-bs-toggle="tooltip" data-bs-title="<?php echo $row['nickname']; ?>"></td>
+                                                <td><?php echo $row['book_title'] ?></td>
                                                 <td><?php echo date("d/m/Y", strtotime($row['datum'])); ?></td>
                                                 <td>
                                                     <button type="button" class="btn btn-outline-secondary border-0" data-id="<?php echo $row['ausleihID']; ?>" data-target="#DeliverModal" onclick="OpenModal(this)">
@@ -216,17 +219,17 @@ $result = $statement->get_result();
                             <tbody>
                                 <?php
 
-                                $statement = $conn->prepare("SELECT lib_books.*, lib_borrowing.ausleihID, lib_borrowing.zurueckgegeben,lib_borrowing.zugestellt, lib_borrowing.nickname, lib_borrowing.datum, AeBo_employees.mitarbeitername FROM lib_books INNER JOIN lib_borrowing ON lib_borrowing.buchID = lib_books.buchID INNER JOIN AeBo_employees ON lib_borrowing.nickname = AeBo_employees.nickname ORDER BY lib_borrowing.ausleihID ASC; ");
+                                $statement = $conn->prepare("SELECT lib_books.*, lib_borrowing.ausleihID, lib_borrowing.zurueckgegeben,lib_borrowing.zugestellt, lib_borrowing.nickname, lib_borrowing.datum, AeBo_employees.nickname FROM lib_books INNER JOIN lib_borrowing ON lib_borrowing.buchID = lib_books.buchID INNER JOIN AeBo_employees ON lib_borrowing.nickname = AeBo_employees.nickname ORDER BY lib_borrowing.ausleihID ASC; ");
                                 $statement->execute();
                                 $result = $statement->get_result();
                                 if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
-                                        if ($row['zurueckgegeben'] == 0 & $row['geloescht'] == 0 & $row['zugestellt'] == 1) {
+                                        if ($row['zurueckgegeben'] == 0 & $row['deleted'] == 0 & $row['zugestellt'] == 1) {
                                 ?>
                                             <!-- id ist für den index im table js-->
                                             <tr id="<?php echo $row['buchID'] ?>">
                                                 <th scope="row">
-                                                    <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['buch_titel']; ?> # <?php echo $row['buch_autor']; ?> # <?php echo $row['buch_ausgabe']; ?> # <?php echo $row['buch_bemerkung']; ?> # <?php echo $row['buch_kurzbeschrieb']; ?> # <?php echo $row['buch_nummer']; ?>' onclick=InfoOffcanvas(this)>
+                                                    <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['book_title']; ?> # <?php echo $row['book_autor']; ?> # <?php echo $row['book_edition']; ?> # <?php echo $row['book_comment']; ?> # <?php echo $row['book_aditionalinfo']; ?> # <?php echo $row['book_number']; ?>' onclick=InfoOffcanvas(this)>
 
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 192 512">
                                                             <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -234,8 +237,8 @@ $result = $statement->get_result();
                                                         </svg>
                                                     </button>
                                                 </th>
-                                                <td><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $row['nickname']; ?>.png" style="height: 50px;" data-bs-toggle="tooltip" data-bs-title="<?php echo $row['mitarbeitername']; ?>"></td>
-                                                <td><?php echo $row['buch_titel'] ?></td>
+                                                <td><img class="rounded-circle shadow-sm" alt="MA" src="../../assets/images/employees_200px/<?php echo $row['nickname']; ?>.png" style="height: 50px;" data-bs-toggle="tooltip" data-bs-title="<?php echo $row['nickname']; ?>"></td>
+                                                <td><?php echo $row['book_title'] ?></td>
                                                 <td><?php echo date("d/m/Y", strtotime($row['datum'])); ?></td>
                                                 <td>
                                                     <button type="button" class="btn btn-outline-secondary border-0" data-id="<?php echo $row['ausleihID']; ?>" data-bookID="<?php echo $row['buchID']; ?>" data-target="#ReturnModal" onclick="OpenModal(this)">
@@ -363,12 +366,12 @@ $result = $statement->get_result();
         function InfoOffcanvas(entry) {
             const bookdata = entry.getAttribute("data-bookdata").split('#');
             const Booknummer = bookdata[0];
-            document.getElementById("buch_titel").innerHTML = bookdata[1];
-            document.getElementById("buch_autor").innerHTML = bookdata[2];
-            document.getElementById("buch_ausgabe").innerHTML = bookdata[3];
-            document.getElementById("buch_bemerkung").innerHTML = bookdata[4];
-            //document.getElementById("buch_kurzbeschrieb").innerHTML = bookdata[5];
-            document.getElementById("buch_nummer").innerHTML = bookdata[6];
+            document.getElementById("book_title").innerHTML = bookdata[1];
+            document.getElementById("book_autor").innerHTML = bookdata[2];
+            document.getElementById("book_edition").innerHTML = bookdata[3];
+            document.getElementById("book_comment").innerHTML = bookdata[4];
+            //document.getElementById("book_aditionalinfo").innerHTML = bookdata[5];
+            document.getElementById("book_number").innerHTML = bookdata[6];
             var profileimg = document.createElement("img");
             profileimg.src = "../../assets/images/" + Booknummer + ".jpg";
             profileimg.width = "75";

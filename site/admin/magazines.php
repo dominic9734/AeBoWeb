@@ -45,10 +45,14 @@ if (isset($_GET['status'])) {
 </head>
 
 <body>
+    <div class="loader_wrapper">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
     <?php
     $showSearch = True;
     include "../services/nav.php"; ?>
-    <div class="container-fluid p-3">
+    <div class="container-fluid p-3 min-vh-100">
         <table id="datatable" class="table">
             <thead>
                 <tr class="header">
@@ -89,7 +93,7 @@ if (isset($_GET['status'])) {
                                                 <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn border-0 d-inline" data-id="<?php echo $row['buchID']; ?>" data-nummer="<?php echo $row['buch_nummer']; ?>">
+                                        <button type="button" class="btn border-0 d-inline" data-id="<?php echo $row['magazineID']; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                 <path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z" />
                                             </svg>
@@ -254,6 +258,8 @@ if (isset($_GET['status'])) {
     <script src="../../assets/vendor/datatables/tables.js"></script>
     <!--Loading screen-->
     <script src="../../assets/vendor/js/loading.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
     <script type="text/javascript">
         const toastLiveExample = document.getElementById('AddBookToast')

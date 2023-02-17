@@ -1,11 +1,13 @@
+// loading screen
+$(window).on('load', function() {
+    setTimeout(function() {
+        $('.loader_wrapper').fadeOut();
+    }, 500);
+});
+// end loading screen
+
 
 var lastpressed, request, seat, scope_all, floor;
-
-
-$(window).on('load', function () {
-    $('.loader_wrapper').hide();
-})
-
 
 function btnSVG(element) {
     let location_info = element.id.split("_");
@@ -47,7 +49,7 @@ function DataAjaxChip(request, request_scope) {
                 });
                 var img = $('<img>', { // create a new img element
                     id: 'img-' + (i),
-                    src: "../../assets/images/employees_200px/" + employee.nickname + ".png",
+                    src: "../../assets/images/employees_200px/" + employee.employee_image,
                     alt: "MA"
                 });
                 var spanDisplayName = $('<span>', { // create a new span element for the employee's display name
@@ -89,7 +91,7 @@ function DisplayEmoloyeeInfo(chip) {
     var pfpimg = $('<img>', { // create a new img element
         id: 'employeePFP',
         class: 'rounded-circle shadow-sm profile_img',
-        src: "../../assets/images/employees_200px/" + employeeData.nickname + ".png",
+        src: "../../assets/images/employees_200px/" + employeeData.employee_image,
         alt: " "
     });
 
@@ -242,6 +244,7 @@ $("input").keypress(function (event) {
                 seat = data.location + "_" + data.zone
                 floor = data.location;
                 sectorsearch(seat, floor);
+
             }
         });
         $("#txtSearch").val('')
@@ -250,6 +253,8 @@ $("input").keypress(function (event) {
 
 
 function sectorsearch(seat, floor) {
+    console.log(floor)
+    console.log(typeof(floor))
     $("#" + seat).addClass("plan_fill_active")
     if (lastpressed && lastpressed != seat) {
         $("#" + lastpressed).removeClass("plan_fill_active")

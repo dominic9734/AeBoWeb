@@ -25,7 +25,11 @@ $username = $_SESSION['username'];
 </head>
 
 <body>
-    <?php include "../services/nav.php"; ?>
+         <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
     <!--  Bootstrap 
     <div class="loader-wrapper">
         <div class="spinner-border" role="status">

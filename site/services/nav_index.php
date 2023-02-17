@@ -1,3 +1,10 @@
+<?php 
+function setnavvalues($showEmpDatalist,$showSearch){
+    $showEmpDatalist;
+    $showSearch;
+}
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom d-flex" style="height: 60px;">
     <a class="navbar-brand p-0 mx-3 " data-bs-toggle="offcanvas" href="#NavOffcanvas" role="button" aria-controls="NavOffcanvas">
         <!-- hamburger -->
@@ -6,11 +13,8 @@
         </svg>
         <!-- end hamburger -->
     </a>
-
     <div class="input-group my-2 flex-grow-1">
         <?php
-        $showEmpDatalist;
-        $showSearch;
         if ($showSearch == true) { ?>
             <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
                                                                                         echo 'list="EmployeeNames"';

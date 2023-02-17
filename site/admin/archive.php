@@ -30,6 +30,10 @@ if (session_id() == '') {
 </head>
 
 <body>
+<div class="loader_wrapper">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
     <?php
     $showSearch = True;
     include "../services/nav.php"; ?>
@@ -48,7 +52,6 @@ if (session_id() == '') {
             </thead>
             <tbody>
                 <?php
-                include "../../site/services/db_connect.php";
 
 
                 $statement = $conn->prepare("SELECT * FROM lib_books");
@@ -57,22 +60,22 @@ if (session_id() == '') {
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
                         $buchID = $row['buchID'];
-                        $buch_nummer = $row['buch_nummer'];
-                        $buch_titel = $row['buch_titel'];
-                        $buch_autor = $row['buch_autor'];
-                        $buch_ausgabe = $row['buch_ausgabe'];
-                        $buch_bemerkung = $row['buch_bemerkung'];
-                        $buch_kurzbeschrieb = $row['buch_kurzbeschrieb'];
-                        $ausleihID = $row['ausgeliehen'];
-                        $geloescht = $row['geloescht'];
-                        if ($geloescht == 1) {
+                        $book_number = $row['book_number'];
+                        $book_title = $row['book_title'];
+                        $book_autor = $row['book_autor'];
+                        $book_edition = $row['book_edition'];
+                        $book_comment = $row['book_comment'];
+                        $book_aditionalinfo = $row['book_aditionalinfo'];
+                        $ausleihID = $row['borrowed'];
+                        $deleted = $row['deleted'];
+                        if ($deleted == 1) {
                             echo
                             '
                             <tr>
-                            <th scope="row">' . $buch_nummer . '</th>
-                            <td>' . $buch_titel . '</td>
-                            <td>' . $buch_autor . '</td>
-                            <td>' . $buch_ausgabe . '</td>
+                            <th scope="row">' . $book_number . '</th>
+                            <td>' . $book_title . '</td>
+                            <td>' . $book_autor . '</td>
+                            <td>' . $book_edition . '</td>
                             <td>
                                 <button type="button" class="btn btn-outline-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <img src="../../assets/images/icons/arrow-repeat.svg" class="img-fluid" >
@@ -124,6 +127,8 @@ if (session_id() == '') {
     <script src="../../assets/vendor/datatables/tables.js"></script>
     <!--Loading screen-->
     <script src="../../assets/vendor/js/loading.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
 
 </body>

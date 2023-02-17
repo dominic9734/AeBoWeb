@@ -15,7 +15,11 @@
 </head>
 
 <body class="index_background">
-    <?php include "../services/nav_index.php"; ?>
+         <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
     <!--  Bootstrap 
     <div class="loader-wrapper">
         <div class="spinner-border" role="status">
@@ -29,7 +33,7 @@
             <div class="container-fluid text-center">
                 <div class="row">
                     <div class="col-md-12 m-3">
-                        <img src="../../assets/SVG/logo_full.svg" class="mb-5 rounded" alt="">
+                        <img src="../../assets/SVG/logo_full.svg" class="mb-5" alt="">
                     </div>
                 </div>
                 <div class="row">

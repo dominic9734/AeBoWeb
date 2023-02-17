@@ -40,7 +40,11 @@ $launchmodal = 0
 </head>
 
 <body>
-    <?php include "../services/nav.php"; ?>
+         <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
 
 
     <div class="container-fluid">

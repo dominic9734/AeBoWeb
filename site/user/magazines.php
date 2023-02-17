@@ -84,11 +84,17 @@
 
     <?php
     $showSearch = true;
-    include "../services/nav_index.php"; ?>
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist);
+    ?>
 
-    <div class="container-fluid p-3">
+    <div class="loader_wrapper">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
 
-
+    <div class="container-fluid p-3 min-vh-100">
         <div class="table-wrapper align-middle">
             <table id="datatable" class="table">
                 <thead>

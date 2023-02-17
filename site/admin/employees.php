@@ -25,8 +25,8 @@ if (isset($_POST["submit"])) {
         echo "Employee already exists";
     } else {
         // Employee does not exist, execute INSERT statement
-        $statement = $conn->prepare("INSERT INTO AeBo_employees (mitarbeitername, nickname) VALUES(?,?)");
-        $statement->bind_param("ss", $mitarbeitername, $nickname);
+        $statement = $conn->prepare("INSERT INTO AeBo_employees (nickname, nickname) VALUES(?,?)");
+        $statement->bind_param("ss", $nickname, $nickname);
         $statement->execute();
         header("location:employees.php");
         exit();
@@ -51,6 +51,14 @@ if (isset($_POST["submit"])) {
     $showSearch = True;
     include "../services/nav.php";
     ?>
+
+    <!-- Loading screen -->
+    <div class="loader_wrapper">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
+    <!-- End Loading screen -->
+
     <!-- Erstellen Modal -->
     <div class="modal fade" id="AddEmployeeModal" tabindex="-1" aria-labelledby="AddEmployeeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal modal-dialog-centered modal-xl">
@@ -233,7 +241,7 @@ if (isset($_POST["submit"])) {
             </div>
         </div>
     </div>
-    <div class="container-fluid p-3">
+    <div class="container-fluid p-3 min-vh-100">
         <table id="datatable" class="table">
             <thead>
                 <tr class="header">
@@ -453,13 +461,21 @@ if (isset($_POST["submit"])) {
                     if (data.status = "success") {
                         alert("Daten erfolgreich aktualisiert!");
                         location.reload();
-                    } else {
+                    }
+                    if (data.status = "success") {
                         alert("Es gab einen fehler beim aktualisieren.");
                     }
                 }
             });
 
         }
+
+
+        $(window).on('load', function() {
+            setTimeout(function() {
+                $('.loader_wrapper').fadeOut();
+            }, 500);
+        });
     </script>
 
 </body>

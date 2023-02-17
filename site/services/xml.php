@@ -11,7 +11,7 @@ $where_clauses = array();
 // Iterate over the values in the array
 foreach ($array as $value) {
     // Add a WHERE clause for each value to the array of WHERE clauses, with the % symbol next to the LIKE keyword
-    $where_clauses[] = "buch_nummer LIKE '$value.%'";
+    $where_clauses[] = "book_number LIKE '$value.%'";
 }
 
 // Implode the array of WHERE clauses with the OR operator
@@ -51,10 +51,10 @@ $result = $statement->get_result();
 if ($result->num_rows != 0) {
     while ($row = $result->fetch_assoc()) {
 
-        $val_author = $row['buch_autor'];
-        $val_title = $row['buch_titel'];
-        $val_year = $row['buch_ausgabe'];
-        $val_numb = $row['buch_nummer'];
+        $val_author = $row['book_autor'];
+        $val_title = $row['book_title'];
+        $val_year = $row['book_edition'];
+        $val_numb = $row['book_number'];
 
         $Source = $domtree->createElement("b:Source");
         $Source = $xmlRoot->appendChild($Source);
@@ -83,4 +83,3 @@ header('Content-Disposition: attachment; filename="Sources_AEBO_'.date("d_m_Y").
 
 echo $domtree->saveXML();
 
-header("location: ../user/getxml.php");

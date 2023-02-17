@@ -13,7 +13,7 @@
 
     <style>
         .plan_fill_none:hover {
-            fill: #ce0145;
+            fill: #D00244;
             cursor: pointer;
         }
 
@@ -25,7 +25,7 @@
         }
 
         .plan_fill_active {
-            fill: #ce0145 !important;
+            fill: #D00244 !important;
 
             box-shadow: 10px #646464;
         }
@@ -50,12 +50,13 @@
         .chip {
             display: inline-block;
             padding: 0 25px;
-            height: 40px;
-            font-size: 12px;
-            line-height: 40px;
-            border-radius: 20px;
+            height: 60px;
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 60px;
+            border-radius: 30px;
             background-color: #f1f1f1;
-            width: 120px;
+            width: 180px;
 
             position: relative;
         }
@@ -63,8 +64,8 @@
         .chip img {
             float: left;
             margin: 0 10px 0 -25px;
-            height: 40px;
-            width: 40px;
+            height: 60px;
+            width: 60px;
             border-radius: 50%;
         }
 
@@ -135,14 +136,16 @@
     <?php
     $showSearch = true;
     $showEmpDatalist = true;
-    include "../services/nav_index.php"; ?>
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist);
+    ?>
 
     <div class="loader_wrapper">
         <div class="spinner-border" role="status">
         </div>
     </div>
 
-    <div id="content" class="container text-center">
+    <div id="content" class="container-fluid text-center">
         <h1 class="text-center pt-3">Arbeitsplatzverteilung</h1>
         <div class="row">
             <div class="col">
@@ -157,6 +160,7 @@
                         <rect onclick="btnSVG(this)" id="3_D" class="plan_fill_none" x="1771.69" y="1927.08" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="3_B" class="plan_fill_none" points="1771.69 240.33 1771.69 1074.25 2345.09 1074.25 2345.09 1397.07 2721.25 1397.07 2721.25 1074.25 2721.25 240.33 1771.69 240.33" />
                         <polygon onclick="btnSVG(this)" id="3_A" class="plan_fill_none" points="2344.3 1397.07 2344.3 1074.25 1771.69 1074.25 1771.69 1397.07 1771.69 1927.08 2721.25 1927.08 2721.25 1397.07 2344.3 1397.07" />
+
                         <rect onclick="btnSVG(this)" id="3_C" class="plan_fill_none" x="2721.25" y="1240.4" width="539.31" height="792.04" />
                         <rect onclick="btnSVG(this)" id="3_E" class="plan_fill_none" x="1200.36" y="1250.04" width="571.33" height="782.4" />
                         <polygon onclick="btnSVG(this)" id="3_F" class="plan_fill_none" points="910.32 1926.96 910.32 1616.37 822.57 1616.37 822.57 1091.28 350.04 1091.28 350.04 1616.37 350.04 2191.2 910.32 2191.2 1200.36 2191.2 1200.36 1926.96 910.32 1926.96" />
@@ -231,7 +235,8 @@
                     <svg id="svg_center" class="pt-0" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167 2525.76">
                         <rect onclick="btnSVG(this)" id="6_D" class="plan_fill_none" x="1755.12" y="1937.13" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="6_B" class="plan_fill_none" points="1755.12 250.38 1755.12 1084.3 2328.51 1084.3 2328.51 1407.12 2704.68 1407.12 2704.68 1084.3 2704.68 250.38 1755.12 250.38" />
-                        <polygon onclick="btnSVG(this)" class="plan_fill_none" points="2327.72 1407.12 2327.72 1084.3 1755.12 1084.3 1755.12 1407.12 1755.12 1937.13 2704.68 1937.13 2704.68 1407.12 2327.72 1407.12" />
+                        <path class="plan_fill_none" d="m1971.6,1178.66h-138.84v67.44h138.84v-67.44Zm-123,.23v67.44m15.35-67.67v67.44m15.31-67.1v67.44m15.35-67.67v67.44m14.98-67.1v67.44m15.35-67.67v67.44m15.31-67.1v67.44m15.35-67.67v67.44m15.98-147.8h-138.84v67.44h138.84v-67.44Zm-123,.23v67.44m15.35-67.67v67.44m15.31-67.1v67.44m15.35-67.67v67.44m14.98-67.1v67.44m15.35-67.67v67.44m15.31-67.1v67.44m15.35-67.67v67.44m-93.33,263.7h-72.83v114.5h72.83v-114.5Zm-36.42,0v114.5m-17.88-128.42l-11.15,8.61h22.3l-11.15-8.61Zm34.74,8.61l11.15-8.61h-22.3s11.15,8.61,11.15,8.61Zm169.33,5.31h-72.83v114.5h72.83v-114.5Zm-36.42,0v114.5m-17.88-128.42l-11.15,8.61h22.3l-11.15-8.61Zm34.74,8.61l11.15-8.61h-22.3s11.15,8.61,11.15,8.61Zm161.94,193.96h-399.33v-534.47h399.33v534.47Z" />
+                        <polygon class="plan_fill_none" points="2704.68 1407.12 2704.68 1937.13 1755.12 1937.13 1755.12 1618.77 2154.45 1618.77 2154.45 1084.3 2328.51 1084.3 2328.51 1407.12 2704.68 1407.12" />
                     </svg>
                 </div>
             </div>

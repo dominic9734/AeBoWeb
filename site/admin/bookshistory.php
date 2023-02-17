@@ -60,17 +60,17 @@ if (session_id() == '') {
                         $rueckgabe_datum = $row['rueckgabe_datum'];
                         $nickname = $row['nickname'];
                         $zurueckgegeben = $row['zurueckgegeben'];
-                        $buch_titel = $row['buch_titel'];
-                        $buch_nummer  = $row['buch_nummer'];
+                        $book_title= $row['book_title'];
+                        $book_number  = $row['book_number'];
                         $nickname = $row['nickname'];
 
                         if ($zurueckgegeben == 1) {
                             echo
                             '
                             <tr>
-                            <th scope="row">' . $buch_nummer . '</th>
+                            <th scope="row">' . $book_number . '</th>
                             <td>' . $nickname . '</td>
-                            <td>' . $buch_titel . '</td>
+                            <td>' . $book_title. '</td>
                             <td>' . $datum . ' / ' . $rueckgabe_datum . '</td>
                             </tr>
                             ';

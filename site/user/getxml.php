@@ -62,7 +62,11 @@
 </head>
 
 <body>
-    <?php include "../services/nav_index.php"; ?>
+    <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
 
     <div class="d-flex justify-content-center">
         <div class="info-container mt-5" style="width: 70vw;">

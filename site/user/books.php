@@ -17,11 +17,14 @@
 <body>
     <div class="content-wrapper">
 
-        <?php
-        $showSearch = true;
-        include "../services/nav_index.php"; ?>
+    <?php
+    $showSearch = true;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist);
+    ?>
 
-        <div class="container-fluid p-3">
+        <div class="container-fluid p-3 min-vh-100">
 
 
             <div class="table-wrapper align-middle">
@@ -47,12 +50,12 @@
 
                         if ($result->num_rows != 0) {
                             while ($row = $result->fetch_assoc()) {
-                                $buch_bemerkung = $row['buch_bemerkung'];
-                                $buch_kurzbeschrieb = $row['buch_kurzbeschrieb'];
+                                $book_comment = $row['book_comment'];
+                                $book_aditionalinfo = $row['book_aditionalinfo'];
 
 
                                 $folder = '../../assets/images/book/';
-                                $word = trim($row['buch_nummer']);
+                                $word = trim($row['book_number']);
                                 $count = 0;
 
                                 // Use the glob function to get an array of all files in the folder
@@ -74,25 +77,25 @@
                                     $count--;
                                 }
 
-                                if ($row['geloescht'] == 0) {
+                                if ($row['deleted'] == 0) {
                         ?>
                                     <tr>
                                         <th scope="row">
-                                            <?php echo $row['buch_nummer']; ?>
+                                            <?php echo $row['book_number']; ?>
                                         </th>
-                                        <td class="table-align-left table-size-65 ellipsis"><?php echo $row['buch_titel']; ?></td>
-                                        <td class="table-align-right ellipsis"><?php echo $row['buch_autor']; ?></td>
-                                        <td class="table-align-center"><?php echo $row['buch_ausgabe']; ?></td>
+                                        <td class="table-align-left table-size-65 ellipsis"><?php echo $row['book_title']; ?></td>
+                                        <td class="table-align-right ellipsis"><?php echo $row['book_autor']; ?></td>
+                                        <td class="table-align-center"><?php echo $row['book_edition']; ?></td>
                                         <td>
                                             <?php
-                                            if ($row['physisch'] == 1 && $row['virtuell'] == 0) {
+                                            if ($row['format_hardcover'] == 1 && $row['format_pdf'] == 0) {
                                             ?>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512">
                                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                     <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
                                                 </svg>
                                             <?php
-                                            } elseif ($row['virtuell'] == 1 && $row['physisch'] == 0) {
+                                            } elseif ($row['format_pdf'] == 1 && $row['format_hardcover'] == 0) {
                                             ?>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512">
                                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -117,7 +120,7 @@
                                         </td>
                                         <td>
                                             <?php
-                                            if ($row['ausgeliehen'] == 0) {
+                                            if ($row['borrowed'] == 0) {
                                             ?>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" style="display: inline-block ;">
                                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -135,7 +138,7 @@
                                             ?>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['buch_titel']; ?> # <?php echo $row['buch_autor']; ?> # <?php echo $row['buch_ausgabe']; ?> # <?php echo $row['buch_bemerkung']; ?> # <?php echo $row['buch_kurzbeschrieb']; ?> # <?php echo $row['buch_nummer']; ?> # <?php echo $row['physisch'] ?> # <?php echo $row['virtuell'] ?> # <?php echo $row['ausgeliehen'] ?> # <?php echo $count;  ?>' onclick=InfoOffcanvas(this)>
+                                            <button type="button" class="btn border-0" data-bs-toggle="offcanvas" data-bs-target="#InfoOffcanvas" id="entry<?php echo $row['buchID']; ?>" aria-controls="InfoOffcanvas" data-id="entry<?php echo $row['buchID']; ?>" data-bookdata='<?php echo $row['buchID']; ?> # <?php echo $row['book_title']; ?> # <?php echo $row['book_autor']; ?> # <?php echo $row['book_edition']; ?> # <?php echo $row['book_comment']; ?> # <?php echo $row['book_aditionalinfo']; ?> # <?php echo $row['book_number']; ?> # <?php echo $row['format_hardcover'] ?> # <?php echo $row['format_pdf'] ?> # <?php echo $row['borrowed'] ?> # <?php echo $count;  ?>' onclick=InfoOffcanvas(this)>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 192 512">
                                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                     <path d="M144 80c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z" />
@@ -163,18 +166,18 @@
             <div class="offcanvas-body">
                 <div class="row">
                     <p class="mb-0">Titel:</p>
-                    <span id="buch_titel"></span>
+                    <span id="book_title"></span>
                     <p class="mb-0 mt-3">Autor:</p>
-                    <span id="buch_autor"></span>
+                    <span id="book_autor"></span>
                 </div>
                 <div class="row mt-3" style="height: 20hv;">
                     <div class="col-md-6">
                         <p class="mb-0">Nr:</p>
-                        <span id="buch_nummer"></span>
+                        <span id="book_number"></span>
                     </div>
                     <div class="col-md-6">
                         <p class="mb-0 text-end">Ausgabe:</p>
-                        <p class="text-end"><span id="buch_ausgabe"></span></p>
+                        <p class="text-end"><span id="book_edition"></span></p>
 
                     </div>
                 </div>
@@ -214,12 +217,12 @@
     <script>
         function InfoOffcanvas(entry) {
             const bookdata = entry.getAttribute("data-bookdata").split('#');
-            document.getElementById("buch_titel").innerHTML = bookdata[1];
-            document.getElementById("buch_autor").innerHTML = bookdata[2];
-            document.getElementById("buch_ausgabe").innerHTML = bookdata[3];
-            //document.getElementById("buch_bemerkung").innerHTML = bookdata[4];
-            //document.getElementById("buch_kurzbeschrieb").innerHTML = bookdata[5];
-            document.getElementById("buch_nummer").innerHTML = bookdata[6];
+            document.getElementById("book_title").innerHTML = bookdata[1];
+            document.getElementById("book_autor").innerHTML = bookdata[2];
+            document.getElementById("book_edition").innerHTML = bookdata[3];
+            //document.getElementById("book_comment").innerHTML = bookdata[4];
+            //document.getElementById("book_aditionalinfo").innerHTML = bookdata[5];
+            document.getElementById("book_number").innerHTML = bookdata[6];
 
 
             var bookingbtn = document.getElementById("bookingbtn");

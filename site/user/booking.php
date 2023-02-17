@@ -5,7 +5,7 @@ include "../../site/services/db_connect.php";
 if (mysqli_connect_errno()) {
     echo "Verbindung zu SQL Fehlgeschlagen: " . mysqli_connect_error();
 }
-$ausgeliehen = 1;
+$borrowed = 1;
 $error = 0;
 $date = date("Y-m-d");
 $buchID = $_GET['bookID'];
@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
         $statement->execute();
 
         $buchausleihstatus = 1;
-        $statement = $conn->prepare('UPDATE lib_books SET  ausgeliehen = ? where buchID = ?');
+        $statement = $conn->prepare('UPDATE lib_books SET  borrowed = ? where buchID = ?');
         $statement->bind_param('ii', $buchausleihstatus, $buchID);
         $statement->execute();
 
@@ -54,13 +54,13 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$statement = $conn->prepare("SELECT buch_titel FROM lib_books where buchID = ?");
+$statement = $conn->prepare("SELECT book_title FROM lib_books where buchID = ?");
 $statement->bind_param("i", $buchID);
 $statement->execute();
 $result = $statement->get_result();
 if ($result->num_rows != 0) {
     while ($row = $result->fetch_assoc()) {
-        $buch_titel = $row['buch_titel'];
+        $book_title= $row['book_title'];
     }
 }
 ?>
@@ -113,7 +113,7 @@ if ($result->num_rows != 0) {
                             <div class="d-flex">
                                 <div class="w-100 pb-2">
                                     <h3 class="mb-4">Reservieren</h3>
-                                    <h6><?php echo $buch_titel; ?></h6>
+                                    <h6><?php echo $book_title; ?></h6>
                                 </div>
                             </div>
                             <form method="post" class="signin-form">

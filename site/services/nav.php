@@ -1,3 +1,8 @@
+<?php 
+function setnavvalues($showSearch){
+    $showSearch;
+}
+?>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom d-flex" style="height: 60px;">
     <a class="navbar-brand p-0 mx-3" data-bs-toggle="offcanvas" href="#NavOffcanvas" role="button" aria-controls="NavOffcanvas">
         <!-- hamburger -->

@@ -20,7 +20,11 @@
 
 </head>
 <body>
-<?php include "../services/nav_index.php"; ?>
+     <?php     
+    $showSearch = false;
+    $showEmpDatalist = false;
+    include "../services/nav_index.php";
+    setnavvalues($showSearch, $showEmpDatalist); ?>
 
 <div class="container-xxl px-4 px-xxl-2">
     <div class="mb-4 text-center text-lg-start">
