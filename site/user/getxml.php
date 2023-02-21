@@ -62,7 +62,7 @@
 </head>
 
 <body>
-    <?php     
+    <?php
     $showSearch = false;
     $showEmpDatalist = false;
     include "../services/nav_index.php";
@@ -108,7 +108,7 @@
                             while ($row = $result->fetch_assoc()) {
                         ?>
                                 <li>
-                                    <div class="form-check align-middle">
+                                    <div class="form-check form-check-inline align-middle">
                                         <input class="form-check-input" id="entry<?php echo $row['filterID'] ?>" type="checkbox" value="<?php echo $row['filterID'] ?>" onchange="storeValues()">
                                         <label class="form-check-label" for="entry<?php echo $row['filterID'] ?>">
                                             <?php echo $row['filter_number'] ?> - <?php echo $row['filter_name'] ?>

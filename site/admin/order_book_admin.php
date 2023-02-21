@@ -1,10 +1,6 @@
 <?php
 session_start();
-
 $username = $_SESSION["username"];
-
- 
-
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../services/login.php");
     exit;
@@ -13,8 +9,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 if (session_id() == '') {
     session_start();
 }
-
-$launchmodal = 0
 ?>
 <html lang="de">
 
@@ -24,203 +18,172 @@ $launchmodal = 0
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AEBO-Library</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
-
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
-
-    <style>
-        th:nth-child(1) {
-            text-align: right;
-        }
-
-        td:nth-child(1) {
-            text-align: right;
-        }
-    </style>
 </head>
 
 <body>
-         <?php     
-    $showSearch = false;
+    <?php
+    $showSearch = true;
     $showEmpDatalist = false;
-    include "../services/nav_index.php";
+    include "../services/nav.php";
     setnavvalues($showSearch, $showEmpDatalist); ?>
 
-
     <div class="container-fluid">
-        <div class="card mt-3">
-            <div class="card-header">
-                <div class="input-group my-2">
-                    <span class="input-group-text" id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 512 512">
-                            <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
-                        </svg></span>
-                    <label for="txtSearch"></label><input id="txtSearch" placeholder="Buch suchen..." class="form-control" />
-                </div>
-            </div>
-
-            <div class="card-body">
-                <table id="datatable" class="table">
-                    <thead>
-                        <tr class="header">
-                            <th scope="col" style="width: 5%">Bestelldatum</th>
-                            <th scope="col" style="width: 10%">Titel</th>
-                            <th scope="col" style="width: 65%">Besteller</th>
-                            <th scope="col" style="width: 10%">Info</th>
-                            <th scope="col" style="width: 10%">Bestellt</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        include "../../site/services/db_connect.php";
-
-
-                        $statement = $conn->prepare("SELECT * from lib_book_orders");
-                        $statement->execute();
-                        $result = $statement->get_result();
-                        $nummer = 1;
-                        if ($result->num_rows != 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $bestellungID = $row['bestellungID'];
-                                $bestellung_autor = $row['bestellung_autor'];
-                                $bestellung_titel = $row['bestellung_titel'];
-                                $bestellung_ausgabe = $row['bestellung_ausgabe'];
-                                $bestellung_isbn = $row['bestellung_isbn'];
-                                $bestellung_bemerkung = $row['bestellung_bemerkung'];
-                                $bestellung_bestellername = $row['bestellung_bestellername'];
-                                $bestellung_datum = $row['bestellung_datum'];
-                                $bestellung_status = $row['bestellung_status'];
-
-                                if ($bestellung_status == 0) {
-                                    echo
-                                    '
+        <table id="datatable" class="table">
+            <thead>
+                <tr class="header">
+                    <th scope="col" style="width: 5%">Bestelldatum</th>
+                    <th scope="col" style="width: 10%">Titel</th>
+                    <th scope="col" style="width: 65%">Besteller</th>
+                    <th scope="col" style="width: 10%">Info</th>
+                    <th scope="col" style="width: 10%">Bestellt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include "../../site/services/db_connect.php";
+                $statement = $conn->prepare("SELECT lib_book_orders.*,aebo_employees.first_name,aebo_employees.last_name from lib_book_orders LEFT JOIN aebo_employees on lib_book_orders.order_employeeID = aebo_employees.employeeID WHERE order_status = 0");
+                $statement->execute();
+                $result = $statement->get_result();
+                if ($result->num_rows != 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo
+                        '
                             <tr>
-                            <th scope="row">' . $bestellung_datum . '</th>
-                            <td>' . $bestellung_titel . '</td>
-                            <td>' . $bestellung_bestellername . '</td>
+                            <th scope="row">' . $row['order_date'] . '</th>
+                            <td>' . $row['book_title'] . '</td>
+                            <td>' . $row['first_name'] . " " . $row['last_name'] . '</td>
                             
                             <td>
                                 <button  
+                                data-order="
+                                [&#34;' . $row['orderID'] . '&#34;, &#34;' . $row['book_title'] . '&#34;, &#34;' . $row['book_autor'] . '&#34;, &#34;' . $row['book_edition'] . '&#34;, &#34;' . $row['book_isbn'] . '&#34;, &#34;' . $row['order_comment'] . '&#34;, &#34;' . $row['first_name'] . " " . $row['last_name'] . '&#34;, &#34;' . $row['order_date'] . '&#34;]
+                                "
                                     class="btn btn-outline-none" 
-                                    type="button" data-bs-toggle="offcanvas" 
-                                    data-bs-target="#offcanvasExample' . $nummer . '" 
-                                    aria-controls="offcanvasExample' . $nummer . '">
-                                        <img src="../../assets/images/icons/info-circle.svg" class="img-fluid" >
+                                    onclick="OrderModal(this)"
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 192 512">
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path d="M144 80c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z" />
+                                </svg>
                                 </button>
                             </td>
 
                             <td>
-                                <button type="button" class="btn btn-outline-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <img src="../../assets/images/icons/check.svg" class="img-fluid" >
+                            
+                                <button type="button" class="btn btn-outline-none" data-orderID="' . $row['orderID'] . '" data-title="' . $row['book_title'] . '" onclick="ConfirmOrder(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" style="display: inline-block ;">
+                                <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                            </svg>
                                 </button>                            
                             </td>
 
-                            </tr>
-
-                              <!-- Offcanvas -->
-                                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample' . $nummer . '" aria-labelledby="offcanvasExampleLabel">
-                                    <div class="offcanvas-header text-center">
-                                        <h3 class="offcanvas-title" id="offcanvasExampleLabel">Buchbestellung</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body">
-
-                                    <div class="container border rounded">
-                                    <div class="row">
-                                        <div class="col border-bottom">
-                                        <h3>
-                                        ' . $bestellung_titel . '
-                                        <h3>
-                                        </div>
-                                    </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">
-                                        <h4>Autor</h4>
-                                        <p>
-                                        ' . $bestellung_autor . '
-                                        </p>
-                                        </div>
-                                        <div class="col">
-                                        <h4>Ausgabe</h4>
-                                        <p>
-                                        ' . $bestellung_ausgabe . '
-                                        </p>
-                                        </div>
-                                    </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">
-                                        <h4>ISBN</h4>
-                                        <p>
-                                        ' . $bestellung_isbn . '
-                                        </p>
-                                        </div>
-                                    </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">
-                                        <h4>Bemerkung</h4>
-                                        <p>
-                                        ' . $bestellung_bemerkung . '
-                                        </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col ">
-                                        <h4>Besteller</h4>
-                                        <p>
-                                        ' . $bestellung_bestellername . '
-                                        </p>
-                                        </div>
-                                        <div class="col">
-                                        <h4>Datum</h4>
-                                        <p>
-                                        ' . $bestellung_datum . '
-                                        </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                        
-                                     </div>
-                                </div>
-
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Bestellung Bestätigen</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Haben sie das Buch wirklich bestellt?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form method="post" action="functions.php">
-                                                <input type="text" hidden name="orderedID" value="' . $bestellungID . '">
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                                                <button class="btn btn-outline-success" type="submit" data-toggle="modal" name="ordered">Bestellt</button>
-                                            </form>                                              
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </tr>             
                             ';
-                                    $nummer++;
-                                }
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                }
+
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="ConfirmOrder" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bestellen Abgeschlossen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Das Buch <span id="Book_title_display"></span> wurde bestellt!</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="functions.php" method="post">
+                        <input id="ConfirmOrderID" name="orderID" type="text" value="" hidden>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="ordered" class="btn btn-primary">Bestätigen</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-
-
-
+    <div class="modal fade" id="OrderModal" tabindex="-1" aria-labelledby="OrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header d-flex">
+                    <strong class="modal-title fs-5 flex-grow-1" id="exampleModalLabel">Buchbespellung von <span id="input_order_employee"> </span></strong> <small class="mx-2"><span id="input_order_date"></span></small>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="combobox">
+                                <input type="text" value="" id="input_book_title" readonly>
+                                <button class="CopyToClipboard_btn" onclick="CopyToClipboard(this)" data-bs-toggle="tooltip" data-bs-title="Kopieren">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="combobox">
+                                <input type="text" value="" id="input_book_autor" readonly>
+                                <button class="CopyToClipboard_btn" onclick="CopyToClipboard(this)" data-bs-toggle="tooltip" data-bs-title="Kopieren">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="combobox">
+                                <input type="text" value="" id="input_book_edition" readonly>
+                                <button class="CopyToClipboard_btn" onclick="CopyToClipboard(this)" data-bs-toggle="tooltip" data-bs-title="Kopieren">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="combobox">
+                                <input type="text" data-val="" value="" id="input_book_isbn" readonly>
+                                <button class="CopyToClipboard_btn" onclick="CopyToClipboard(this)" data-bs-toggle="tooltip" data-bs-title="Kopieren">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="combobox">
+                                <input type="text" value="" id="input_order_comment" readonly>
+                                <button class="CopyToClipboard_btn" onclick="CopyToClipboard()" data-bs-toggle="tooltip" data-bs-title="Kopieren">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Schliessen</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include "../services/footer.php"; ?>
-
     <!--  Bootstrap -->
     <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <!-- jquery -->
@@ -231,6 +194,38 @@ $launchmodal = 0
     <script src="../../assets/vendor/datatables/tables.js"></script>
     <!--Loading screen-->
     <script src="../../assets/vendor/js/loading.js"></script>
+
+    <script>
+        function OrderModal(entry) {
+            var data = JSON.parse($(entry).attr("data-order"))
+            const OrderModal = document.getElementById('OrderModal')
+            $("#input_book_title").val(data[1]);
+            $("#input_book_autor").val(data[2]);
+            $("#input_book_edition").val(data[3]);
+            $("#input_book_isbn").val(data[4]);
+            $("#input_order_comment").val(data[5]);
+            $("#input_order_employee").html(data[6]);
+            $("#input_order_date").html(data[7]);
+            $("#OrderModal").modal("show")
+
+        }
+
+        function ConfirmOrder(entry) {
+            $("#ConfirmOrderID").val($(entry).attr("data-orderID"));
+            $("#Book_title_display").text($(entry).attr("data-title"));
+            $("#ConfirmOrder").modal("show")
+            
+        }
+
+        function CopyToClipboard(input) {
+            // Get the text field
+            var copyText = $(input).parent().children().first();
+            // Select the text field
+            copyText.select();
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.val());
+        }
+    </script>
 
 </body>
 

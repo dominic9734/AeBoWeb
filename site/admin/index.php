@@ -30,12 +30,6 @@ $username = $_SESSION['username'];
     $showEmpDatalist = false;
     include "../services/nav.php";
     setnavvalues($showSearch, $showEmpDatalist); ?>
-    <!--  Bootstrap 
-    <div class="loader-wrapper">
-        <div class="spinner-border" role="status">
-        </div>
-    </div>
-    -->
 
 
     <div class="d-flex align-items-center vh-100 admin_index_background">

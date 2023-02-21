@@ -59,7 +59,7 @@ if (session_id() == '') {
                 $result = $statement->get_result();
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $buchID = $row['buchID'];
+                        $bookID = $row['bookID'];
                         $book_number = $row['book_number'];
                         $book_title = $row['book_title'];
                         $book_autor = $row['book_autor'];
@@ -96,7 +96,7 @@ if (session_id() == '') {
                                         </div>
                                         <div class="modal-footer">
                                             <form method="post" action="functions.php">
-                                                <input type="text" hidden name="delete_restoreID" value="' . $buchID . '">
+                                                <input type="text" hidden name="delete_restoreID" value="' . $bookID . '">
                                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
                                                 <button class="btn btn-outline-success" type="submit" data-toggle="modal" name="delete_restore">Wiederherstellen</button>
                                             </form>                                      

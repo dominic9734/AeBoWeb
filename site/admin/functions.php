@@ -19,22 +19,22 @@ if (session_id() == '') {
 }
 
 if (isset($_POST['delete_restore'])) {
-    $buchID = htmlspecialchars($_POST['delete_restoreID']);
+    $bookID = htmlspecialchars($_POST['delete_restoreID']);
 
-    $statement = $conn->prepare("SELECT deleted FROM lib_books WHERE buchID = ? ");
-    $statement->bind_param("i", $buchID);
+    $statement = $conn->prepare("SELECT deleted FROM lib_books WHERE bookID = ? ");
+    $statement->bind_param("i", $bookID);
     $statement->execute();
     $result = $statement->get_result();
     $row = $result->fetch_assoc();
 
     if ($row['deleted'] == 0) {
-        $statement = $conn->prepare('UPDATE lib_books SET deleted = 1 WHERE buchID = ?');
-        $statement->bind_param('i', $buchID);
+        $statement = $conn->prepare('UPDATE lib_books SET deleted = 1 WHERE bookID = ?');
+        $statement->bind_param('i', $bookID);
         $statement->execute();
         header("location: books.php");
     } else {
-        $statement = $conn->prepare('UPDATE lib_books SET deleted = 0 WHERE buchID = ?');
-        $statement->bind_param('i', $buchID);
+        $statement = $conn->prepare('UPDATE lib_books SET deleted = 0 WHERE bookID = ?');
+        $statement->bind_param('i', $bookID);
         $statement->execute();
         header("location: archive.php");
     }
@@ -52,9 +52,10 @@ if (isset($_POST['EmployeeDelete'])) {
 //setzt zugestellt in lib_borrowing auf 1
 if (isset($_POST['deliver'])) {
 
-    $ausleihID = htmlspecialchars($_POST['ausleihID']);
-    $statement = $conn->prepare('UPDATE lib_borrowing SET zugestellt = 1 WHERE ausleihID = ?');
-    $statement->bind_param('i', $ausleihID);
+    $junctionID = htmlspecialchars($_POST['junctionID']);
+    echo $junctionID;
+    $statement = $conn->prepare('UPDATE junction_books SET deliver_date = ?, delivered = 1 WHERE junctionID = ?');
+    $statement->bind_param('si', date("Y-m-d"), $junctionID);
     $statement->execute();
     header("location: library.php");
     exit;
@@ -63,10 +64,8 @@ if (isset($_POST['deliver'])) {
 }
 //setzt bestell_status auf 1
 if (isset($_POST['ordered'])) {
-
-    $bestellID = htmlspecialchars($_POST['orderedID']);
-    $statement = $conn->prepare('UPDATE lib_book_orders SET bestellung_status = 1 WHERE bestellungID = ?');
-    $statement->bind_param('i', $bestellID);
+    $statement = $conn->prepare('UPDATE lib_book_orders SET orderstatus = 1  WHERE orderID = ?');
+    $statement->bind_param('i', $_POST['orderID']);
     $statement->execute();
     header("location: order_book_library.php");
     exit;
@@ -75,22 +74,21 @@ if (isset($_POST['ordered'])) {
 
 if (isset($_POST['return'])) {
 
-    $ausleihID = htmlspecialchars($_POST['ausleihID']);
-    $buchID = htmlspecialchars($_POST['buchID']);
+    $junctionID = htmlspecialchars($_POST['junctionID']);
+    $bookID = htmlspecialchars($_POST['bookID']);
 
-    $return_date = date("Y-m-d");
+    echo $bookID;
 
-
-    $statement = $conn->prepare('UPDATE lib_borrowing SET zurueckgegeben = 1 WHERE ausleihID = ?');
-    $statement->bind_param('i', $ausleihID);
+    $statement = $conn->prepare('UPDATE junction_books SET returned = 1 WHERE junctionID = ?');
+    $statement->bind_param('i', $junctionID);
     $statement->execute();
 
-    $statement = $conn->prepare('UPDATE lib_books SET borrowed = 0 WHERE buchID = ?');
-    $statement->bind_param('i', $buchID);
+    $statement = $conn->prepare('UPDATE lib_books SET borrowed = 0 WHERE bookID = ?');
+    $statement->bind_param('i', $bookID);
     $statement->execute();
 
-    $statement = $conn->prepare('UPDATE lib_borrowing SET rueckgabe_datum = ? WHERE ausleihID = ?');
-    $statement->bind_param("si", $return_date, $ausleihID);
+    $statement = $conn->prepare('UPDATE junction_books SET returned_date = ? WHERE junctionID = ?');
+    $statement->bind_param("si", date("Y-m-d"), $junctionID);
     $statement->execute();
 
     header("location: library.php");
@@ -122,13 +120,13 @@ if (isset($_POST['DataImport'])) {
 
                 $book_number = $line[0];
                 $book_autor = $line[1];
-                $book_title= $line[2];
+                $book_title = $line[2];
                 $book_edition = $line[3];
                 $book_comment = $line[8];
                 $book_aditionalinfo = $line[9];
 
                 //Check whether member already exists in the database with the same email
-                $prevQuery = "SELECT buchID FROM lib_booksWHERE book_number = '" . $line[0] . "'";
+                $prevQuery = "SELECT bookID FROM lib_booksWHERE book_number = '" . $line[0] . "'";
                 $prevResult = $conn->query($prevQuery);
 
 
@@ -136,7 +134,7 @@ if (isset($_POST['DataImport'])) {
                     // Update member data in the database
                     //$db->query("UPDATE lib_books SET book_title= '" . $book_title. "', book_autor = '" . $book_autor . "', book_edition = '" . $book_edition . "', modified = NOW() WHERE email = '" . $email . "'");
 
-                    $statement = $conn->prepare('UPDATE lib_books SET  book_number = ?,book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ? where buchID = ?');
+                    $statement = $conn->prepare('UPDATE lib_books SET  book_number = ?,book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ? where bookID = ?');
                     $statement->bind_param('ssssssi', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $id);
                     $statement->execute();
                 } else {
@@ -298,7 +296,7 @@ if (isset($_POST['ImportCSV'])) {
 }
 //export DB zu CSV
 if (isset($_POST['ExportBook'])) {
-    $query = $conn->query("SELECT * FROM lib_booksORDER BY buchID ASC");
+    $query = $conn->query("SELECT * FROM lib_booksORDER BY bookID ASC");
     if ($query->num_rows > 0) {
         $delimiter = ",";
         $filename = "Export_AeBo_DB_" . date('Y-m-d') . ".csv";
@@ -310,7 +308,7 @@ if (isset($_POST['ExportBook'])) {
 
 
         while ($row = $query->fetch_assoc()) {
-            $lineData = array($row['buchID'], $row['book_number'], $row['book_autor'], $row['book_title'], $row['book_edition'], $row['book_comment'], $row['book_aditionalinfo'], $row['borrowed'], $row['deleted'],);
+            $lineData = array($row['bookID'], $row['book_number'], $row['book_autor'], $row['book_title'], $row['book_edition'], $row['book_comment'], $row['book_aditionalinfo'], $row['borrowed'], $row['deleted'],);
             $lineData = array_map("utf8_decode", $lineData);
             fputcsv($f, $lineData, $delimiter);
         }
@@ -331,7 +329,7 @@ if (isset($_POST['AddBook'])) {
 
     //buch werte in DB
     $book_number = htmlspecialchars($_POST["book_number"]);
-    $book_title= htmlspecialchars($_POST["book_title"]);
+    $book_title = htmlspecialchars($_POST["book_title"]);
     $book_autor = htmlspecialchars($_POST["book_autor"]);
     $book_edition = htmlspecialchars($_POST["book_edition"]);
     $book_comment = htmlspecialchars($_POST["book_comment"]);
@@ -370,16 +368,16 @@ if (isset($_POST['AddBook'])) {
 }
 // Buch uopdate daten in DB neues bild zu ordner
 if (isset($_POST['EditBook'])) {
-    $buchID = htmlspecialchars($_POST['buchID']);
+    $bookID = htmlspecialchars($_POST['bookID']);
     $book_number = htmlspecialchars($_POST['book_number']);
-    $book_title= htmlspecialchars($_POST['book_title']);
+    $book_title = htmlspecialchars($_POST['book_title']);
     $book_autor = htmlspecialchars($_POST['book_autor']);
     $book_edition = htmlspecialchars($_POST['book_edition']);
     $book_comment = htmlspecialchars($_POST['book_comment']);
     $book_aditionalinfo = htmlspecialchars($_POST['kurzbeschrieb']);
-    $statement = $conn->prepare('UPDATE lib_books SET  book_number = ?,book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ? where buchID = ?');
+    $statement = $conn->prepare('UPDATE lib_books SET  book_number = ?,book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ? where bookID = ?');
 
-    $statement->bind_param('ssssssi', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $buchID);
+    $statement->bind_param('ssssssi', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $bookID);
     $statement->execute();
 
     //pdf update
@@ -415,19 +413,19 @@ if (isset($_POST['delete_restore_mag'])) {
     $magazineID = htmlspecialchars($_POST['delete_restoreID']);
 
     $statement = $conn->prepare("SELECT isDeleted FROM lib_magazines WHERE magazineID = ? ");
-    $statement->bind_param("i", $buchID);
+    $statement->bind_param("i", $bookID);
     $statement->execute();
     $result = $statement->get_result();
     $row = $result->fetch_assoc();
 
     if ($row['deleted'] == 0) {
         $statement = $conn->prepare('UPDATE lib_magazines SET isDeleted = 1 WHERE magazineID = ?');
-        $statement->bind_param('i', $buchID);
+        $statement->bind_param('i', $bookID);
         $statement->execute();
         header("location: magazine.php");
     } else {
         $statement = $conn->prepare('UPDATE lib_magazines SET isDeleted = 0 WHERE magazineID = ?');
-        $statement->bind_param('i', $buchID);
+        $statement->bind_param('i', $bookID);
         $statement->execute();
         header("location: magazine.php");
     }

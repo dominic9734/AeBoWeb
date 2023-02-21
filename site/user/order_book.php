@@ -6,17 +6,16 @@ if (mysqli_connect_errno()) {
 }
 //werte werden in tabelle eingesetzt
 if (isset($_POST['submit'])) {
-    $bestellung_autor = $_POST['bestellung_autor'];
-    $bestellung_titel = $_POST['bestellung_titel'];
-    $bestellung_ausgabe = $_POST['bestellung_ausgabe'];
-    $bestellung_isbn = $_POST['bestellung_isbn'];
-    $bestellung_bemerkung = $_POST['bestellung_bemerkung'];
-    $bestellung_bestellername = $_POST['bestellung_bestellername'];
-    $bestellung_datum = $_POST['bestellung_datum'];
-    $bestellung_datum = date("Y-m-d");
+    $book_autor = $_POST['book_autor'];
+    $book_title = $_POST['book_title'];
+    $book_edition = $_POST['book_edition'];
+    $book_isbn = $_POST['book_isbn'];
+    $order_comment = $_POST['order_comment'];
+    $order_employee = $_POST['order_employee'];
+    $order_date = date("Y-m-d");
 
-    $statement = $conn->prepare('INSERT INTO lib_book_orders (bestellung_autor ,bestellung_titel,bestellung_ausgabe, bestellung_isbn, bestellung_bemerkung, bestellung_bestellername, bestellung_datum) VALUES(?,?,?,?,?,?,?)');
-    $statement->bind_param('sssssss', $bestellung_autor, $bestellung_titel, $bestellung_ausgabe, $bestellung_isbn, $bestellung_bemerkung, $bestellung_bestellername, $bestellung_datum,);
+    $statement = $conn->prepare('INSERT INTO lib_book_orders (book_autor ,book_title,book_edition, book_isbn, order_comment, order_employeeID, order_date) VALUES(?,?,?,?,?,?,?)');
+    $statement->bind_param('sssssis', $book_autor, $book_title, $book_edition, $book_isbn, $order_comment, $order_employee, $order_date,);
     $statement->execute();
     echo "<script>window.close();</script>";
 }
@@ -50,44 +49,43 @@ if (isset($_POST['submit'])) {
                 <form method='post'>
                     <div class='input-group mb-5 mt-1'>
                         <span class='input-group-text' id='basic-addon1' style='width: 20%'>Titel</span>
-                        <input name='bestellung_titel' type='text' class='form-control' aria-label='Username' aria-describedby='basic-addon1' required>
+                        <input name='book_title' type='text' class='form-control' aria-label='Username' aria-describedby='basic-addon1' required>
                     </div>
                     <div class='input-group mb-5'>
                         <span class='input-group-text' style='width: 20%'>Autor / Ausgabe</span>
-                        <input name='bestellung_autor' type='text' aria-label='First name' class='form-control'>
-                        <input name='bestellung_ausgabe' type='text' aria-label='Last name' class='form-control'>
+                        <input name='book_autor' type='text' aria-label='First name' class='form-control' required>
+                        <input name='book_edition' type='text' aria-label='Last name' class='form-control'>
                     </div>
 
                     <div class='input-group mb-5 mt-1'>
                         <span class='input-group-text' id='basic-addon1' style='width: 20%'>ISBN</span>
-                        <input name='bestellung_isbn' type='text' class='form-control' aria-label='Username' aria-describedby='basic-addon1'>
+                        <input name='book_isbn' type='text' class='form-control' aria-label='Username' aria-describedby='basic-addon1' required>
                     </div>
 
                     <div class='input-group mb-5'>
                         <span class='input-group-text' style='width: 20%'>Bemerkung</span>
-                        <textarea name='bestellung_bemerkung' class='form-control' aria-label='With textarea'></textarea>
+                        <textarea name='order_comment' class='form-control' aria-label='With textarea'></textarea>
                     </div>
 
                     <div class="row">
                         <div class="col">
                             <div class='input-group mb-5'>
-                                <input class="form-control" list="datalistOptions" name="bestellung_bestellername" id="exampleDataList" placeholder="Bestellername" autocomplete="off" required>
-                                <datalist id="datalistOptions">
+                                <select class="form-control" name="order_employee" id="exampleDataList" placeholder="Bestellername" required>
+                                    <option selected>Kürzel...</option>
                                     <?php
-                                    include "../../site/services/db_connect.php";
 
-                                    $statement = $conn->prepare("SELECT nickname from AeBo_employees");
+                                    $statement = $conn->prepare("SELECT employeeID,first_name,last_name from AeBo_employees");
                                     $statement->execute();
                                     $result = $statement->get_result();
                                     if ($result->num_rows != 0) {
                                         while ($row = $result->fetch_assoc()) {
-                                            $mitarbeiterkrz = $row['nickname'];
                                             echo
-                                            '<option value="' . $mitarbeiterkrz . '">';
+                                            ' 
+                                                <option value="' . $row['employeeID'] . '">' . $row['first_name'] . " " . $row['last_name'] . '</option>';
                                         }
                                     }
                                     ?>
-                                </datalist>
+                                </select>
                             </div>
                         </div>
                         <div class="col">

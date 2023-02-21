@@ -40,8 +40,8 @@ if (session_id() == '') {
             <thead>
                 <tr class="header">
                     <th scope="col" style="width: 5%">#</th>
-                    <th scope="col" style="width: 10%">Besitzer</th>
-                    <th scope="col" style="width: 65%">Titel</th>
+                    <th scope="col" class=" table-align-left" style="width: 65%">Titel</th>
+                    <th scope="col" class=" table-align-right" style="width: 10%">MA</th>
                     <th scope="col" style="width: 20%">Von / Bis</th>
                 </tr>
             </thead>
@@ -50,33 +50,23 @@ if (session_id() == '') {
                 include "../../site/services/db_connect.php";
 
 
-                $statement = $conn->prepare("SELECT * from lib_borrowing LEFT JOIN lib_books ON lib_borrowing.buchID = lib_books.buchID;");
+                $statement = $conn->prepare("SELECT first_name,last_name,taken_date,returned_date,book_title,book_number FROM `junction_books` LEFT JOIN aebo_employees ON junction_books.employeeID = aebo_employees.employeeID LEFT JOIN lib_books ON junction_books.bookID = lib_books.bookID WHERE returned = 1");
                 $statement->execute();
                 $result = $statement->get_result();
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $ausleihID = $row['ausleihID'];
-                        $datum = $row['datum'];
-                        $rueckgabe_datum = $row['rueckgabe_datum'];
-                        $nickname = $row['nickname'];
-                        $zurueckgegeben = $row['zurueckgegeben'];
-                        $book_title= $row['book_title'];
-                        $book_number  = $row['book_number'];
-                        $nickname = $row['nickname'];
-
-                        if ($zurueckgegeben == 1) {
-                            echo
-                            '
+                        echo
+                        '
                             <tr>
-                            <th scope="row">' . $book_number . '</th>
-                            <td>' . $nickname . '</td>
-                            <td>' . $book_title. '</td>
-                            <td>' . $datum . ' / ' . $rueckgabe_datum . '</td>
+                            <th scope="row">' . $row['book_number'] . '</th>
+                            <td class=" table-align-left">' . $row['book_title'] . '</td>
+                            <td class=" table-align-right">' . $row['first_name'] . " " . $row['last_name'] . '</td>
+                            <td>' . $row['taken_date'] . ' / ' . $row['returned_date'] . '</td>
                             </tr>
                             ';
-                        }
                     }
                 }
+
                 ?>
             </tbody>
         </table>

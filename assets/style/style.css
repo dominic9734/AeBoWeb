@@ -247,9 +247,11 @@ th {
 }
 
 .ellipsis {
+
+    overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
-    overflow: hidden !important;
+    max-width: 0 !important;
 }
 
 

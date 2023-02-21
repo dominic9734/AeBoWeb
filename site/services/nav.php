@@ -56,7 +56,7 @@ function setnavvalues($showSearch){
                                 <li><a class="link-dark rounded" href="../admin/library.php">Bibliothek</a></li>
                                 <li><a class="link-dark rounded" href="../admin/books.php">Übersicht</a></li>
                                 <li><a class="link-dark rounded" href="../admin/order_book_admin.php">Buch Bestellen</a></li>
-                                <li><a class="link-dark rounded" href="../admin/bookshistory.php.php">Historie</a></li>
+                                <li><a class="link-dark rounded" href="../admin/bookshistory.php">Historie</a></li>
                                 <li><a class="link-dark rounded" href="../admin/archive.php">Archiv</a></li>
                             </ul>
                         </div>

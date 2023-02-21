@@ -5,62 +5,30 @@ include "../../site/services/db_connect.php";
 if (mysqli_connect_errno()) {
     echo "Verbindung zu SQL Fehlgeschlagen: " . mysqli_connect_error();
 }
-$borrowed = 1;
-$error = 0;
-$date = date("Y-m-d");
-$buchID = $_GET['bookID'];
-
+$bookID = $_GET['bookID'];
 
 if (isset($_POST['submit'])) {
-
-    if (empty($_POST["mitarbeiterkrz"])) {
-        $vorname_err = "Bitte geben sie ein Kürzel an.";
-    } else {
-        $nickname = ($_POST["mitarbeiterkrz"]);
-    }
-
-    if (empty(($_POST["employeeID"]))) {
-        $nachname_err = "";
-    } else {
-        $employeeID = ($_POST["employeeID"]);
-    }
-
-    if (empty(($_POST["date"]))) {
-        $date_err = "Bitte geben sie ein Datum ein.";
-    } else {
-        $date = ($_POST["date"]);
-    }
-
-    $statement = $conn->prepare('SELECT nickname FROM AeBo_employees WHERE BINARY nickname = ?');
-    $statement->bind_param("s", $nickname);
+    echo $bookID;
+    $statement = $conn->prepare("INSERT INTO junction_books (bookID,employeeID)values (?,?)");
+    $statement->bind_param("ii", $bookID, $_POST["emplyeeID"]);
     $statement->execute();
-    $result = $statement->get_result();
 
-    if ($result->num_rows == 0) {
-        $error = 1;
-    } else {
+    $statement = $conn->prepare('UPDATE lib_books SET  borrowed = "1" where bookID = ?');
+    $statement->bind_param('i', $bookID);
+    $statement->execute();
 
-        $statement = $conn->prepare("INSERT INTO lib_borrowing (datum,nickname ,buchID)values (?,?,?)");
-        $statement->bind_param("ssi", $date, $nickname, $buchID);
-        $statement->execute();
-
-        $buchausleihstatus = 1;
-        $statement = $conn->prepare('UPDATE lib_books SET  borrowed = ? where buchID = ?');
-        $statement->bind_param('ii', $buchausleihstatus, $buchID);
-        $statement->execute();
-
-        header("location: books.php");
-        exit();
-    }
+    header("location: books.php");
+    exit();
 }
 
-$statement = $conn->prepare("SELECT book_title FROM lib_books where buchID = ?");
-$statement->bind_param("i", $buchID);
+
+$statement = $conn->prepare("SELECT book_title FROM lib_books where bookID = ?");
+$statement->bind_param("i", $bookID);
 $statement->execute();
 $result = $statement->get_result();
 if ($result->num_rows != 0) {
     while ($row = $result->fetch_assoc()) {
-        $book_title= $row['book_title'];
+        $book_title = $row['book_title'];
     }
 }
 ?>
@@ -81,26 +49,6 @@ if ($result->num_rows != 0) {
 </head>
 
 <body>
-
-
-
-    <!-- Modal -->
-    <div class="modal hide fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Kürzel falsch!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Bitte wählen Sie ein Kürzel aus der Liste.
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
@@ -118,25 +66,25 @@ if ($result->num_rows != 0) {
                             </div>
                             <form method="post" class="signin-form">
                                 <div class="form-group mt-3">
-                                    <input id="exampleDataList" type="text" name="mitarbeiterkrz" class="form-control" list="datalistOptions" autocomplete="off" required>
-                                    <label class="form-control-placeholder" for="exampleDataList">Kürzel</label>
-                                    <datalist id="datalistOptions">
-                                        <?php
-                                        include "../../site/services/db_connect.php";
+                                    <!-- IPA-->
+                                    <select name="emplyeeID" id="emplyeeselect" class="form-control" aria-label="Default select example" required>
+                                        <option selected>Wählen...</option>
 
-                                        $statement = $conn->prepare("SELECT nickname from AeBo_employees");
+                                        <label class="form-control-placeholder" for="emplyeeselect">Kürzel</label>
+                                        <?php
+                                        $statement = $conn->prepare("SELECT nickname,employeeID from AeBo_employees");
                                         $statement->execute();
                                         $result = $statement->get_result();
                                         if ($result->num_rows != 0) {
                                             while ($row = $result->fetch_assoc()) {
-                                                $mitarbeiterkrz = $row['nickname'];
                                                 echo
-                                                '<option value="' . $mitarbeiterkrz . '">';
+                                                ' 
+                                                <option value="' . $row['employeeID'] . '">' . $row['nickname'] . ' ';
                                             }
                                         }
                                         ?>
-                                    </datalist>
-                                    <input hidden type="text" value="<?php $return_date; ?>" name="date">
+                                    </select>
+                                    <!--end IPA-->
                                     <div class="form-group mt-3">
                                         <button type="submit" name="submit" class="form-control btn btn-primary rounded submit px-3">Buchen
                                         </button>
