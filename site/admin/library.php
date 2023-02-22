@@ -39,9 +39,6 @@ $result = $statement->get_result();
     include "../services/nav.php";
     setnavvalues($showSearch, $showEmpDatalist); ?>
 
-
-
-
     <!-- delivermodal -->
     <div class="modal fade" id="DeliverModal" tabindex="-1" aria-labelledby="DeliverModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -139,7 +136,7 @@ $result = $statement->get_result();
                 <h3>Zustellen</h3>
             </div>
             <div class="col">
-                <h3>Zurücknehmen</h3>
+                <h3>Ausgeliehen</h3>
 
             </div>
         </div>
@@ -175,7 +172,7 @@ $result = $statement->get_result();
                                         <td class="ellipsis table-align-left"><?php echo $row['book_title'] ?></td>
                                         <td><?php echo date("d.m.y", strtotime($row['taken_date'])); ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-secondary border-0" data-id="<?php echo $row['junctionID']; ?>"data-bookID="<?php echo $row['bookID']; ?>" data-target="#DeliverModal" onclick="OpenModal(this)">
+                                            <button type="button" class="btn btn-outline-secondary border-0" data-id="<?php echo $row['junctionID']; ?>" data-bookID="<?php echo $row['bookID']; ?>" data-target="#DeliverModal" onclick="OpenModal(this)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 448 512">
                                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                     <path d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z" />
@@ -288,24 +285,28 @@ $result = $statement->get_result();
     <script src="../../assets/vendor/datatables/datatables.min.js"></script>
     <!-- Sidebar-->
     <script src="../../assets/vendor/js/sidebars.js"></script>
+    <script>
+        function InfoOffcanvas(entry) {
+            const bookdata = entry.getAttribute("data-bookdata").split('#');
+            const Booknummer = bookdata[0];
+            document.getElementById("book_title").innerHTML = bookdata[1];
+            document.getElementById("book_autor").innerHTML = bookdata[2];
+            document.getElementById("book_edition").innerHTML = bookdata[3];
+            document.getElementById("book_comment").innerHTML = bookdata[4];
+            //document.getElementById("book_aditionalinfo").innerHTML = bookdata[5];
+            document.getElementById("book_number").innerHTML = bookdata[6];
+        }
 
-    <?php
-    $statement = $conn->prepare('SELECT bestellungID FROM lib_book_orders WHERE bestellung_status = 0');
-    $statement->execute();
-    $result = $statement->get_result();
+        function OpenModal(entry) {
+            var id = entry.getAttribute("data-id");
+            var BookID = entry.getAttribute("data-bookID");
+            var target = entry.getAttribute("data-target");
+            $(target).modal("show");
 
-    if ($result->num_rows == 0) {
-    } else {
-        echo '
-        <script>
-            const toastLiveExample = document.getElementById("book_order_toast")
-            const toast = new bootstrap.Toast(toastLiveExample)
-            toast.show()
-        </script>
-      ';
-    }
-
-    ?>
+            document.getElementById(target + "_junctionID").setAttribute('value', id);
+            document.getElementById(target + "_bookID").setAttribute('value', BookID);
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $('table.table').DataTable({
@@ -323,35 +324,23 @@ $result = $statement->get_result();
             });
         });
     </script>
+    <?php
+    $statement = $conn->prepare('SELECT orderID FROM lib_book_orders WHERE order_status = 0');
+    $statement->execute();
+    $result = $statement->get_result();
 
-    <script>
-        function InfoOffcanvas(entry) {
-            const bookdata = entry.getAttribute("data-bookdata").split('#');
-            const Booknummer = bookdata[0];
-            document.getElementById("book_title").innerHTML = bookdata[1];
-            document.getElementById("book_autor").innerHTML = bookdata[2];
-            document.getElementById("book_edition").innerHTML = bookdata[3];
-            document.getElementById("book_comment").innerHTML = bookdata[4];
-            //document.getElementById("book_aditionalinfo").innerHTML = bookdata[5];
-            document.getElementById("book_number").innerHTML = bookdata[6];
-            var profileimg = document.createElement("img");
-            profileimg.src = "../../assets/images/" + Booknummer + ".jpg";
-            profileimg.width = "75";
-            console.log(bookdata)
-        }
-    </script>
+    if ($result->num_rows == 0) {
+    } else {
+        echo '
+        <script>
+            const toastLiveExample = document.getElementById("book_order_toast")
+            const toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+        </script>
+      ';
+    }
 
-    <script>
-        function OpenModal(entry) {
-            var id = entry.getAttribute("data-id");
-            var BookID = entry.getAttribute("data-bookID");
-            var target = entry.getAttribute("data-target");
-            $(target).modal("show");
-
-            document.getElementById(target + "_junctionID").setAttribute('value', id);
-            document.getElementById(target + "_bookID").setAttribute('value', BookID);
-        }
-    </script>
+    ?>
 </body>
 
 </html>

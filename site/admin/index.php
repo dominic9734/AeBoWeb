@@ -44,8 +44,8 @@ $username = $_SESSION['username'];
                     <div class="d-flex flex-row col-md-12 justify-content-center">
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body ">
-                                <h5 class="card-title">Bücherverwaltung</h5>
-                                <a href="../admin/books.php" class="card-link">Schnellzugriff</a>
+                                <h5 class="card-title">Bibliothek</h5>
+                                <a href="../admin/library.php" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">

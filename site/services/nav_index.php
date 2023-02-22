@@ -16,7 +16,7 @@ function setnavvalues($showEmpDatalist,$showSearch){
     <div class="input-group my-2 flex-grow-1">
         <?php
         if ($showSearch == true) { ?>
-            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
+            <input id="txtSearch" oninput="SearchEmployee()" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
                                                                                         echo 'list="EmployeeNames"';
                                                                                     } ?> />
         <?php

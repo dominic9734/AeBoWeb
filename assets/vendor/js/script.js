@@ -1,6 +1,6 @@
 // loading screen
-$(window).on('load', function() {
-    setTimeout(function() {
+$(window).on('load', function () {
+    setTimeout(function () {
         $('.loader_wrapper').fadeOut();
     }, 500);
 });
@@ -228,33 +228,45 @@ $(document).ready(function () {
 });
 
 
+function SearchEmployee() {
+    var opts = $("#EmployeeNames").children();
+    for (var i = 0; i < opts.length; i++) {
+        if (opts[i].value === $("#txtSearch").val()) {
+            SearchEmployeeAjax();
+            break;
+        }
+    }
+}
+
 $("input").keypress(function (event) {
     if (event.which == 13) {
-        $(".remove_content").empty();
-        $(".remove_header").addClass("d-none")
-        $.ajax({
-            type: "POST",
-            url: "../services/controller/seating_data.php",
-            data: {
-                request: $("#txtSearch").val(),
-                request_scope: "location_zone"
-
-            },
-            success: function (data) {
-                seat = data.location + "_" + data.zone
-                floor = data.location;
-                sectorsearch(seat, floor);
-
-            }
-        });
-        $("#txtSearch").val('')
+        SearchEmployeeAjax();
     }
 });
+
+function SearchEmployeeAjax() {
+    $(".remove_content").empty();
+    $(".remove_header").addClass("d-none")
+    $.ajax({
+        type: "POST",
+        url: "../services/controller/seating_data.php",
+        data: {
+            request: $("#txtSearch").val(),
+            request_scope: "location_zone"
+        },
+        success: function (data) {
+            seat = data.location + "_" + data.zone
+            floor = data.location;
+            sectorsearch(seat, floor);
+        }
+    });
+    $("#txtSearch").val('')
+}
 
 
 function sectorsearch(seat, floor) {
     console.log(floor)
-    console.log(typeof(floor))
+    console.log(typeof (floor))
     $("#" + seat).addClass("plan_fill_active")
     if (lastpressed && lastpressed != seat) {
         $("#" + lastpressed).removeClass("plan_fill_active")

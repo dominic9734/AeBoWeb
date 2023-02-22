@@ -80,7 +80,7 @@
 
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    Auswahl
+                    Auswählen:
                 </button>
                 <ul class="dropdown-menu p-2 height-40hv overflow-auto w-100 border-0">
                     <li>

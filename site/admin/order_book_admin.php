@@ -60,7 +60,7 @@ if (session_id() == '') {
                                 data-order="
                                 [&#34;' . $row['orderID'] . '&#34;, &#34;' . $row['book_title'] . '&#34;, &#34;' . $row['book_autor'] . '&#34;, &#34;' . $row['book_edition'] . '&#34;, &#34;' . $row['book_isbn'] . '&#34;, &#34;' . $row['order_comment'] . '&#34;, &#34;' . $row['first_name'] . " " . $row['last_name'] . '&#34;, &#34;' . $row['order_date'] . '&#34;]
                                 "
-                                    class="btn btn-outline-none" 
+                                    class="btn border-0" 
                                     onclick="OrderModal(this)"
                                     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 192 512">
@@ -72,7 +72,7 @@ if (session_id() == '') {
 
                             <td>
                             
-                                <button type="button" class="btn btn-outline-none" data-orderID="' . $row['orderID'] . '" data-title="' . $row['book_title'] . '" onclick="ConfirmOrder(this)">
+                                <button type="button" class="btn border-0" data-orderID="' . $row['orderID'] . '" data-title="' . $row['book_title'] . '" onclick="ConfirmOrder(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" style="display: inline-block ;">
                                 <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                 <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
