@@ -1,8 +1,8 @@
-// loading screen
+// loading screen spinner
 $(window).on('load', function () {
     setTimeout(function () {
         $('.loader_wrapper').fadeOut();
-    }, 500);
+    }, 100);
 });
 // end loading screen
 

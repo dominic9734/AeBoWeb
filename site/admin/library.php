@@ -34,7 +34,7 @@ $result = $statement->get_result();
 
 <body>
     <?php
-    $showSearch = false;
+    $showSearch = true;
     $showEmpDatalist = false;
     include "../services/nav.php";
     setnavvalues($showSearch, $showEmpDatalist); ?>
@@ -142,7 +142,7 @@ $result = $statement->get_result();
         </div>
         <div class="row">
             <div class="col">
-                <table id="" class="table">
+                <table id="LibaryTable1" class="table">
                     <thead>
                         <tr class="header">
                             <th scope="col" style="width: 60px;"></th>
@@ -189,7 +189,7 @@ $result = $statement->get_result();
                 </table>
             </div>
             <div class="col">
-                <table id="" class="table">
+                <table id="LibaryTable2" class="table">
                     <thead>
                         <tr class="header">
                             <th scope="col" style="width: 60px;"></th>
@@ -273,16 +273,17 @@ $result = $statement->get_result();
         </div>
     </div>
     <!--  ende neues buch info toast -->
-
     <?php include_once "../services/footer.php"; ?>
-
-
     <!--  Bootstrap -->
     <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <!-- jquery -->
     <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
     <!-- Datatables-->
     <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Datatables-->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!-- Sidebar-->
+    <script src="../../assets/vendor/js/sidebars.js"></script>
     <!-- Sidebar-->
     <script src="../../assets/vendor/js/sidebars.js"></script>
     <script>
@@ -306,23 +307,6 @@ $result = $statement->get_result();
             document.getElementById(target + "_junctionID").setAttribute('value', id);
             document.getElementById(target + "_bookID").setAttribute('value', BookID);
         }
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('table.table').DataTable({
-                "bFilter": false,
-                "bLengthChange": false,
-                "info": false,
-                "scrollY": "100vh",
-                "pageLength": 5,
-                "language": {
-                    "paginate": {
-                        "previous": "Zurück",
-                        "next": "Weiter"
-                    }
-                }
-            });
-        });
     </script>
     <?php
     $statement = $conn->prepare('SELECT orderID FROM lib_book_orders WHERE order_status = 0');

@@ -15,6 +15,10 @@
 </head>
 
 <body>
+    <div class="loader_wrapper">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
     <?php
     $showSearch = true;
     $showEmpDatalist = false;
@@ -23,8 +27,6 @@
     ?>
 
     <div class="container-fluid p-3 min-vh-100">
-
-
         <div class="table-wrapper align-middle">
             <table id="datatable" class="table">
                 <thead>
@@ -226,6 +228,8 @@
     <script src="../../assets/vendor/datatables/tables.js"></script>
     <!--Loading screen-->
     <script src="../../assets/vendor/js/loading.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
     <script>
         function InfoOffcanvas(entry) {
