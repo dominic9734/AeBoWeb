@@ -218,7 +218,7 @@ $(document).ready(function () {
 
 
     //Click event to scroll to top
-    $('.back_to_top').click(function () {
+    $('.scrollTop',).click(function () {
         $('html, body').animate({
             scrollTop: 0
         }, 200);

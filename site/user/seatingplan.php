@@ -30,23 +30,6 @@
             box-shadow: 10px #646464;
         }
 
-        .back_to_top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 32px;
-            height: 32px;
-            z-index: 9999;
-            cursor: pointer;
-            text-decoration: none;
-            transition: opacity 0.2s ease-out;
-            display: none;
-        }
-
-        .back_to_top:hover {
-            opacity: 0.7;
-        }
-
         .chip {
             display: inline-block;
             padding: 0 25px;
@@ -305,7 +288,7 @@
 
 
 
-    <svg class="back_to_top" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+    <svg class="back_to_top scrollTop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
         <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" />
     </svg>
 

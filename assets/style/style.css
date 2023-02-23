@@ -9,6 +9,34 @@ body {
     background-color: #f8f9fa !important;
 }
 
+/* back to top*/
+
+.back_to_top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 32px;
+    height: 32px;
+    z-index: 9999;
+    transition: opacity 0.2s ease-out;
+    display: none;
+}
+
+.scrollTop {
+
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+
+.scrollTop:hover {
+    opacity: 0.7;
+}
+
+
+/* combobox*/
+
 .combobox {
     padding: 20px;
     margin: 0px;

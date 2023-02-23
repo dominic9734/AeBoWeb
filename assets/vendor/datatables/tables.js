@@ -12,7 +12,6 @@ $(document).ready(function () {
 
     // Initialize DataTables for all tables
     function setDatatable(tabelID) {
-        console.log(tabelID)
         $('#' + tabelID).DataTable({
             drawCallback: function (settings) {
                 // Get paging information

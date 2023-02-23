@@ -30,6 +30,18 @@ $result = $statement->get_result();
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables-->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Datatables-->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!-- Sidebar-->
+    <script src="../../assets/vendor/js/sidebars.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 </head>
 
 <body>
@@ -274,18 +286,6 @@ $result = $statement->get_result();
     </div>
     <!--  ende neues buch info toast -->
     <?php include_once "../services/footer.php"; ?>
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables-->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Datatables-->
-    <script src="../../assets/vendor/datatables/tables.js"></script>
-    <!-- Sidebar-->
-    <script src="../../assets/vendor/js/sidebars.js"></script>
-    <!-- Sidebar-->
-    <script src="../../assets/vendor/js/sidebars.js"></script>
     <script>
         function InfoOffcanvas(entry) {
             const bookdata = entry.getAttribute("data-bookdata").split('#');
