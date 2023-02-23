@@ -10,6 +10,12 @@
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
     <style>
         .plan_fill_none:hover {
@@ -216,7 +222,7 @@
                 <div class="floor_container" id="floor_6">
                     <h1 class="text-center my-4">6 - OG</h1>
                     <svg id="svg_center" class="pt-0" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167 2525.76">
-                    <rect onclick="btnSVG(this)" id="6_D" class="plan_fill_none" x="1755.12" y="1937.13" width="949.56" height="479.19" />
+                        <rect onclick="btnSVG(this)" id="6_D" class="plan_fill_none" x="1755.12" y="1937.13" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="6_B" class="plan_fill_none" points="1755.12 250.38 1755.12 1084.3 2328.51 1084.3 2328.51 1407.12 2704.68 1407.12 2704.68 1084.3 2704.68 250.38 1755.12 250.38" />
                         <polygon onclick="btnSVG(this)" class="plan_fill_none" points="2327.72 1407.12 2327.72 1084.3 1755.12 1084.3 1755.12 1407.12 1755.12 1937.13 2704.68 1937.13 2704.68 1407.12 2327.72 1407.12" />
                     </svg>
@@ -295,19 +301,6 @@
 
     <?php include_once "../services/footer.php"; ?>
 
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables-->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Ellipsis-->
-    <script src="../../assets/vendor/datatables/ellipsis.js"></script>
-    <!-- Sidebar-->
-    <script src="../../assets/vendor/js/sidebars.js"></script>
-    <!-- JavaScript-->
-    <script src="../../assets/vendor/js/script.js"></script>
 
 </body>
 

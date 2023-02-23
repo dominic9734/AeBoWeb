@@ -10,12 +10,18 @@
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
 
 </head>
 
 <body class="index_background">
-         <?php     
+    <?php
     $showSearch = false;
     $showEmpDatalist = false;
     include "../services/nav_index.php";
@@ -74,18 +80,6 @@
 
 
     <?php include_once "../services/footer.php"; ?>
-
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables-->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Ellipsis-->
-    <script src="../../assets/vendor/datatables/ellipsis.js"></script>
-    <!-- Sidebar-->
-    <script src="../../assets/vendor/js/sidebars.js"></script>
 </body>
 
 </html>

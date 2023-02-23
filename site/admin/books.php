@@ -41,6 +41,16 @@ if (isset($_GET['status'])) {
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables -->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Tables Config -->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
 </head>
 
@@ -334,18 +344,6 @@ if (isset($_GET['status'])) {
     </div>
 
     <?php include "../services/footer.php"; ?>
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables -->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Tables Config -->
-    <script src="../../assets/vendor/datatables/tables.js"></script>
-    <!--Loading screen-->
-    <script src="../../assets/vendor/js/loading.js"></script>
-    <!--Script-->
-    <script src="../../assets/vendor/js/script.js"></script>
 
     <script type="text/javascript">
         const toastLiveExample = document.getElementById('AddBookToast')

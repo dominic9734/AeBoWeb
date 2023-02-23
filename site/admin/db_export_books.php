@@ -4,7 +4,7 @@ include "../../site/services/db_connect.php";
 
 $username = $_SESSION["username"];
 
- 
+
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../services/login.php");
@@ -17,16 +17,26 @@ if (session_id() == '') {
 ?>
 
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AEBO-Library</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables -->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Tables Config -->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
     <style>
         body {
@@ -42,24 +52,21 @@ if (session_id() == '') {
 
 
 <body class="text-center">
-<main class="form-signin w-100 m-auto">
-    <form class="form-horizontal" action="db_import_books.php" method="post" name="upload_excel"
-          enctype="multipart/form-data">
-        <img src="../../assets/images/icons/logo.svg" class="rounded mx-auto d-block img-fluid mb-5 mt-5">
-        <h1 class="h3 mb-3 fw-normal mb-5">.csv Datei wählen</h1>
+    <main class="form-signin w-100 m-auto">
+        <form class="form-horizontal" action="db_import_books.php" method="post" name="upload_excel" enctype="multipart/form-data">
+            <img src="../../assets/images/icons/logo.svg" class="rounded mx-auto d-block img-fluid mb-5 mt-5">
+            <h1 class="h3 mb-3 fw-normal mb-5">.csv Datei wählen</h1>
 
-        <div class="mb-3">
-            <input class="form-control" type="file" id="formFile" name="file">
-        </div>
-        <a class="w-100 btn btn-lg btn-primary mt-5" href="admin.php" role="button">Zurück</a>
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="DataImport" data-loading-text="Loading...">
-            Submit
-        </button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
-    </form>
-</main>
-<!--  Bootstrap -->
-<script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+            <div class="mb-3">
+                <input class="form-control" type="file" id="formFile" name="file">
+            </div>
+            <a class="w-100 btn btn-lg btn-primary mt-5" href="admin.php" role="button">Zurück</a>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="DataImport" data-loading-text="Loading...">
+                Submit
+            </button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+        </form>
+    </main>
 </body>
-</html>
 
+</html>

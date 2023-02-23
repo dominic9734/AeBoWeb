@@ -33,6 +33,12 @@ if (isset($_POST['submit'])) {
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 </head>
 
 <body>
@@ -120,16 +126,6 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </div>
-
-
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!--Loading screen-->
-    <script src="../../assets/vendor/js/loading.js"></script>
-
     <script>
         function close_window() {
             close();

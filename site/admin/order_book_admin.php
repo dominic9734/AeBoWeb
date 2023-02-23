@@ -20,6 +20,16 @@ if (session_id() == '') {
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables -->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Tables Config -->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 </head>
 
 <body>
@@ -184,17 +194,6 @@ if (session_id() == '') {
         </div>
     </div>
     <?php include "../services/footer.php"; ?>
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables -->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Tables Config -->
-    <script src="../../assets/vendor/datatables/tables.js"></script>
-    <!--Loading screen-->
-    <script src="../../assets/vendor/js/loading.js"></script>
-
     <script>
         function OrderModal(entry) {
             var data = JSON.parse($(entry).attr("data-order"))
@@ -214,7 +213,7 @@ if (session_id() == '') {
             $("#ConfirmOrderID").val($(entry).attr("data-orderID"));
             $("#Book_title_display").text($(entry).attr("data-title"));
             $("#ConfirmOrder").modal("show")
-            
+
         }
 
         function CopyToClipboard(input) {

@@ -10,6 +10,18 @@
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables -->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Tables Config -->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!--Loading screen-->
+    <script src="../../assets/vendor/js/loading.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 
 
 </head>
@@ -215,22 +227,6 @@
     </div>
 
     <?php include "../services/footer.php"; ?>
-
-
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables -->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Tables Config -->
-    <script src="../../assets/vendor/datatables/tables.js"></script>
-    <!--Loading screen-->
-    <script src="../../assets/vendor/js/loading.js"></script>
-    <!-- JavaScript-->
-    <script src="../../assets/vendor/js/script.js"></script>
-
     <script>
         function InfoOffcanvas(entry) {
             const bookdata = entry.getAttribute("data-bookdata").split('#');

@@ -44,6 +44,16 @@ if (isset($_POST["submit"])) {
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
     <link rel="stylesheet" href="../../assets/style/style.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- Datatables -->
+    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
+    <!-- Tables Config -->
+    <script src="../../assets/vendor/datatables/tables.js"></script>
+    <!--Script-->
+    <script src="../../assets/vendor/js/script.js"></script>
 </head>
 
 <body>
@@ -106,6 +116,7 @@ if (isset($_POST["submit"])) {
                             </div>
                             <div class="col-3">
                                 <select class="form-select" aria-label="work_division_input" name="work_division_input" id="work_division_input" required>
+                                    <option value="" selected>Abteilung</option>
                                     <option value="ZD">ZD</option>
                                     <option value="IB">IB</option>
                                     <option value="BB">BB</option>
@@ -129,6 +140,7 @@ if (isset($_POST["submit"])) {
                             </div>
                             <div class="col">
                                 <select class="form-select" aria-label="location_input" name="location_input" id="location_input" required>
+                                    <option value="" selected>Stockwerk</option>
                                     <option value="3">3. OG</option>
                                     <option value="4">4. OG</option>
                                     <option value="5">5 .OG</option>
@@ -136,6 +148,7 @@ if (isset($_POST["submit"])) {
                             </div>
                             <div class="col">
                                 <select class="form-select" aria-label="zone_input" name="zone_input" id="zone_input" required>
+                                    <option value="" selected>Zone</option>
                                     <option value="A">Zone A</option>
                                     <option value="B">Zone B</option>
                                     <option value="C">Zone C</option>
@@ -227,16 +240,16 @@ if (isset($_POST["submit"])) {
                 <div class="modal-body">
                     <img id="updatepfp" src="" alt="Kein Profilbild">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Neues Profilbild</label>
-                        <input class="form-control" type="file" accept=".png" id="employeeimage" name="employeeimage">
+                        <form enctype="multipart/form-data">
+                            <input type="text" hidden id="DelEmployeeID" name="DelEmployeeID" value="">
+                            <label for="formFile" class="form-label">Neues Profilbild</label>
+                            <input class="form-control" type="file" accept=".png" id="employeeimageupdate" name="employeeimageupdate">
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <form method="post" action="functions.php">
-                        <input type="text" hidden id="DelEmployeeID" name="DelEmployeeID" value="">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                        <button class="btn btn-outline-success" type="button" data-toggle="modal" id="submitupdateimage">Speichern</button>
-                    </form>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <button class="btn btn-outline-success" type="button" data-toggle="modal" id="submitupdateimage">Speichern</button>
                 </div>
             </div>
         </div>
@@ -283,7 +296,7 @@ if (isset($_POST["submit"])) {
                 if ($result->num_rows != 0) {
                     while ($employee = mysqli_fetch_assoc($result)) { ?>
                         <tr id="row<?php echo $employee['employeeID']; ?>">
-                            <th scope="row"><img onclick="EditImage(this)" class="rounded-circle shadow-sm updateimage" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['employee_image']; ?>" style="height: 50px;" data-id="<?php echo $employee['employeeID']; ?>"></th>
+                            <th scope="row"><img class="rounded-circle shadow-sm updateimage" alt="MA" src="../../assets/images/employees_200px/<?php echo $employee['employee_image']; ?>" style="height: 50px;" data-id="<?php echo $employee['employeeID']; ?>" onclick="EditImage(this)"></th>
                             <td class="editable" id="name<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['first_name'] . " " . $employee['last_name']; ?></td>
                             <td class="editable" id="nickname<?php echo $employee['employeeID']; ?>" contenteditable="false"><?php echo $employee['nickname']; ?></td>
 
@@ -329,27 +342,7 @@ if (isset($_POST["submit"])) {
             </tbody>
         </table>
     </div>
-
-
-
-
     <?php include "../services/footer.php"; ?>
-
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- Datatables -->
-    <script src="../../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- Tables Config -->
-    <script src="../../assets/vendor/datatables/tables.js"></script>
-    <!--Loading screen-->
-    <script src="../../assets/vendor/js/loading.js"></script>
-
-
-
-
     <script>
         let editing = false;
         //gibt id zu modal, wird zum löschen gebraucht
@@ -376,98 +369,56 @@ if (isset($_POST["submit"])) {
                 var employeeID = $(row).data("id")
                 $("#updatepfp").attr("src", $(row).attr("src"));
 
-                var formData = new FormData();
-                formData.append('file', $('#employeeimage')[0].files[0]);
-
                 $("#submitupdateimage").click(function() {
+                    console.log("test")
+                    const formData = new FormData();
+                    const fileData = $('#employeeimageupdate').prop('files')[0]
+                    formData.append('image', fileData)
+                    formData.append('employeeID', employeeID)
+                    formData.append('path', $(row).attr("src"))
                     $.ajax({
                         type: "POST",
                         url: "../services/controller/employee_image_update.php",
-                        data: {
-                            path: $(row).attr("src"),
-                            employeeID: employeeID,
-                            employeeimage: formData
-                        },
+                        contentType: false,
+                        processData: false,
+                        data: formData,
                         success: function(data) {
-                            if (data.status = "success") {
-                                //alert("Daten erfolgreich aktualisiert!");
-                                //location.reload();
-                            } else {
-                                //alert("Es gab einen fehler beim aktualisieren.");
+                            if (data.status != "success") {
+                                alert("Error!");
                             }
                         }
                     });
                 });
-
-
             }
         }
-
-
-
-
 
         function edit(row) {
             $("#row" + row).children().attr("contenteditable", "true");
-            var x = document.getElementById("editbtn" + row);
-            if (x.style.display === "inline-block") {
-                x.style.display = "none";
-                editing = true;
-            } else {
-                x.style.display = "inline-block";
-                diting = false;
-            }
-            var x = document.getElementById("savebtn" + row);
-            if (x.style.display === "none") {
-                x.style.display = "inline-block";
-            } else {
-                x.style.display = "none";
-
-            }
+            $("#editbtn" + row).toggle();
+            $("#savebtn" + row).toggle();
+            editing = !editing;
         }
 
+
         function save(row) {
-            //setzt contenteditable auf falsch um editierung zu deaktivieren
             $("#row" + row).children().attr("contenteditable", "false");
-            //holt die ID der reihe
-            var x = document.getElementById("editbtn" + row);
-            //ändert die sichtbarkeit des buttons
-            if (x.style.display === "inline-block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "inline-block";
-            }
-            var x = document.getElementById("savebtn" + row);
-            if (x.style.display === "inline-block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "inline-block";
-            }
-
+            $("#editbtn" + row).toggle();
+            $("#savebtn" + row).toggle();
             var children = $("#row" + row).not(".btn").children();
-            var vars = [];
-            for (var i = 0; i < children.length; i++) {
-                vars[i] = $(children[i]).html();
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "../services/controller/employee_update.php",
-                data: {
-                    updateID: row,
-                    updatedata: vars
-                },
-                success: function(data) {
-                    if (data.status = "success") {
-                        alert("Daten erfolgreich aktualisiert!");
-                        location.reload();
-                    }
-                    if (data.status = "success") {
-                        alert("Es gab einen fehler beim aktualisieren.");
-                    }
+            var vars = children.map(function() {
+                return $(this).html();
+            }).get();
+            $.post("../services/controller/employee_update.php", {
+                updateID: row,
+                updatedata: vars
+            }, function(data) {
+                if (data.status === "success") {
+                    alert("Daten erfolgreich aktualisiert!");
+                    location.reload();
+                } else {
+                    alert("Es gab einen fehler beim aktualisieren.");
                 }
             });
-
         }
 
 

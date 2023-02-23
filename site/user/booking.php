@@ -44,8 +44,13 @@ if ($result->num_rows != 0) {
 
     <!-- Bootstrap -->
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
-
     <link rel="stylesheet" href="../../assets/style/loginstyle.css">
+    <!--  Bootstrap -->
+    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
+    <!-- JavaScript-->
+    <script src="../../assets/vendor/js/script.js"></script>
 </head>
 
 <body>
@@ -95,21 +100,15 @@ if ($result->num_rows != 0) {
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- jquery -->
-    <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-
-    <?php
-    if ($error == 1) {
-        echo "<script type='text/javascript'>
+        <?php
+        if ($error == 1) {
+            echo "<script type='text/javascript'>
     $(document).ready(function(){
     $('#Modal').modal('show');
     });
     </script>";
-    }
-    ?>
+        }
+        ?>
 
 
 </body>

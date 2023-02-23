@@ -1,5 +1,18 @@
 <?php
+/*
+File Name: xml.php
+Project: aeboWeb
+Description: Generates an XML file containing book sources based on user input
+Author: D.Leuthardt
+Parameters:
+XmlSelection (IN) - User input via HTTP POST request as JSON
+Returns: None
+Modification History:
 
+Purpose:
+This function creates XML files with book sources based on user input using an SQL query to retrieve data from a database. 
+The resulting XML file is sent as an attachment in a HTTP response with appropriate headers.
+*/
 
 $xmlSelections = ($_POST['XmlSelection']);
 
@@ -79,7 +92,6 @@ ob_end_clean();
 header_remove();
 
 header("Content-type: text/xml");
-header('Content-Disposition: attachment; filename="Sources_AEBO_'.date("d_m_Y").'.xml"');
+header('Content-Disposition: attachment; filename="Sources_AEBO_' . date("d_m_Y") . '.xml"');
 
 echo $domtree->saveXML();
-

@@ -199,16 +199,16 @@ if (isset($_POST['UpdateEmployee'])) {
 // create employees into the database
 
 if (isset($_POST['CreateEmployee'])) {
-    //start sql upload
 
     $employeeimage = $_FILES['employeeimage'];
 
-    $statement = $conn->prepare("INSERT INTO AeBo_employees (first_name, last_name, nickname, location, zone, work_division, internal_phone, mobile_phone, primary_mail, special_authority, department) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-    $statement->bind_param("sssssssssss", $_POST["first_name_input"], $_POST["last_name_input"], $_POST["nickname_input"], $_POST["location_input"], $_POST["zone_input"], $_POST["work_division_input"], $_POST["internal_phone_input"], $_POST["mobile_phone_input"], $_POST["primary_mail_input"], $_POST["special_authority_input"], $_POST["department_input"]);
-    $statement->execute();
-    $employeeimagepath = "../../assets/images/employees200px/" . $_POST['nickname_input'] . ".png";
+    $employeeimagepath = "employeeimage_" . uniqid() . ".png";
 
-    move_uploaded_file($employeeimage['tmp_name'], $employeeimagepath);
+    $statement = $conn->prepare("INSERT INTO AeBo_employees (first_name, last_name, nickname, location, zone, work_division, internal_phone, mobile_phone, primary_mail, special_authority, department,employee_image) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+    $statement->bind_param("ssssssssssss", $_POST["first_name_input"], $_POST["last_name_input"], $_POST["nickname_input"], $_POST["location_input"], $_POST["zone_input"], $_POST["work_division_input"], $_POST["internal_phone_input"], $_POST["mobile_phone_input"], $_POST["primary_mail_input"], $_POST["special_authority_input"], $_POST["department_input"], $employeeimagepath);
+    $statement->execute();
+
+    move_uploaded_file($employeeimage['tmp_name'], getcwd() . "/../../assets/images/employees_200px/" . $employeeimagepath);
     header("Location: employees.php");
     exit;
 }
@@ -434,6 +434,8 @@ if (isset($_POST['delete_restore_mag'])) {
 
 if (isset($_POST['EditMagazine'])) {
     $newFile = $_FILES['edit_cover'];
+
+    var_dump($newFile);
 
     $statement = $conn->prepare('SELECT magazine_image FROM lib_magazines WHERE magazineID = ?');
     $statement->bind_param('i', $_POST['magazineID']);
