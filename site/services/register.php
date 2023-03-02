@@ -30,16 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Bitte geben sie einen Benutzername ein.";
     } else {
 
-        $sql = "SELECT userID FROM users WHERE username = ?";
+        $sql = "SELECT userID FROM aebo_administrators WHERE username = ?";
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
 
             mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-
             $param_username = trim($_POST["username"]);
-
-
             if (mysqli_stmt_execute($stmt)) {
 
                 mysqli_stmt_store_result($stmt);
@@ -52,8 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Es gab einen Fehler, probieren sie es später nochmal.";
             }
-
-
             mysqli_stmt_close($stmt);
         }
     }
@@ -91,10 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT);
 
-
             if (mysqli_stmt_execute($stmt)) {
 
-                header("location: login.php");
+                header("location: index.php");
             } else {
                 echo "Etwas ist schief gelaufen. Bitte versuchen sie es später nochmal.";
             }
@@ -162,14 +155,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!--  Bootstrap -->
-    <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-
 
 </body>
 

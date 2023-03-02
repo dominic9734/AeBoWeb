@@ -138,13 +138,13 @@
         <h1 class="text-center pt-3">Arbeitsplatzverteilung</h1>
         <div class="row">
             <div class="col">
-                <h1 id="wrapper_room_label_floor_3" class="my-4 d-none remove_header">Räume</h1>
+                <h1 id="wrapper_room_label_floor_3" class="py-4 d-none remove_header">Räume</h1>
                 <div class="floor_container remove_content " id="wrapper_rooms_floor_3">
                 </div>
             </div>
             <div class="col-6">
                 <div class="floor_container" id="floor_3">
-                    <h1 class="text-center my-4">3.OG</h1>
+                    <h1 class="text-center py-4">3.OG</h1>
                     <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167.36 2526.12">
                         <rect onclick="btnSVG(this)" id="3_D" class="plan_fill_none" x="1771.69" y="1927.08" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="3_B" class="plan_fill_none" points="1771.69 240.33 1771.69 1074.25 2345.09 1074.25 2345.09 1397.07 2721.25 1397.07 2721.25 1074.25 2721.25 240.33 1771.69 240.33" />
@@ -158,19 +158,19 @@
                 </div>
             </div>
             <div class="col">
-                <h1 id="wrapper_label_floor_3" class="my-4 d-none remove_header">Mitarbeiter</h1>
+                <h1 id="wrapper_label_floor_3" class="py-4 d-none remove_header">Mitarbeiter</h1>
                 <div class="floor_container remove_content  pt-5" id="wrapper_floor_3"></div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h1 id="wrapper_room_label_floor_4" class="my-4 d-none remove_header">Räume</h1>
+                <h1 id="wrapper_room_label_floor_4" class="py-4 d-none remove_header">Räume</h1>
                 <div class="floor_container remove_content " id="wrapper_rooms_floor_4">
                 </div>
             </div>
             <div class=" col-6">
                 <div class="floor_container" id="floor_4">
-                    <h1 class="text-center my-4">4.OG</h1>
+                    <h1 class="text-center py-4">4.OG</h1>
                     <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167.36 2526.12">
                         <rect onclick="btnSVG(this)" onclick="btnSVG(this)" id="4_D" class="plan_fill_none" x="1771.69" y="1927.08" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="4_B" class="plan_fill_none" points="1771.69 240.33 1771.69 1074.25 2345.09 1074.25 2345.09 1397.07 2721.25 1397.07 2721.25 1074.25 2721.25 240.33 1771.69 240.33" />
@@ -183,19 +183,19 @@
                 </div>
             </div>
             <div class="col">
-                <h1 id="wrapper_label_floor_4" class="my-4 d-none remove_header">Mitarbeiter</h1>
+                <h1 id="wrapper_label_floor_4" class="py-4 d-none remove_header">Mitarbeiter</h1>
                 <div class="floor_container remove_content  pt-5" id="wrapper_floor_4"></div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h1 id="wrapper_room_label_floor_5" class="my-4 d-none remove_header">Räume</h1>
+                <h1 id="wrapper_room_label_floor_5" class="py-4 d-none remove_header">Räume</h1>
                 <div class="floor_container remove_content " id="wrapper_rooms_floor_5">
                 </div>
             </div>
             <div class=" col-6">
                 <div class="floor_container" id="floor_5">
-                    <h1 class="text-center my-4">5.OG</h1>
+                    <h1 class="text-center py-4">5.OG</h1>
                     <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167.36 2526.12">
                         <rect onclick="btnSVG(this)" id="5_D" class="plan_fill_none" x="1771.69" y="1927.08" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="5_B" class="plan_fill_none" points="1771.69 240.33 1771.69 1074.25 2345.09 1074.25 2345.09 1397.07 2721.25 1397.07 2721.25 1074.25 2721.25 240.33 1771.69 240.33" />
@@ -208,19 +208,19 @@
                 </div>
             </div>
             <div class="col">
-                <h1 id="wrapper_label_floor_5" class="my-4 d-none remove_header">Mitarbeiter</h1>
+                <h1 id="wrapper_label_floor_5" class="py-4 d-none remove_header">Mitarbeiter</h1>
                 <div class="floor_container remove_content  pt-5" id="wrapper_floor_5"></div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h1 id="wrapper_room_label_floor_6" class="my-4 d-none remove_header">Räume</h1>
+                <h1 id="wrapper_room_label_floor_6" class="py-4 d-none remove_header">Räume</h1>
                 <div class="floor_container remove_content " id="wrapper_rooms_floor_6">
                 </div>
             </div>
             <div class=" col-6">
                 <div class="floor_container" id="floor_6">
-                    <h1 class="text-center my-4">6 - OG</h1>
+                    <h1 class="text-center py-4">6 - OG</h1>
                     <svg id="svg_center" class="pt-0" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167 2525.76">
                         <rect onclick="btnSVG(this)" id="6_D" class="plan_fill_none" x="1755.12" y="1937.13" width="949.56" height="479.19" />
                         <polygon onclick="btnSVG(this)" id="6_B" class="plan_fill_none" points="1755.12 250.38 1755.12 1084.3 2328.51 1084.3 2328.51 1407.12 2704.68 1407.12 2704.68 1084.3 2704.68 250.38 1755.12 250.38" />
@@ -229,7 +229,7 @@
                 </div>
             </div>
             <div class="col">
-                <h1 id="wrapper_label_floor_6" class="my-4 d-none remove_header">Mitarbeiter</h1>
+                <h1 id="wrapper_label_floor_6" class="py-4 d-none remove_header">Mitarbeiter</h1>
                 <div class="floor_container remove_content " id="wrapper_floor_6">
                 </div>
             </div>
