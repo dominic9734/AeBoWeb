@@ -69,10 +69,10 @@ if (isset($_GET['status'])) {
                     <th scope="col" style="width: 5%">#</th>
                     <th scope="col" style="width: 65%">Titel</th>
                     <th scope="col" style="width: 10%">Autor</th>
-                    <th scope="col" style="width: 2.5%">Ausgabe</th>
-                    <th scope="col" style="width: 2.5%">Verfügbar</th>
-                    <th scope="col" style="width: 2.5%">Bearbeiten</th>
-                    <th scope="col" style="width: 2.5%">Löschen</th>
+                    <th scope="col" style="width: 5%">Ausgabe</th>
+                    <th scope="col" style="width: 5%">Verfügbar</th>
+                    <th scope="col" style="width: 5%">Bearbeiten</th>
+                    <th scope="col" style="width: 5%">Löschen</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,7 +85,7 @@ if (isset($_GET['status'])) {
                 ?>
                             <tr>
                                 <th scope="row"><?php echo $row['book_number']; ?></th>
-                                <td class="table-align-left table-size-65"><?php echo $row['book_title']; ?></td>
+                                <td class="table-align-left"><?php echo $row['book_title']; ?></td>
                                 <td class="table-align-right"><?php echo $row['book_autor']; ?></td>
                                 <td class="table-align-center"><?php echo $row['book_edition']; ?></td>
                                 <td>
@@ -194,13 +194,6 @@ if (isset($_GET['status'])) {
                                 <textarea name="book_comment" class="form-control" aria-label="With textarea"></textarea>
                             </div>
 
-
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Buchcover</label>
-                                <input class="form-control" type="file" id="cover" name="jpg_file" accept=".jpg">
-                                <input hidden type="text" name="DirectoryBook" value="/../../assets/images/book/">
-                            </div>
-
                             <div class="row align-items-center mb-2">
                                 <div class="col">
                                     <div class="form-check">
@@ -275,16 +268,6 @@ if (isset($_GET['status'])) {
                             <div class="row align-items-center mb-2">
                                 <div class="col d-inline-flex">
                                     <div class="mb-3 pe-5">
-                                        <label for="formFile" class="form-label">Buchcover</label>
-                                        <input class="form-control" type="file" id="cover" name="jpg_file" accept=".jpg">
-                                        <input hidden type="text" name="DirectoryBook" value="/../../assets/images/book/">
-                                    </div>
-                                    <div id="CoverImg" class="mb-3">
-                                    </div>
-                                </div>
-
-                                <div class="col d-inline-flex">
-                                    <div class="mb-3 pe-5">
                                         <label for="formFile" class="form-label">PDF Wählen </label>
                                         <input class="form-control" name="pdf_file" type="file" accept=".pdf" id="PDF">
                                         <input hidden type="text" name="DirectoryPDF" value="/../../assets/PDF/">
@@ -299,19 +282,6 @@ if (isset($_GET['status'])) {
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row align-items-center mb-2">
-                                <div class="col d-inline-flex">
-                                    <div class="mb-3 pe-5">
-                                        <label for="formFile" class="form-label">Buch Inhaltsverzeichnis</label>
-                                        <input class="form-control" type="file" id="cover" name="jpg_file" accept=".jpg">
-                                        <input hidden type="text" name="DirectoryBook" value="/../../assets/images/book/">
-                                    </div>
-                                    <div id="InhaltImg" class="mb-3">
-                                    </div>
-                                </div>
-
                                 <div class="col d-inline-flex">
                                     <div class="row align-items-center">
                                         <div class="col">

@@ -172,7 +172,7 @@ function DisplayRoomInfo(chip) {
                     var pfpimg = $('<img>', { // create a new img element
                         id: 'employeePFP',
                         class: 'rounded-circle shadow-sm',
-                        src: "../../assets/images/employees_200px/" + member.nickname + ".png",
+                        src: "../../assets/images/employees_200px/" + member.employee_image,
                         style: "height:40px;",
                         alt: " "
                     });
@@ -291,14 +291,47 @@ $(document).keydown(function (event) {
     }
 });
 
+//---------------------------------------------------------------------------------------------------------
+//js user books
+//---------------------------------------------------------------------------------------------------------
+
+
+function InfoOffcanvas(entry) {
+    const bookdata = $(entry).data("bookdata").split('#');
+    $("#book_title").html(bookdata[1]);
+    $("#book_autor").html(bookdata[2]);
+    $("#book_edition").html(bookdata[3]);
+    $("#book_number").html(bookdata[6]);
+    var bookingbtn = $("#bookingbtn");
+    var pdfbtn = $("#pdfbtn");
+
+    if (bookdata[9] == 0) {
+        bookingbtn.show();
+    } else {
+        bookingbtn.hide();
+    }
+
+    if (bookdata[8] == 0) {
+        pdfbtn.hide();
+    } else {
+        pdfbtn.show();
+    }
+    bookingbtn.attr("href", "booking.php?bookID=" + bookdata[0].trim());
+    pdfbtn.attr("href", "../pdf_view/web/viewer.php?pdfID=" + bookdata[6].trim() + ".pdf");
+}
+
+
+//---------------------------------------------------------------------------------------------------------
+//end js user magazines
+//---------------------------------------------------------------------------------------------------------
+
+// BS Tooltip trigger
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 //---------------------------------------------------------------------------------------------------------
 //js user magazines
 //---------------------------------------------------------------------------------------------------------
-
-
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 
 var RemovedEmployees = []; // array for all the from the delivery list removed employees

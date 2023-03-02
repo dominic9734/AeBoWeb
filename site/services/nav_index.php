@@ -85,7 +85,7 @@ function setnavvalues($showEmpDatalist,$showSearch){
                                 <li><a class="link-dark rounded" href="../user/magazines.php">Zeitschriften</a></li>
                                 <li><a class="link-dark rounded" href="../user/getxml.php">Literaturverzeichnis</a></li>
                                 <!--
-                                <li><a class="link-dark rounded" href="../user/order_book.php" target="_blank">Buch bestellen</a></li>
+                                <li><a class="link-dark rounded" href="../user/bookrequests.php" target="_blank">Buch bestellen</a></li>
                                 <li><a class="link-dark rounded" href="../user/info.php">Info</a></li>
                                   -->
 

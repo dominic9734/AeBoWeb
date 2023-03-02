@@ -163,6 +163,22 @@ if (isset($_POST['XMLExport'])) {
 // -------------- IPA--------------
 // update employees into the database
 
+/*
+Function Name: updateEmployee
+Description: Updates an employee entry in the database and renames associated image file
+Author: D.Leuthardt
+Parameters: 
+UpdateEmployee (IN) - HTTP GET parameter to trigger the export functionality
+Returns: None
+Modification History:
+
+Purpose:
+This function is triggered when the "UpdateEmployee" button is pressed in the employee editing form.
+It retrieves the updated employee data from the HTTP POST request and updates the corresponding database entry using an SQL query.
+The function then renames the associated employee image file to match the new employee nickname.
+Finally, the function redirects the user to the employees.php page.
+*/
+
 if (isset($_POST['UpdateEmployee'])) {
 
     $UpdateEmployeeID = htmlspecialchars($_POST['UpdateEmployeeID']);
@@ -196,7 +212,22 @@ if (isset($_POST['UpdateEmployee'])) {
 
     exit;
 }
-// create employees into the database
+
+/*
+Function Name: createEmployee
+Description: Inserts a new employee entry into the database with associated image file
+Author: D.Leuthardt
+Parameters:
+CreateEmployee (IN) - HTTP GET parameter to trigger the export functionality
+Returns: None
+Modification History:
+
+Purpose:
+This function is triggered when the "CreateEmployee" button is pressed in the employee creation form.
+It retrieves the new employee data from the HTTP POST request and inserts it as a new entry in the database using an SQL query.
+The function also uploads the associated employee image file to the appropriate directory.
+Finally, the function redirects the user to the employees.php page.
+*/
 
 if (isset($_POST['CreateEmployee'])) {
 
@@ -212,7 +243,20 @@ if (isset($_POST['CreateEmployee'])) {
     header("Location: employees.php");
     exit;
 }
-// export employees to csv
+/*
+Function Name: CreateEmployee
+Project: aeboWeb
+Description: Generates a CSV file containing employee data and sends it as an attachment in a HTTP response
+Author: D.Leuthardt
+Parameters:
+ExportCSV (IN) - HTTP GET parameter to trigger the export functionality
+Returns: None
+Modification History:
+
+Purpose:
+This function generates a CSV file containing employee data based on a SQL query that retrieves employee information from a database.
+The resulting CSV file is sent as an attachment in a HTTP response with appropriate headers.
+*/
 if (isset($_GET['ExportCSV'])) {
     $query = $conn->query("SELECT * FROM AeBo_employees ORDER BY employeeID ASC");
     if ($query->num_rows > 0) {
@@ -221,12 +265,12 @@ if (isset($_GET['ExportCSV'])) {
 
         $csvupload = fopen('php://memory', 'w');
 
-        $fields = array('employeeID', 'first_name', 'last_name', 'nickname', 'location', 'zone', 'work_division', 'internal_phone', 'mobile_phone', 'primary_mail', 'special_authority', 'department');
+        $fields = array('employeeID', 'first_name', 'last_name', 'nickname', 'location', 'zone', 'work_division', 'internal_phone', 'mobile_phone', 'primary_mail', 'special_authority', 'department', 'employee_image');
         fputcsv($csvupload, $fields, $delimiter);
 
 
         while ($row = $query->fetch_assoc()) {
-            $lineData = array($row['employeeID'], $row['first_name'], $row['last_name'], $row['nickname'], $row['location'], $row['zone'], $row['work_division'], $row['internal_phone'], $row['mobile_phone'], $row['primary_mail'], $row['special_authority'], $row['department']);
+            $lineData = array($row['employeeID'], $row['first_name'], $row['last_name'], $row['nickname'], $row['location'], $row['zone'], $row['work_division'], $row['internal_phone'], $row['mobile_phone'], $row['primary_mail'], $row['special_authority'], $row['department'], $row['employee_image']);
             $lineData = array_map("utf8_decode", $lineData);
             fputcsv($csvupload, $lineData, $delimiter);
         }
@@ -239,7 +283,22 @@ if (isset($_GET['ExportCSV'])) {
     }
     exit;
 }
-//Mitarbeiter CSV import
+/*
+Function Name: ExportCSV
+Project: aeboWeb
+Description: Imports employee data from a CSV file and inserts or updates the data in a database
+Author: D.Leuthardt
+Parameters:
+ImportCSV (IN) - HTTP POST parameter to trigger the import functionality
+Returns: None
+Modification History:
+
+Purpose:
+This function imports employee data from a CSV file and inserts or updates the data in a database.
+It first validates the selected file to ensure it is a CSV file, then parses the data line by line and retrieves the employee information from each line.
+It then checks if an employee with the same nickname already exists in the database and either inserts a new record or updates the existing record.
+The function redirects back to the employees.php page after completion with appropriate status messages.
+*/
 if (isset($_POST['ImportCSV'])) {
     // Allowed mime types
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
@@ -268,6 +327,7 @@ if (isset($_POST['ImportCSV'])) {
                 $primary_mail = $line[10];
                 $special_authority = $line[11];
                 $department = $line[12];
+                $employee_image = $line[13];
 
 
                 $stmt = $conn->prepare('SELECT nickname FROM AeBo_employees WHERE BINARY nickname = ?');
@@ -275,12 +335,12 @@ if (isset($_POST['ImportCSV'])) {
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows == 0 && !empty($first_name && $last_name)) {
-                    $stmt = $conn->prepare('INSERT INTO AeBo_employees (first_name , last_name, nickname, location, zone, work_division, internal_phone, mobile_phone,primary_mail,special_authority,department) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
-                    $stmt->bind_param('sssssssssss', $first_name, $last_name, $nickname, $location, $zone, $work_division, $internal_phone, $mobile_phone, $primary_mail, $special_authority, $department);
+                    $stmt = $conn->prepare('INSERT INTO AeBo_employees (first_name , last_name, nickname, location, zone, work_division, internal_phone, mobile_phone,primary_mail,special_authority,department) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+                    $stmt->bind_param('ssssssssssss', $first_name, $last_name, $nickname, $location, $zone, $work_division, $internal_phone, $mobile_phone, $primary_mail, $special_authority, $department, $employee_image);
                     $stmt->execute();
                 } elseif (!empty($first_name && $last_name)) {
-                    $stmt = $conn->prepare('UPDATE AeBo_employees SET first_name = ?, last_name = ?, location = ?, zone = ?, work_division = ?, internal_phone = ?, mobile_phone = ? , primary_mail = ?,special_authority = ?,department = ? WHERE BINARY nickname = ?');
-                    $stmt->bind_param('ssssssssssss', $first_name, $last_name, $location, $zone, $work_division, $internal_phone, $mobile_phone, $primary_mail, $special_authority, $department, $nickname, $nickname);
+                    $stmt = $conn->prepare('UPDATE AeBo_employees SET first_name = ?, last_name = ?, location = ?, zone = ?, work_division = ?, internal_phone = ?, mobile_phone = ? , primary_mail = ?,special_authority = ?,department = ?,employee_image = ? WHERE BINARY nickname = ?');
+                    $stmt->bind_param('sssssssssssss', $first_name, $last_name, $location, $zone, $work_division, $internal_phone, $mobile_phone, $primary_mail, $special_authority, $department, $nickname, $nickname, $employee_image);
                     $stmt->execute();
                 }
             }
@@ -294,6 +354,11 @@ if (isset($_POST['ImportCSV'])) {
     header("Location: employees.php" . $qstring);
     exit;
 }
+
+
+// --------------END IPA--------------
+
+
 //export DB zu CSV
 if (isset($_POST['ExportBook'])) {
     $query = $conn->query("SELECT * FROM lib_booksORDER BY bookID ASC");

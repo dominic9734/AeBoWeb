@@ -62,7 +62,7 @@ function setnavvalues($showSearch)
                             <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
                                 <li><a class="link-dark rounded text-muted text-muted" href="../admin/library.php">Bibliothek</a></li>
                                 <li><a class="link-dark rounded text-muted" href="../admin/books.php">Übersicht</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/order_book_admin.php">Buch Bestellen</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/bookrequests.php">Buch Bestellen</a></li>
                                 <li><a class="link-dark rounded text-muted" href="../admin/bookshistory.php">Historie</a></li>
                                 <li><a class="link-dark rounded text-muted" href="../admin/archive.php">Archiv</a></li>
                             </ul>

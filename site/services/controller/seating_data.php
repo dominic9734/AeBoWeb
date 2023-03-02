@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
 
         while ($row = $result->fetch_assoc()) {
             header('Content-Type: application/json');
-            echo json_encode(array('location' => $row['location'], 'zone' => $row['zone'], 'room_name' => $row['room_name']));
+            echo json_encode(array('location' => $row['location'], 'zone' => $row['zone'], 'room_name' => $row['room_name ']));
         }
     } elseif ($request_scope == "query") {
         $location = $_POST['location'];
@@ -61,7 +61,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
         while ($row = $result->fetch_assoc()) {
 
             $members[] = [
-                'ID' => $row['employeeID'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
+                'ID' => $row['employeeID'],'employee_image' => $row['employee_image'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'nickname' => $row['nickname'], 'location' => $row['location'], 'zone' => $row['zone'], 'work_division' => $row['work_division'], 'internal_phone' => $row['internal_phone'], 'mobile_phone' => $row['mobile_phone'], 'primary_mail' => $row['primary_mail'], 'special_authority' => $row['special_authority'], 'department' => $row['department']
             ];
         }
         header('Content-Type: application/json');

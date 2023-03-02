@@ -1,5 +1,21 @@
-
+<!--
+File Name: employee_image_update.php
+Project: aeboWeb
+Author: D.Leuthardt
+Modification History:
+ -->
 <?php
+/*
+Function Name: none
+Description: Check if an XMLHttpRequest was made and upload an image to the server
+Parameters:
+image (IN) - HTTP POST image
+Returns: 
+status - success or none
+Modification History:
+    Created:
+    
+*/
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
     include "../../services/db_connect.php";
     $image = $_FILES['image'];
@@ -18,5 +34,4 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
     echo json_encode(array('status' => "success"));
     exit;
 }
-
 ?>

@@ -280,7 +280,7 @@ $result = $statement->get_result();
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                <a href="../admin/order_book_admin.php" class="link-dark">Es wurden neue Bücher bestellt.</a>
+                <a href="../admin/bookrequests.php" class="link-dark">Es wurden neue Bücher bestellt.</a>
             </div>
         </div>
     </div>
