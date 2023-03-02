@@ -4,8 +4,6 @@ include "../../site/services/db_connect.php";
 
 $username = $_SESSION["username"];
 
-
-
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../services/login.php");
     exit;
@@ -64,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["password"]))) {
         $password_err = "Bitte geben sie ein Passwort ein.";
     } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Das Passwort muss mindestens 6 Zeichen haben";
+        $password_err = "Das Passwort muss mindestens 6 Zeichen lang sein.";
     } else {
         $password = trim($_POST["password"]);
     }
@@ -83,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
 
         // macht user in user db
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO aebo_administrators (username, password) VALUES (?, ?)";
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
 
@@ -167,11 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </section>
-
-
-
-
-
 
 
     <!--  Bootstrap -->

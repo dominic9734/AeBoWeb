@@ -126,19 +126,20 @@ if (isset($_GET['status'])) {
 
 
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="AddBookToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="max-width: 70px; max-height: 70px;">
+            <div id="AddBookToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+                <div class="toast-header">
+                    <strong class="me-auto">Buch hinzufügen</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
                 <div class="toast-body">
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#AddBookModal" style="display: inline;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 448 512">
-                                <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                            </svg>
-                        </button>
+                        <button type="button" class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#AddBookModal">Manuell</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#bookCSV">CSV</button>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <!-- löschen Modal -->
     <div class="modal fade" id="DeleteBookModal" tabindex="-1" aria-labelledby="DeleteBookModalLabel" aria-hidden="true">
@@ -156,6 +157,41 @@ if (isset($_GET['status'])) {
                         <input type="text" hidden id="delete_restoreID" name="delete_restoreID" value="">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
                         <button class="btn btn-outline-danger border-0" type="submit" data-toggle="modal" name="delete_restore">Löschen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CSV optionen Modal -->
+    <div class="modal fade" id="bookCSV" tabindex="-1" aria-labelledby="bookCSVLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EmployeeCSVLabel">
+                        Mitarbeiter-CSV
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <form method="post" action="functions.php" enctype="multipart/form-data" accept-charset="utf-8">
+                        <div class="mb-3">
+                            <p>Export MA</p>
+                            <div class="input-group mb-3">
+                                <a href='functions.php?BookCSV=true' class="btn border border-secondary" type="button" id="button-addon1">Download</a>
+                                <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" value="<?php echo "Export_BESTAND_AEBOLIB_" . date('Y-m-d') . ".csv" ?>">
+                            </div>
+                        </div>
+                        <hr style="margin:0px -20px 10px -20px" />
+                        <p>Import MA</p>
+                        <div class="mb-3">
+                            <input class="form-control" id="CSVUpload" type="file" name="file" accept=".csv" required>
+                        </div>
+                        <div class="mb-1">
+                            <button type="button" class="btn btn-outline-danger border-0" id="decline" data-bs-toggle="modal">Abbrechen</button>
+                            <button type="submit" class="btn btn-outline-success border-0" id="accept" name="BookCSVImport">Speichern</button>
+                        </div>
                     </form>
                 </div>
             </div>

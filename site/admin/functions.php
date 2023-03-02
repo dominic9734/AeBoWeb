@@ -94,69 +94,6 @@ if (isset($_POST['return'])) {
     header("location: library.php");
     exit;
 }
-//importiert bücher in DB
-if (isset($_POST['DataImport'])) {
-
-    // Allowed mime types
-    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
-
-    // Validate whether selected file is a CSV file
-    if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
-
-        // If the file is uploaded
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-
-            // Open uploaded CSV file with read-only mode
-            $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
-
-
-            fgets($csvFile);
-
-            // Parse data from CSV file line by line
-            while (($line = fgetcsv($csvFile)) !== FALSE) {
-                // Get row data
-
-                $line = array_map("utf8_encode", $line);
-
-                $book_number = $line[0];
-                $book_autor = $line[1];
-                $book_title = $line[2];
-                $book_edition = $line[3];
-                $book_comment = $line[8];
-                $book_aditionalinfo = $line[9];
-
-                //Check whether member already exists in the database with the same email
-                $prevQuery = "SELECT bookID FROM lib_booksWHERE book_number = '" . $line[0] . "'";
-                $prevResult = $conn->query($prevQuery);
-
-
-                if ($prevResult->num_rows > 0) {
-                    // Update member data in the database
-                    //$db->query("UPDATE lib_books SET book_title= '" . $book_title. "', book_autor = '" . $book_autor . "', book_edition = '" . $book_edition . "', modified = NOW() WHERE email = '" . $email . "'");
-
-                    $statement = $conn->prepare('UPDATE lib_books SET  book_number = ?,book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ? where bookID = ?');
-                    $statement->bind_param('ssssssi', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $id);
-                    $statement->execute();
-                } else {
-                    // Insert member data in the database
-                    $statement = $conn->prepare('INSERT INTO lib_books (book_number ,book_title, book_autor , book_edition , book_comment , book_aditionalinfo ) VALUES (?,?,?,?,?,?)');
-                    $statement->bind_param('ssssss', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo);
-                    $statement->execute();
-                    $statement->close();
-                }
-            }
-            // Close opened CSV file
-            fclose($csvFile);
-            $qstring = '?status=succ';
-        } else {
-            $qstring = '?status=err';
-        }
-    } else {
-        $qstring = '?status=invalid_file';
-    }
-    header("Location: library.php" . $qstring);
-    exit;
-}
 if (isset($_POST['XMLExport'])) {
     exit;
 }
@@ -244,7 +181,7 @@ if (isset($_POST['CreateEmployee'])) {
     exit;
 }
 /*
-Function Name: CreateEmployee
+Function Name: createEmployee
 Project: aeboWeb
 Description: Generates a CSV file containing employee data and sends it as an attachment in a HTTP response
 Author: D.Leuthardt
@@ -358,22 +295,21 @@ if (isset($_POST['ImportCSV'])) {
 
 // --------------END IPA--------------
 
+//export all book data to csv
+if (isset($_GET['BookCSV'])) {
 
-//export DB zu CSV
-if (isset($_POST['ExportBook'])) {
-    $query = $conn->query("SELECT * FROM lib_booksORDER BY bookID ASC");
+    $query = $conn->query("SELECT * FROM lib_books ORDER BY bookID ASC");
     if ($query->num_rows > 0) {
         $delimiter = ",";
-        $filename = "Export_AeBo_DB_" . date('Y-m-d') . ".csv";
+        $filename = "Export_BESTAND_AEBOLIB_" . date('Y-m-d') . ".csv";
 
         $f = fopen('php://memory', 'w');
 
-        $fields = array('ID', 'book_number', 'book_autor', 'book_title', 'book_edition', 'book_comment', 'book_aditionalinfo', 'borrowed_stats', 'deleted_status');
+        $fields = array('ID', 'book_number', 'book_autor', 'book_title', 'book_edition', 'book_comment', 'book_aditionalinfo', 'format_hardcover', 'format_pdf', 'borrowed_stats', 'deleted_status');
         fputcsv($f, $fields, $delimiter);
 
-
         while ($row = $query->fetch_assoc()) {
-            $lineData = array($row['bookID'], $row['book_number'], $row['book_autor'], $row['book_title'], $row['book_edition'], $row['book_comment'], $row['book_aditionalinfo'], $row['borrowed'], $row['deleted'],);
+            $lineData = array($row['bookID'], $row['book_number'], $row['book_autor'], $row['book_title'], $row['book_edition'], $row['book_comment'], $row['book_aditionalinfo'], $row['format_hardcover'], $row['format_pdf'], $row['borrowed'], $row['deleted']);
             $lineData = array_map("utf8_decode", $lineData);
             fputcsv($f, $lineData, $delimiter);
         }
@@ -384,6 +320,71 @@ if (isset($_POST['ExportBook'])) {
 
         fpassthru($f);
     }
+    exit;
+}
+
+//importiert bücher in DB
+if (isset($_POST['BookCSVImport'])) {
+
+    // Allowed mime types
+    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+
+    // Validate whether selected file is a CSV file
+    if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+
+        // If the file is uploaded
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+            // Open uploaded CSV file with read-only mode
+            $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+
+            fgets($csvFile);
+
+            // Parse data from CSV file line by line
+            while (($line = fgetcsv($csvFile)) !== FALSE) {
+                // Get row data
+
+                $line = array_map("utf8_encode", $line);
+
+                $bookID = $line[0];
+                $book_number = $line[1];
+                $book_autor = $line[2];
+                $book_title = $line[3];
+                $book_edition = $line[4];
+                $book_comment = $line[5];
+                $book_aditionalinfo = $line[6];
+                $format_hardcover = $line[7];
+                $format_pdf = $line[8];
+                $borrowed = $line[9];
+                $deleted = $line[10];
+
+                //Check whether member already exists in the database with the same email
+                $prevQuery = "SELECT bookID FROM lib_books WHERE book_number =  $line[1]";
+                $prevResult = $conn->query($prevQuery);
+
+
+                if ($prevResult->num_rows > 0) {
+                    $statement = $conn->prepare('UPDATE lib_books SET book_title= ?, book_autor = ?, book_edition = ?, book_comment = ?, book_aditionalinfo = ?,format_hardcover = ?,format_pdf = ?,borrowed = ?, deleted = ? where book_number = ?');
+                    $statement->bind_param('sssssiiiis', $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $format_hardcover, $format_pdf, $borrowed, $deleted, $book_number);
+                    $statement->execute();
+                } else {
+                    // Insert member data in the database
+                    $statement = $conn->prepare('INSERT INTO lib_books (book_number ,book_title, book_autor , book_edition , book_comment , book_aditionalinfo,format_hardcover,format_pdf,borrowed,deleted ) VALUES (?,?,?,?,?,?,?,?,?,?)');
+                    $statement->bind_param('ssssssiiii', $book_number, $book_title, $book_autor, $book_edition, $book_comment, $book_aditionalinfo, $format_hardcover, $format_pdf, $borrowed, $deleted);
+                    $statement->execute();
+                    $statement->close();
+                }
+            }
+            // Close opened CSV file
+            fclose($csvFile);
+            $qstring = '?status=succ';
+        } else {
+            $qstring = '?status=err';
+        }
+    } else {
+        $qstring = '?status=invalid_file';
+    }
+    header("Location: books.php" . $qstring);
     exit;
 }
 
