@@ -26,7 +26,7 @@ function setnavvalues($showEmpDatalist,$showSearch){
         if ($showEmpDatalist) { ?>
             <datalist id="EmployeeNames">
                 <?php
-                include "../../site/services/db_connect.php";
+                include "../../site/services/db_connect";
                 $statement = $conn->prepare('SELECT * from AeBo_employees WHERE location <> "Mö"');
                 $statement->execute();
                 $result = $statement->get_result();
@@ -79,14 +79,14 @@ function setnavvalues($showEmpDatalist,$showSearch){
                         </button>
                         <div class="collapse show" id="administration-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a class="link-dark rounded" href="../user/index.php">Home</a></li>
-                                <li><a class="link-dark rounded" href="../user/seatingplan.php">Arbeitsplatzverteilung</a></li>
-                                <li><a class="link-dark rounded" href="../user/books.php">Bibliothek</a></li>
-                                <li><a class="link-dark rounded" href="../user/magazines.php">Zeitschriften</a></li>
-                                <li><a class="link-dark rounded" href="../user/getxml.php">Literaturverzeichnis</a></li>
+                                <li><a class="link-dark rounded" href="../user/index">Home</a></li>
+                                <li><a class="link-dark rounded" href="../user/seatingplan">Arbeitsplatzverteilung</a></li>
+                                <li><a class="link-dark rounded" href="../user/books">Bibliothek</a></li>
+                                <li><a class="link-dark rounded" href="../user/magazines">Zeitschriften</a></li>
+                                <li><a class="link-dark rounded" href="../user/getxml">Literaturverzeichnis</a></li>
                                 <!--
-                                <li><a class="link-dark rounded" href="../user/bookrequests.php" target="_blank">Buch bestellen</a></li>
-                                <li><a class="link-dark rounded" href="../user/info.php">Info</a></li>
+                                <li><a class="link-dark rounded" href="../user/bookrequests" target="_blank">Buch bestellen</a></li>
+                                <li><a class="link-dark rounded" href="../user/info">Info</a></li>
                                   -->
 
                             </ul>
@@ -99,7 +99,7 @@ function setnavvalues($showEmpDatalist,$showSearch){
                         </button>
                         <div class="collapse show" id="account-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li> <a class="link-dark rounded" href="../admin/index.php">Admin</a></li>
+                                <li> <a class="link-dark rounded" href="../admin/index">Admin</a></li>
                             </ul>
                         </div>
                     </li>

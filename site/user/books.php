@@ -152,7 +152,7 @@
                     <span class="fw-lighter" id="book_title"></span>
                     <p class="mb-0 mt-3 fw-semibold">Verlag / Autor:</p>
                     <span class="fw-lighter" id="book_autor"></span>
-                                        <p class="mb-0 mt-3 fw-semibold">Erscheinungsdatum:</p>
+                    <p class="mb-0 mt-3 fw-semibold">Erscheinungsdatum:</p>
                     <span class="fw-lighter" id="book_edition"></span>
                     <p class="mb-0 mt-3 fw-semibold">Buch-Nr:</p>
                     <span class="fw-lighter" id="book_number"></span>
@@ -186,7 +186,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                Gibt es ein Buch nicht? Bestelle es <a href="bookrequests.php" target="_blank">hier</a>.
+                Hat es ein Buch noch nicht? Bestelle es <a href="bookrequests.php" target="_blank">hier</a>.
             </div>
         </div>
     </div>

@@ -145,8 +145,6 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
     <!-- Vertically centered modal -->
     <div class="modal fade" id="MagazineModal" tabindex="-1" aria-labelledby="MagazineModalLabel" aria-hidden="true">

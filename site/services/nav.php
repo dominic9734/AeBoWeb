@@ -41,8 +41,8 @@ function setnavvalues($showSearch)
                         </div>
                         <div class="" id="administration-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
-                                <li><a class="link-dark rounded text-muted" href="../admin/index.php">Home</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/employees.php">Mitarbeiter</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/index">Home</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/employees">Mitarbeiter</a></li>
                             </ul>
                         </div>
                     </li>
@@ -54,11 +54,11 @@ function setnavvalues($showSearch)
                         </div>
                         <div class="" id="Buchverwaltung-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
-                                <li><a class="link-dark rounded text-muted text-muted" href="../admin/library.php">Bibliothek</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/books.php">Übersicht</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/bookrequests.php">Buch Bestellen</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/bookshistory.php">Historie</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../admin/archive.php">Archiv</a></li>
+                                <li><a class="link-dark rounded text-muted text-muted" href="../admin/library">Bibliothek</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/books">Übersicht</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/bookrequests">Buch Bestellen</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/bookshistory">Historie</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/archive">Archiv</a></li>
                             </ul>
                         </div>
                     </li>
@@ -68,7 +68,7 @@ function setnavvalues($showSearch)
                         </div>
                         <div class="" id="Daten-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
-                                <li><a class="link-dark rounded text-muted" href="../admin/magazines.php">Zeitschriften</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../admin/magazines">Zeitschriften</a></li>
                             </ul>
                         </div>
                     </li>
@@ -79,9 +79,9 @@ function setnavvalues($showSearch)
                         </div>
                         <div class="" id="account-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
-                                <li><a class="link-dark rounded text-muted" href="../user/index.php">Benutzerbereich</a></li>
-                                <li><a class="link-dark rounded text-muted" href="../services/register.php">Neuer User</a></li>
-                                <li> <a class="link-dark rounded text-muted" href="../services/logout.php">Logout</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../user/index">Benutzerbereich</a></li>
+                                <li><a class="link-dark rounded text-muted" href="../services/register">Neuer User</a></li>
+                                <li> <a class="link-dark rounded text-muted" href="../services/logout">Logout</a></li>
                             </ul>
                         </div>
                     </li>
