@@ -1,5 +1,8 @@
 
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: text/html; charset=UTF-8');
 session_start();
 
@@ -208,7 +211,10 @@ if (isset($_GET['ExportCSV'])) {
 
         while ($row = $query->fetch_assoc()) {
             $lineData = array($row['employeeID'], $row['first_name'], $row['last_name'], $row['nickname'], $row['location'], $row['zone'], $row['work_division'], $row['internal_phone'], $row['mobile_phone'], $row['primary_mail'], $row['special_authority'], $row['department'], $row['employee_image']);
-            $lineData = array_map("utf8_decode", $lineData);
+            // Convert each cell to UTF-8 encoding
+            $lineData = array_map(function ($cell) {
+                return mb_convert_encoding($cell, 'UTF-8', 'auto');
+            }, $lineData);
             fputcsv($csvupload, $lineData, $delimiter);
         }
         fseek($csvupload, 0);
@@ -253,6 +259,11 @@ if (isset($_POST['ImportCSV'])) {
 
             // Parse data from CSV file line by line
             while (($line = fgetcsv($csvFile, 0)) !== FALSE) {
+                // Convert each cell to UTF-8 encoding
+                $line = array_map(function ($cell) {
+                    return mb_convert_encoding($cell, 'UTF-8', 'auto');
+                }, $line);
+
                 $first_name = $line[3];
                 $last_name = $line[2];
                 $nickname = $line[4];
@@ -310,7 +321,13 @@ if (isset($_GET['BookCSV'])) {
 
         while ($row = $query->fetch_assoc()) {
             $lineData = array($row['bookID'], $row['book_number'], $row['book_autor'], $row['book_title'], $row['book_edition'], $row['book_comment'], $row['book_aditionalinfo'], $row['format_hardcover'], $row['format_pdf'], $row['borrowed'], $row['deleted']);
-            $lineData = array_map("utf8_decode", $lineData);
+
+            // Convert each cell to UTF-8 encoding
+            $lineData = array_map(function ($cell) {
+                return mb_convert_encoding($cell, 'UTF-8', 'auto');
+            }, $lineData);
+
+
             fputcsv($f, $lineData, $delimiter);
         }
         fseek($f, 0);
@@ -336,15 +353,16 @@ if (isset($_POST['BookCSVImport'])) {
         if (is_uploaded_file($_FILES['file']['tmp_name'])) {
 
             // Open uploaded CSV file with read-only mode
-            $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+            $csvFile = fopen($_FILES['file']['tmp_name'], 'r', 'UTF-8');
 
             fgets($csvFile);
 
             // Parse data from CSV file line by line
             while (($line = fgetcsv($csvFile)) !== FALSE) {
-                // Get row data
-
-                $line = array_map("utf8_encode", $line);
+                // Convert each cell to UTF-8 encoding
+                $line = array_map(function ($cell) {
+                    return mb_convert_encoding($cell, 'UTF-8', 'auto');
+                }, $line);
 
                 $bookID = $line[0];
                 $book_number = $line[1];
@@ -359,7 +377,7 @@ if (isset($_POST['BookCSVImport'])) {
                 $deleted = $line[10];
 
                 //Check whether member already exists in the database with the same email
-                $prevQuery = "SELECT bookID FROM lib_books WHERE book_number =  $line[1]";
+                $prevQuery = "SELECT bookID FROM lib_books WHERE book_number =  '$line[1]'";
                 $prevResult = $conn->query($prevQuery);
 
 

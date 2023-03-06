@@ -186,7 +186,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                Hat es ein Buch noch nicht? Bestelle es <a href="bookrequests.php" target="_blank">hier</a>.
+                Hat es ein Buch noch nicht? Bestelle es <a href="bookrequest" target="_blank">hier</a>.
             </div>
         </div>
     </div>

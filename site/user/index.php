@@ -47,25 +47,25 @@
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body ">
                                 <h5 class="card-title">Arbeitsplatzverteilung</h5>
-                                <a href="seatingplan.php" class="card-link">Schnellzugriff</a>
+                                <a href="seatingplan" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Zeitschriften</h5>
-                                <a href="magazines.php" class="card-link">Schnellzugriff</a>
+                                <a href="magazines" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Literaturverzeichnis</h5>
-                                <a href="getxml.php" class="card-link">Schnellzugriff</a>
+                                <a href="getxml" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
                         <div class="card border-0 m-2" style="width: 18rem;">
                             <div class="card-body ">
                                 <h5 class="card-title">Bibliothek</h5>
-                                <a href="books.php" class="card-link">Schnellzugriff</a>
+                                <a href="books" class="card-link">Schnellzugriff</a>
                             </div>
                         </div>
                     </div>

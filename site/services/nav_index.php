@@ -1,5 +1,7 @@
-<?php 
-function setnavvalues($showEmpDatalist,$showSearch){
+<?php
+
+function setnavvalues($showEmpDatalist, $showSearch)
+{
     $showEmpDatalist;
     $showSearch;
 }
@@ -15,19 +17,21 @@ function setnavvalues($showEmpDatalist,$showSearch){
     </a>
     <div class="input-group my-2 flex-grow-1">
         <?php
-        if ($showSearch == true) { ?>
+        if ($showSearch == true) {
+        ?>
             <input id="txtSearch" oninput="SearchEmployee()" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
-                                                                                        echo 'list="EmployeeNames"';
-                                                                                    } ?> />
+                                                                                                                    echo 'list="EmployeeNames"';
+                                                                                                                } ?> />
         <?php
         }
         ?>
+
         <?php
         if ($showEmpDatalist) { ?>
             <datalist id="EmployeeNames">
                 <?php
-                include "../../site/services/db_connect";
-                $statement = $conn->prepare('SELECT * from AeBo_employees WHERE location <> "Mö"');
+                include "../../site/services/db_connect.php";
+                $statement = $conn->prepare('SELECT * from aebo_employees WHERE location <> "Mö"');
                 $statement->execute();
                 $result = $statement->get_result();
                 if ($result->num_rows != 0) {
@@ -84,11 +88,6 @@ function setnavvalues($showEmpDatalist,$showSearch){
                                 <li><a class="link-dark rounded" href="../user/books">Bibliothek</a></li>
                                 <li><a class="link-dark rounded" href="../user/magazines">Zeitschriften</a></li>
                                 <li><a class="link-dark rounded" href="../user/getxml">Literaturverzeichnis</a></li>
-                                <!--
-                                <li><a class="link-dark rounded" href="../user/bookrequests" target="_blank">Buch bestellen</a></li>
-                                <li><a class="link-dark rounded" href="../user/info">Info</a></li>
-                                  -->
-
                             </ul>
                         </div>
                     </li>

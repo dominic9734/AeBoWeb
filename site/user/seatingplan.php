@@ -1,3 +1,8 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -133,7 +138,6 @@
         <div class="spinner-border" role="status">
         </div>
     </div>
-
     <div id="content" class="container-fluid text-center">
         <h1 class="text-center pt-3">Arbeitsplatzverteilung</h1>
         <div class="row">
@@ -235,13 +239,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="EmployeeInfo" tabindex="-1" aria-labelledby="EmployeeInfoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -289,19 +286,12 @@
             </div>
         </div>
     </div>
-
-
-
-
-
     <svg class="back_to_top scrollTop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
         <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" />
     </svg>
 
 
     <?php include_once "../services/footer.php"; ?>
-
-
 </body>
 
 </html>
