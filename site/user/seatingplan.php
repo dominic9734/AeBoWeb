@@ -19,8 +19,9 @@ error_reporting(E_ALL);
     <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <!-- jquery -->
     <script src="../../assets/vendor/jquery/jquery-3.5.1.js"></script>
-    <!-- JavaScript-->
-    <script src="../../assets/vendor/js/script.js"></script>
+        <!-- JavaScript-->
+        <script src="../../assets/vendor/js/script.js"></script>
+
 
     <style>
         .plan_fill_none:hover {

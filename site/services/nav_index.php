@@ -19,17 +19,20 @@ function setnavvalues($showEmpDatalist, $showSearch)
         <?php
         if ($showSearch == true) {
         ?>
-            <input id="txtSearch" oninput="SearchEmployee()" class="nav_search w-100" placeholder="Suchen..." <?php if ($showEmpDatalist == true) {
-                                                                                                                    echo 'list="EmployeeNames"';
-                                                                                                                } ?> />
+            <input id="txtSearch" class="nav_search w-100" placeholder="Suchen..." />
         <?php
         }
         ?>
 
         <?php
         if ($showEmpDatalist) { ?>
-            <datalist id="EmployeeNames">
+
+
+
+
+            <ul class="dropdown-menu rounded-0 border-0 mt-4" id="employeesearchbox">
                 <?php
+
                 include "../../site/services/db_connect.php";
                 $statement = $conn->prepare('SELECT * from aebo_employees WHERE location <> "Mö"');
                 $statement->execute();
@@ -37,7 +40,7 @@ function setnavvalues($showEmpDatalist, $showSearch)
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo
-                        '<option value="' . $row['nickname'] . '" data-employee="[&#34;' . $row['nickname'] . '&#34;,&#34;' . $row['first_name'] . '&#34;,&#34;' . $row['last_name'] . '&#34;,&#34;' . $row['location'] . '&#34;,&#34;' . $row['zone'] . '&#34;,&#34;' . $row['work_division'] . '&#34;,&#34;' . $row['internal_phone'] . '&#34;,&#34;' . $row['mobile_phone'] . '&#34;]">' . $row['nickname'] . " - " . $row['last_name'] . " " . $row['first_name'] . '</option>';
+                        '<li><button type="button" class="employeesearchboxbtn btn btn-link text-decoration-none text-dark z-99" data-listdata="' . $row['nickname'] . '" onclick="setSearchEmployeeAjax(this)">' . $row['nickname'] . " - " . $row['last_name'] . " " . $row['first_name'] . '</button></li>';
                     }
                 }
                 $statement = $conn->prepare("SELECT * from AeBo_rooms");
@@ -46,15 +49,11 @@ function setnavvalues($showEmpDatalist, $showSearch)
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo
-                        '<option value="' . $row['room_name'] . '" data-room="[&#34;' . $row['room_name'] . '&#34]">' . $row['room_name'] . " ";
-                        if ($row['room_name'] != $row['room_displayname']) {
-                            echo $row['room_displayname'];
-                        }
-                        ' </option>';
+                        '<li><button type="button" class="employeesearchboxbtn btn btn-link text-decoration-none text-dark" data-listdata="' . $row['room_name'] . '" onclick="setSearchEmployeeAjax(this)">' . $row['room_displayname'] . '</button></li>';
                     }
                 }
                 ?>
-            </datalist>
+            </ul>
         <?php
         }
         ?>

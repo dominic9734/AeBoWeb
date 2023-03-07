@@ -173,7 +173,7 @@ function DisplayRoomInfo(chip) {
                         id: 'employeePFP',
                         class: 'rounded-circle shadow-sm',
                         src: "../../assets/images/employees_200px/" + member.employee_image,
-                        style: "height:40px;",
+                        style: "height:75px;",
                         alt: " "
                     });
                     var outlooklink = $('<a>', { // create a new img element
@@ -187,11 +187,11 @@ function DisplayRoomInfo(chip) {
 
                     var outlookincon = $('<img>', { // create a new img element
                         src: '../../assets/SVG/icons8-microsoft-outlook-2019.svg',
-                        style: "height:25px;"
+                        style: "height:50px;"
                     });
                     var teamsicon = $('<img>', { // create a new img element
                         src: '../../assets/SVG/icons8-microsoft-teams.svg',
-                        style: "height:25px;"
+                        style: "height:50px;"
                     });
                     row2.append(pfpimg);
                     row8.append(span);
@@ -224,34 +224,45 @@ $(document).ready(function () {
         }, 200);
         return false;
     });
+});
+
+$(document).ready(function () {
+
+    var NamesSearchListItems = $('#employeesearchbox').children().find('*').toArray();
+
+    $('#txtSearch').on('input', function () {
+        $('#employeesearchbox').show()
+        const searchTerm = $(this).val().toLowerCase();
+        const matchingNames = NamesSearchListItems.filter(name => name.innerHTML.toLowerCase().includes(searchTerm));
+
+        const suggestionsList = $('#employeesearchbox');
+        suggestionsList.empty();
+        matchingNames.slice(0, 5).forEach(name => suggestionsList.append($('<li>').append(name)));
+    });
 
 });
 
-
-function SearchEmployee() {
-    var opts = $("#EmployeeNames").children();
-    for (var i = 0; i < opts.length; i++) {
-        if (opts[i].value === $("#txtSearch").val()) {
-            SearchEmployeeAjax();
-            break;
-        }
-    }
+function setSearchEmployeeAjax(element) {
+    SearchEmployeeAjaxData = $(element).data("listdata")
+    SearchEmployeeAjax(SearchEmployeeAjaxData);
 }
-
-$("input").keypress(function (event) {
-    if (event.which == 13) {
-        SearchEmployeeAjax();
-    }
+$(document).ready(function () {
+    $("input").keypress(function (event) {
+        if (event.which == 13) {
+            SearchEmployeeAjaxData = $("#txtSearch").val();
+            SearchEmployeeAjax(SearchEmployeeAjaxData);
+        }
+    });
 });
-
-function SearchEmployeeAjax() {
+function SearchEmployeeAjax(SearchEmployeeAjaxData) {
+    $('#employeesearchbox').hide()
     $(".remove_content").empty();
     $(".remove_header").addClass("d-none")
     $.ajax({
         type: "POST",
         url: "../services/controller/seating_data.php",
         data: {
-            request: $("#txtSearch").val(),
+            request: SearchEmployeeAjaxData,
             request_scope: "location_zone"
         },
         success: function (data) {
@@ -262,6 +273,9 @@ function SearchEmployeeAjax() {
     });
     $("#txtSearch").val('')
 }
+
+
+
 
 
 function sectorsearch(seat, floor) {
