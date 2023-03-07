@@ -21,7 +21,11 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTE
 
         while ($row = $result->fetch_assoc()) {
             header('Content-Type: application/json');
-            echo json_encode(array('location' => $row['location'], 'zone' => $row['zone'], 'room_name' => $row['room_name ']));
+            echo json_encode(array(
+                'location' => $row['location'], 
+                'zone' => $row['zone'], 
+                'room_name' => $row['room_name'] ?: ''
+            ));
         }
     } elseif ($request_scope == "query") {
         $location = $_POST['location'];

@@ -279,8 +279,6 @@ function SearchEmployeeAjax(SearchEmployeeAjaxData) {
 
 
 function sectorsearch(seat, floor) {
-    console.log(floor)
-    console.log(typeof (floor))
     $("#" + seat).addClass("plan_fill_active")
     if (lastpressed && lastpressed != seat) {
         $("#" + lastpressed).removeClass("plan_fill_active")
@@ -360,7 +358,6 @@ function MagazineModal(entry) {
     var magazineArray = $(entry).data("magazine");
     magazineID = magazineArray[4]; // get id from entry element's data attribute
 
-    console.log(magazineArray)
 
 
     document.getElementById("magCover").setAttribute('src', magazineArray[5]);
