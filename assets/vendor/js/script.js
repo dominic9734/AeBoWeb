@@ -208,6 +208,7 @@ function DisplayRoomInfo(chip) {
 }
 $(document).ready(function () {
 
+
     $(window).scroll(function () {
         if ($(this).scrollTop() >= 100) {
             $('.back_to_top').show();
@@ -219,6 +220,7 @@ $(document).ready(function () {
 
     //Click event to scroll to top
     $('.scrollTop',).click(function () {
+        event.preventDefault();
         $('html, body').animate({
             scrollTop: 0
         }, 200);
@@ -290,7 +292,7 @@ function sectorsearch(seat, floor) {
     $([document.documentElement, document.body]).animate({
         scrollTop: $("#" + "floor_" + floor).offset().top
     }, 1500);
-
+    
     DataAjaxChip(request, request_scope);
 }
 $(document).keydown(function (event) {

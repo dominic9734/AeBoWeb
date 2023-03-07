@@ -36,7 +36,7 @@ if (isset($_GET['status'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>AEBO-Library</title>
+    <title>AeBo-Web</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
@@ -119,7 +119,7 @@ if (isset($_GET['status'])) {
     </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="AddBookToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="max-width: 70px; max-height: 70px;">
+        <div id="AddBookToast" class="toast  border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="max-width: 70px; max-height: 70px;">
             <div class="toast-body">
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#AddMagazineModal" style="display: inline;">

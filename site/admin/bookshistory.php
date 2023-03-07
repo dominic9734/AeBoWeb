@@ -21,7 +21,7 @@ if (session_id() == '') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>AEBO-Library</title>
+    <title>AeBo-Web</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
@@ -57,9 +57,6 @@ if (session_id() == '') {
             </thead>
             <tbody>
                 <?php
-                include "../../site/services/db_connect.php";
-
-
                 $statement = $conn->prepare("SELECT first_name,last_name,taken_date,returned_date,book_title,book_number FROM `junction_books` LEFT JOIN aebo_employees ON junction_books.employeeID = aebo_employees.employeeID LEFT JOIN lib_books ON junction_books.bookID = lib_books.bookID WHERE returned = 1");
                 $statement->execute();
                 $result = $statement->get_result();

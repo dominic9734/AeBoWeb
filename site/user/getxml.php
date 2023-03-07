@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>AEBO-Library</title>
+    <title>AeBo-Web</title>
     <link rel="icon" type="image/x-icon" href="../../assets/svg/favicon.svg">
 
     <link href=../../assets/vendor/bootstrap/bootstrap.min.css rel="stylesheet">
@@ -72,7 +72,7 @@
     setnavvalues($showSearch, $showEmpDatalist); ?>
 
     <div class="d-flex justify-content-center">
-        <div class="info-container mt-5" style="width: 70vw;">
+        <div class="info-container mt-5" style="width: 790px;">
             <h1 class="fw-bold">Literaturverzeichnis</h1>
             <p>Das Zitieren von Quellen und die Erstellung einer Bibliografie können in Microsoft Word viel Zeit sparen und Ihre Arbeit professioneller aussehen lassen. Hier sind einige Schritte, die Ihnen helfen, das Referenzsystem von Word zu nutzen.</p>
             <h2 class="fw-bold">Zitierinformationen Download</h2>
