@@ -30,7 +30,7 @@ function setnavvalues($showEmpDatalist, $showSearch)
 
 
 
-            <ul class="dropdown-menu rounded-0 border-0 mt-4" id="employeesearchbox">
+            <ul class="dropdown-menu rounded-0 border-0 mt-4 opacity-75 p-3" id="employeesearchbox">
                 <?php
 
                 include "../../site/services/db_connect.php";
