@@ -38,7 +38,7 @@
     setnavvalues($showSearch, $showEmpDatalist);
     ?>
 
-    <div class="container-fluid">
+    <div class="container-fluid min-vh-100">
         <table id="datatable" class="table">
             <thead>
                 <tr class="header">

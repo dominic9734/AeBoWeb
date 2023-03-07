@@ -62,7 +62,7 @@ if (isset($_GET['status'])) {
     <?php
     $showSearch = True;
     include "../services/nav.php"; ?>
-    <div class="container-fluid">
+    <div class="container-fluid min-vh-100">
         <table id="datatable" class="table">
             <thead>
                 <tr class="header">

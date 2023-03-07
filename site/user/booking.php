@@ -100,16 +100,6 @@ if ($result->num_rows != 0) {
                 </div>
             </div>
         </div>
-        <?php
-        if ($error == 1) {
-            echo "<script type='text/javascript'>
-    $(document).ready(function(){
-    $('#Modal').modal('show');
-    });
-    </script>";
-        }
-        ?>
-
 
 </body>
 
